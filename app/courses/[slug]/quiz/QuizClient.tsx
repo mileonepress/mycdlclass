@@ -32,15 +32,16 @@ type Props = {
   course: Course;
   questions: Question[];
   isLoggedIn: boolean;
+  initialLanguage?: "en" | "es";
 };
 
-export default function QuizClient({ course, questions, isLoggedIn }: Props) {
+export default function QuizClient({ course, questions, isLoggedIn, initialLanguage = "en" }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [showExplanation, setShowExplanation] = useState(false);
   const [quizComplete, setQuizComplete] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [language, setLanguage] = useState<"en" | "es">("en");
+  const [language, setLanguage] = useState<"en" | "es">(initialLanguage);
 
   const currentQuestion = questions[currentIndex];
   const selectedAnswer = answers[currentQuestion.id];

@@ -27,6 +27,8 @@ export default function HomePage() {
           <div className="hidden gap-6 text-sm md:flex">
             <Link href="/courses">Courses</Link>
             <Link href="/free-practice-test">Free Test</Link>
+            <Link href="/ebooks">Ebooks</Link>
+            <Link href="/about">About</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
 
@@ -95,51 +97,72 @@ export default function HomePage() {
           <p className="text-center text-sm font-semibold uppercase tracking-wider text-[#16A34A]">
             Bilingual Learning
           </p>
-          <h2 className="mt-2 text-center text-4xl font-bold">CDL Course Library</h2>
+          <h2 className="mt-2 text-center text-4xl font-bold">CDL Courses &amp; Practice Tests</h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-white/70">
-            Master all 9 CDL endorsement categories with our comprehensive bilingual study materials. 
-            Switch between English and Spanish anytime.
+            Master all 9 CDL endorsement categories with comprehensive lessons and full interactive
+            practice tests. Real questions, instant feedback, and answer explanations &mdash; start in
+            English or Spanish with one tap.
           </p>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {courses.map((course) => (
-              <Link
+              <div
                 key={course.slug}
-                href={`/courses/${course.slug}`}
-                className="group relative overflow-hidden rounded-xl bg-white p-6 text-[#0D2B45] transition-all hover:scale-[1.02] hover:shadow-xl"
+                className="flex flex-col rounded-xl bg-white p-6 text-[#0D2B45] shadow-lg transition-all hover:shadow-xl"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-lg font-bold text-[#0D2B45] group-hover:text-[#1E4D8C]">
+                    <Link
+                      href={`/courses/${course.slug}`}
+                      className="text-lg font-bold text-[#0D2B45] hover:text-[#1E4D8C]"
+                    >
                       {course.title}
-                    </h3>
-                    <p className="mt-1 text-sm font-semibold text-[#16A34A]">
-                      {course.spanish}
-                    </p>
+                    </Link>
+                    <p className="mt-1 text-sm font-semibold text-[#16A34A]">{course.spanish}</p>
                   </div>
                   {course.free ? (
-                    <span className="rounded-full bg-[#16A34A] px-3 py-1 text-xs font-bold text-white">
+                    <span className="shrink-0 rounded-full bg-[#16A34A] px-3 py-1 text-xs font-bold text-white">
                       Free
                     </span>
                   ) : (
-                    <span className="rounded-full bg-[#1E4D8C] px-3 py-1 text-xs font-bold text-white">
+                    <span className="shrink-0 rounded-full bg-[#1E4D8C] px-3 py-1 text-xs font-bold text-white">
                       Premium
                     </span>
                   )}
                 </div>
+
                 <div className="mt-4 flex items-center gap-2 text-sm text-gray-500">
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
-                  <span>Lessons & Practice Tests</span>
+                  <span>Lessons &amp; interactive practice test</span>
                 </div>
-                <div className="mt-3 flex items-center gap-2 text-sm font-medium text-[#1E4D8C] opacity-0 transition-opacity group-hover:opacity-100">
-                  <span>Start Learning</span>
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+
+                <div className="mt-5 flex flex-col gap-2">
+                  <Link
+                    href={`/courses/${course.slug}/quiz`}
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#16A34A] px-5 py-2.5 font-bold text-white transition-colors hover:bg-[#15803D]"
+                  >
+                    Start Practice Test
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                  <Link
+                    href={`/courses/${course.slug}/quiz?lang=es`}
+                    className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#16A34A] px-5 py-2.5 font-bold text-[#16A34A] transition-colors hover:bg-[#16A34A] hover:text-white"
+                  >
+                    Empezar en Español
+                  </Link>
                 </div>
-              </Link>
+
+                <Link
+                  href={`/courses/${course.slug}`}
+                  className="mt-3 text-center text-sm font-semibold text-[#1E4D8C] hover:underline"
+                >
+                  View course
+                </Link>
+              </div>
             ))}
           </div>
 
@@ -153,47 +176,6 @@ export default function HomePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      <section id="practice" className="mx-auto max-w-7xl px-6 py-16">
-        <div className="rounded-3xl bg-white p-8 shadow-xl">
-          <h2 className="text-4xl font-bold">Try an Interactive Practice Test</h2>
-          <p className="mt-3 text-lg">
-            Every course has a full interactive practice test &mdash; just like General Knowledge.
-            Real questions, instant feedback, answer explanations, and scoring in English &amp; Spanish.
-          </p>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {courses.map((course) => (
-              <div
-                key={course.slug}
-                className="flex flex-col rounded-xl border p-5 transition-shadow hover:shadow-lg"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h3 className="text-xl font-bold text-[#0D2B45]">{course.title}</h3>
-                    <p className="mt-1 text-sm font-semibold text-[#16A34A]">{course.spanish}</p>
-                  </div>
-                  <span className="shrink-0 rounded-full bg-[#16A34A] px-3 py-1 text-xs font-bold text-white">
-                    Interactive
-                  </span>
-                </div>
-                <p className="mt-3 text-sm text-gray-600">
-                  Timed practice questions with instant feedback and explanations.
-                </p>
-                <Link
-                  href={`/courses/${course.slug}/quiz`}
-                  className="mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-[#16A34A] px-5 py-2.5 font-bold text-white transition-colors hover:bg-[#15803D]"
-                >
-                  Start Practice Test
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
-            ))}
           </div>
         </div>
       </section>

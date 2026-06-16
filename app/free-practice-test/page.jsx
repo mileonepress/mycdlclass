@@ -90,6 +90,8 @@ export default function FreePracticeTestPage() {
           <div className="hidden gap-6 text-sm md:flex">
             <Link href="/courses">Courses</Link>
             <Link href="/free-practice-test">Free Test</Link>
+            <Link href="/ebooks">Ebooks</Link>
+            <Link href="/about">About</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
 
@@ -158,6 +160,13 @@ export default function FreePracticeTestPage() {
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
+              </Link>
+
+              <Link
+                href={`/courses/${test.slug}/quiz?lang=es`}
+                className="mt-3 inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#16A34A] px-5 py-3 text-center font-bold text-[#16A34A] transition-colors hover:bg-[#16A34A] hover:text-white"
+              >
+                Empezar en Español
               </Link>
 
               <Link

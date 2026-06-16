@@ -6,12 +6,36 @@ import Image from "next/image"
 import { createClient } from "@/lib/supabase/client"
 
 export default function LoginPage() {
-  const [mode, setMode] = useState<"login" | "signup">("login")
+  const [mode, setMode] = useState<"login" | "signup" | "forgot">("login")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
+
+  async function handleForgot(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    setError("")
+    setMessage("")
+
+    const supabase = createClient()
+    const redirectTo =
+      process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL
+        ? `${process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL}?next=/reset-password`
+        : `${window.location.origin}/auth/callback?next=/reset-password`
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo })
+
+    if (error) {
+      setError(error.message)
+    } else {
+      setMessage(
+        "If an account exists for that email, we've sent a password reset link. Check your inbox.",
+      )
+    }
+    setLoading(false)
+  }
 
   function nextParam() {
     if (typeof window === "undefined") return "/courses"
@@ -108,15 +132,26 @@ export default function LoginPage() {
         </div>
 
         <h1 className="mt-6 text-2xl font-bold text-[#0D2B45]">
-          {mode === "login" ? "Welcome back" : "Create your account"}
+          {mode === "login"
+            ? "Welcome back"
+            : mode === "signup"
+              ? "Create your account"
+              : "Reset your password"}
         </h1>
         <p className="mt-1 text-sm text-gray-600">
           {mode === "login"
             ? "Log in to continue your CDL training."
-            : "Start studying for your CDL test today."}
+            : mode === "signup"
+              ? "Start studying for your CDL test today."
+              : "Enter your email and we'll send you a link to create a new password."}
         </p>
 
-        <form onSubmit={mode === "login" ? handleLogin : handleSignup} className="mt-6 space-y-4">
+        <form
+          onSubmit={
+            mode === "login" ? handleLogin : mode === "signup" ? handleSignup : handleForgot
+          }
+          className="mt-6 space-y-4"
+        >
           <div>
             <label htmlFor="email" className="mb-1 block text-sm font-medium text-[#0D2B45]">
               Email address
@@ -132,21 +167,38 @@ export default function LoginPage() {
             />
           </div>
 
-          <div>
-            <label htmlFor="password" className="mb-1 block text-sm font-medium text-[#0D2B45]">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder={mode === "signup" ? "At least 6 characters" : "Enter your password"}
-              className="w-full rounded-lg border border-gray-300 p-3 text-[#0D2B45] focus:border-[#1E4D8C] focus:outline-none focus:ring-1 focus:ring-[#1E4D8C]"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              minLength={6}
-              required
-            />
-          </div>
+          {mode !== "forgot" && (
+            <div>
+              <div className="mb-1 flex items-center justify-between">
+                <label htmlFor="password" className="block text-sm font-medium text-[#0D2B45]">
+                  Password
+                </label>
+                {mode === "login" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode("forgot")
+                      setError("")
+                      setMessage("")
+                    }}
+                    className="text-xs font-semibold text-[#1E4D8C] hover:underline"
+                  >
+                    Forgot password?
+                  </button>
+                )}
+              </div>
+              <input
+                id="password"
+                type="password"
+                placeholder={mode === "signup" ? "At least 6 characters" : "Enter your password"}
+                className="w-full rounded-lg border border-gray-300 p-3 text-[#0D2B45] focus:border-[#1E4D8C] focus:outline-none focus:ring-1 focus:ring-[#1E4D8C]"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                minLength={6}
+                required
+              />
+            </div>
+          )}
 
           {error && <p className="text-sm text-red-600">{error}</p>}
           {message && <p className="text-sm text-[#16A34A]">{message}</p>}
@@ -166,26 +218,45 @@ export default function LoginPage() {
               </>
             ) : mode === "login" ? (
               "Log In"
-            ) : (
+            ) : mode === "signup" ? (
               "Create Account"
+            ) : (
+              "Send reset link"
             )}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-500">
-          {mode === "login" ? "New to MyCDLClass? " : "Already have an account? "}
-          <button
-            type="button"
-            onClick={() => {
-              setMode(mode === "login" ? "signup" : "login")
-              setError("")
-              setMessage("")
-            }}
-            className="font-bold text-[#1E4D8C] hover:underline"
-          >
-            {mode === "login" ? "Create an account" : "Log in"}
-          </button>
-        </p>
+        {mode === "forgot" ? (
+          <p className="mt-6 text-center text-sm text-gray-500">
+            Remembered your password?{" "}
+            <button
+              type="button"
+              onClick={() => {
+                setMode("login")
+                setError("")
+                setMessage("")
+              }}
+              className="font-bold text-[#1E4D8C] hover:underline"
+            >
+              Back to log in
+            </button>
+          </p>
+        ) : (
+          <p className="mt-6 text-center text-sm text-gray-500">
+            {mode === "login" ? "New to MyCDLClass? " : "Already have an account? "}
+            <button
+              type="button"
+              onClick={() => {
+                setMode(mode === "login" ? "signup" : "login")
+                setError("")
+                setMessage("")
+              }}
+              className="font-bold text-[#1E4D8C] hover:underline"
+            >
+              {mode === "login" ? "Create an account" : "Log in"}
+            </button>
+          </p>
+        )}
       </div>
 
       <Link href="/" className="mt-6 text-sm text-white/70 hover:text-white">

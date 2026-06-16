@@ -3,6 +3,7 @@ import type Stripe from "stripe"
 import { getStripe } from "@/lib/stripe"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { subscribeToKit } from "@/lib/kit"
+import { recordAndDeliverEbook } from "@/lib/ebookDelivery"
 
 // Stripe requires the raw body to verify the signature.
 export const runtime = "nodejs"
@@ -71,7 +72,12 @@ export async function POST(request: Request) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session
     if (session.payment_status === "paid") {
-      await recordPurchase(session)
+      // Ebook purchases are delivered by email; course purchases grant access.
+      if (session.metadata?.kind === "ebook") {
+        await recordAndDeliverEbook(session)
+      } else {
+        await recordPurchase(session)
+      }
     }
   }
 
