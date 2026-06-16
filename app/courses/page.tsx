@@ -2,6 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { getCourses } from "@/lib/supabase/queries";
 import Footer from "@/components/Footer";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata = buildMetadata({
+  title: "CDL Training Courses & Practice Tests Online",
+  description:
+    "Online CDL training courses with full practice tests for general knowledge, air brakes, combination vehicles, hazmat, tanker, passenger, school bus, and pre-trip inspection. Bilingual Class A CDL training in English and Spanish.",
+  path: "/courses",
+});
 
 export default async function CoursesPage() {
   const courses = await getCourses();
@@ -19,7 +27,6 @@ export default async function CoursesPage() {
             <Link href="/courses">Courses</Link>
             <Link href="/free-practice-test">Free Test</Link>
             <Link href="/ebooks">Ebooks</Link>
-            <Link href="/about">About</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
 
@@ -33,8 +40,10 @@ export default async function CoursesPage() {
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-5xl font-bold">CDL Training Courses</h1>
           <p className="mt-6 text-xl max-w-3xl mx-auto">
-            Study online with professional CDL lessons, practice tests,
-            detailed explanations, and bilingual support.
+            Online CDL training with professional lessons, realistic CDL practice
+            tests, detailed answer explanations, and bilingual English and Spanish
+            support &mdash; from general knowledge and air brakes to hazmat and
+            pre-trip inspection.
           </p>
           <div className="mt-8 flex justify-center gap-4 flex-wrap">
             <Link href="/free-practice-test" className="bg-[#16A34A] px-6 py-3 rounded-lg font-bold">

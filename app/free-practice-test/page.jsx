@@ -1,6 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata = buildMetadata({
+  title: "Free CDL Practice Test (General Knowledge, Air Brakes & More)",
+  description:
+    "Take free CDL practice tests online: general knowledge practice test, air brakes practice test, combination vehicles practice test, hazmat practice test, and pre-trip inspection. Real questions with instant scoring in English and Spanish.",
+  path: "/free-practice-test",
+});
 
 const sampleTests = [
   {
@@ -91,7 +99,6 @@ export default function FreePracticeTestPage() {
             <Link href="/courses">Courses</Link>
             <Link href="/free-practice-test">Free Test</Link>
             <Link href="/ebooks">Ebooks</Link>
-            <Link href="/about">About</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
 
@@ -104,9 +111,10 @@ export default function FreePracticeTestPage() {
       <section className="bg-[#061A2E] px-6 py-20 text-center text-white">
         <h1 className="text-5xl font-extrabold">Free CDL Practice Tests</h1>
         <p className="mx-auto mt-5 max-w-3xl text-xl text-white/85">
-          Take a full interactive practice test for any of our 9 CDL courses &mdash; just like
-          General Knowledge. Real questions, instant feedback, and answer explanations in
-          English and Spanish.
+          Take a full free CDL practice test for any of our 9 courses &mdash;
+          general knowledge, air brakes, combination vehicles, hazmat, and
+          pre-trip inspection. Real CDL permit test questions, instant feedback,
+          and answer explanations in English and Spanish.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">

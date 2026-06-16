@@ -6,6 +6,32 @@ import { getCourseBySlug, getLessons, getQuestions, getUserProgress, getBestQuiz
 import { getCourseProduct } from "@/lib/courseProducts";
 import { canAccessCourse, isPaidCourse } from "@/lib/access";
 import StripeCheckoutButton from "@/components/StripeCheckoutButton";
+import { buildMetadata, COURSE_KEYWORDS, SITE_URL } from "@/lib/seo";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const course = await getCourseBySlug(slug);
+
+  if (!course) {
+    return buildMetadata({
+      title: "CDL Course",
+      description: "Online CDL training course with practice tests.",
+      path: `/courses/${slug}`,
+    });
+  }
+
+  return buildMetadata({
+    title: `${course.title} CDL Practice Test & Course`,
+    description: `${course.title} online CDL training with lessons, a full ${course.title.toLowerCase()} practice test, and detailed answer explanations in English and Spanish. ${course.description ?? ""}`.trim(),
+    path: `/courses/${slug}`,
+    keywords: COURSE_KEYWORDS[slug] ?? [],
+  });
+}
 
 export default async function CoursePage({
   params,
@@ -48,8 +74,39 @@ export default async function CoursePage({
   const completedCount = progress.filter(p => p.completed).length;
   const progressPercent = lessons.length > 0 ? Math.round((completedCount / lessons.length) * 100) : 0;
 
+  const courseJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: `${course.title} CDL Course`,
+    description:
+      course.description ??
+      `${course.title} online CDL training with lessons and a full practice test in English and Spanish.`,
+    url: `${SITE_URL}/courses/${slug}`,
+    inLanguage: ["en", "es"],
+    provider: {
+      "@type": "EducationalOrganization",
+      name: "MyCDLClass",
+      sameAs: SITE_URL,
+    },
+    ...(product
+      ? {
+          offers: {
+            "@type": "Offer",
+            price: product.price,
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+            category: "Paid",
+          },
+        }
+      : {}),
+  };
+
   return (
     <main className="min-h-screen bg-[#F6F9FC]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }}
+      />
       {/* Nav */}
       <nav className="sticky top-0 z-50 bg-[#061A2E] text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
