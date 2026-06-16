@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/seo"
 export const metadata = buildMetadata({
   title: "About Us",
   description:
-    "MyCDLClass provides bilingual online CDL training, free CDL practice tests, and prep ebooks in English and Spanish to help drivers pass the CDL permit test the first time.",
+    "Learn about MyCDLClass, the online CDL training platform offering CDL practice tests, CDL permit test prep, air brakes, combination vehicles, and HazMat practice tests, Class A CDL training, CDL pre-trip inspection training, and Georgia CDL practice tests in English and Spanish.",
   path: "/about",
 })
 
@@ -29,6 +29,18 @@ const stats = [
   { value: "9", label: "CDL endorsement courses" },
   { value: "EN / ES", label: "Available in two languages" },
   { value: "100%", label: "Interactive practice tests" },
+]
+
+const courses = [
+  "General Knowledge",
+  "Air Brakes",
+  "Combination Vehicles",
+  "Doubles & Triples",
+  "Tanker Vehicles",
+  "HazMat",
+  "Passenger",
+  "School Bus",
+  "Pre-Trip Inspection",
 ]
 
 export default function AboutPage() {
@@ -90,8 +102,76 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid gap-6 md:grid-cols-3">
+      <section className="mx-auto max-w-5xl px-6 py-12">
+        <h2 className="text-3xl font-bold">Helping future drivers build successful careers</h2>
+        <p className="mt-6 text-lg leading-relaxed text-gray-700">
+          MyCDLClass was created to provide high-quality online CDL training for aspiring commercial
+          drivers, trucking schools, fleets, and professional drivers seeking endorsements. Our
+          mission is simple: help students improve their CDL exam pass rates through better
+          education, better technology, and better study resources.
+        </p>
+        <p className="mt-4 text-lg leading-relaxed text-gray-700">
+          Whether you&apos;re preparing for a CDL general knowledge practice test, air brakes practice
+          test, combination vehicles practice test, HazMat practice test, or CDL pre-trip inspection
+          exam, our goal is to help you pass with confidence.
+        </p>
+      </section>
+
+      <section className="bg-white px-6 py-16">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-3xl font-bold">Our story</h2>
+          <p className="mt-6 text-lg leading-relaxed text-gray-700">
+            The inspiration behind MyCDLClass began more than 15 years ago. After successfully passing
+            his CDL exams using personal study notes, guides, and practice materials, founder Marquise
+            Frazier realized that many students struggled because classroom training alone often
+            wasn&apos;t enough.
+          </p>
+          <p className="mt-4 text-lg leading-relaxed text-gray-700">
+            In 2020, Mile One Press was founded to develop better CDL study resources and educational
+            tools for commercial drivers. Today, MyCDLClass builds on that mission by combining proven
+            CDL study methods with interactive online learning.
+          </p>
+          <p className="mt-4 text-lg leading-relaxed text-gray-700">
+            Our platform helps students prepare for Class A CDL training, endorsement exams, and
+            state-specific exams including the Georgia CDL practice test.
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-[#061A2E] px-6 py-16 text-white">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center text-3xl font-bold md:text-4xl">Our 9 CDL courses</h2>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+            {courses.map((course) => (
+              <div
+                key={course}
+                className="flex items-center gap-3 rounded-xl bg-white px-5 py-4 text-[#0D2B45] shadow-sm"
+              >
+                <svg
+                  className="h-5 w-5 flex-shrink-0 text-[#16A34A]"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.704 5.29a1 1 0 0 1 .006 1.414l-7.5 7.6a1 1 0 0 1-1.42.006l-3.5-3.5a1 1 0 0 1 1.414-1.414l2.79 2.79 6.796-6.886a1 1 0 0 1 1.414-.006Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="font-semibold">{course}</span>
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 text-center text-white/85">
+            Every course is available in English and Spanish.
+          </p>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <h2 className="text-center text-3xl font-bold">Why students choose MyCDLClass</h2>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
           {values.map((value) => (
             <div key={value.title} className="rounded-2xl bg-white p-8 shadow-lg">
               <h3 className="text-xl font-bold text-[#0D2B45]">{value.title}</h3>
