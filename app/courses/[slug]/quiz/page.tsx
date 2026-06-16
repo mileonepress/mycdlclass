@@ -7,10 +7,14 @@ import QuizClient from "./QuizClient";
 
 export default async function QuizPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ lang?: string }>;
 }) {
   const { slug } = await params;
+  const { lang } = await searchParams;
+  const initialLanguage = lang === "es" ? "es" : "en";
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -64,6 +68,7 @@ export default async function QuizPage({
       course={course}
       questions={clientQuestions}
       isLoggedIn={!!user}
+      initialLanguage={initialLanguage}
     />
   );
 }

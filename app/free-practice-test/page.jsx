@@ -161,6 +161,13 @@ export default function FreePracticeTestPage() {
               </Link>
 
               <Link
+                href={`/courses/${test.slug}/quiz?lang=es`}
+                className="mt-3 inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#16A34A] px-5 py-3 text-center font-bold text-[#16A34A] transition-colors hover:bg-[#16A34A] hover:text-white"
+              >
+                Empezar en Español
+              </Link>
+
+              <Link
                 href={`/courses/${test.slug}`}
                 className="mt-3 block text-center text-sm font-semibold text-[#1E4D8C] hover:underline"
               >
