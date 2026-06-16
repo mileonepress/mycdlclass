@@ -3,9 +3,18 @@ import type { Metadata } from "next"
 // Centralized SEO config so titles, descriptions, and keywords stay
 // consistent across the whole site and app.
 
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.mycdlclass.com"
-).replace(/\/$/, "")
+function normalizeSiteUrl(raw: string | undefined): string {
+  const fallback = "https://www.mycdlclass.com"
+  let url = (raw || fallback).trim()
+  // Ensure a protocol is present so `new URL()` never throws.
+  if (!/^https?:\/\//i.test(url)) {
+    url = `https://${url}`
+  }
+  // Drop any trailing slash for consistent canonical URLs.
+  return url.replace(/\/$/, "")
+}
+
+export const SITE_URL = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL)
 
 export const SITE_NAME = "MyCDLClass"
 
