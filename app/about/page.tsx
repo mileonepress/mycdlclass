@@ -57,7 +57,6 @@ export default function AboutPage() {
             <Link href="/courses">Courses</Link>
             <Link href="/free-practice-test">Free Test</Link>
             <Link href="/ebooks">Ebooks</Link>
-            <Link href="/about">About</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
 
@@ -122,7 +121,7 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold">Our story</h2>
           <p className="mt-6 text-lg leading-relaxed text-gray-700">
             The inspiration behind MyCDLClass began more than 15 years ago. After successfully passing
-            his CDL exams using personal study notes, guides, and practice materials, founder Marquise
+            his CDL exams using personal study notes, guides, and practice materials, founder Marc
             Frazier realized that many students struggled because classroom training alone often
             wasn&apos;t enough.
           </p>

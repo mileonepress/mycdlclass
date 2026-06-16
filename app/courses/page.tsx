@@ -27,7 +27,6 @@ export default async function CoursesPage() {
             <Link href="/courses">Courses</Link>
             <Link href="/free-practice-test">Free Test</Link>
             <Link href="/ebooks">Ebooks</Link>
-            <Link href="/about">About</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
 
