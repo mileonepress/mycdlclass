@@ -1,15 +1,16 @@
 import Image from "next/image"
 import Link from "next/link"
-import type { Metadata } from "next"
 import Footer from "@/components/Footer"
 import EbookCheckoutButton from "@/components/EbookCheckoutButton"
 import { listEbookProducts, EBOOK_PRICE } from "@/lib/ebookProducts"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "CDL Prep Ebooks (PDF) | MyCDLClass",
+export const metadata = buildMetadata({
+  title: "CDL Prep Ebooks (PDF, English & Español)",
   description:
-    "Downloadable CDL prep exam booklets in English and Spanish. Each PDF ebook is $9.99 and is delivered instantly to your email after purchase.",
-}
+    "Downloadable CDL prep exam booklets and practice test ebooks in English and Spanish. Each PDF is $9.99 and delivered instantly to your email, covering general knowledge, air brakes, hazmat, and pre-trip inspection.",
+  path: "/ebooks",
+})
 
 export default function EbooksPage() {
   const ebooks = listEbookProducts()

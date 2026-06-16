@@ -4,6 +4,32 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCourseBySlug, getQuestions } from "@/lib/supabase/queries";
 import QuizClient from "./QuizClient";
+import { buildMetadata, COURSE_KEYWORDS } from "@/lib/seo";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const course = await getCourseBySlug(slug);
+
+  if (!course) {
+    return buildMetadata({
+      title: "CDL Practice Test",
+      description: "Take a free CDL practice test online with instant scoring.",
+      path: `/courses/${slug}/quiz`,
+    });
+  }
+
+  return buildMetadata({
+    title: `${course.title} Practice Test (Free, English & Español)`,
+    description: `Free ${course.title} CDL practice test with real exam-style questions, instant scoring, and answer explanations in English and Spanish. Get ready for your CDL permit test.`,
+    path: `/courses/${slug}/quiz`,
+    keywords: COURSE_KEYWORDS[slug] ?? [],
+  });
+}
 
 export default async function QuizPage({
   params,

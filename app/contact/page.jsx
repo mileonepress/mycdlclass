@@ -1,10 +1,13 @@
 import Link from "next/link"
 import ContactForm from "./ContactForm"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata = {
-  title: "Contact Us | MyCDLClass",
-  description: "Get in touch with the MyCDLClass team for help with courses, payments, or account questions.",
-}
+export const metadata = buildMetadata({
+  title: "Contact Us",
+  description:
+    "Get in touch with the MyCDLClass team for help with online CDL training, CDL practice tests, payments, or account questions.",
+  path: "/contact",
+})
 
 export default function ContactPage() {
   return (

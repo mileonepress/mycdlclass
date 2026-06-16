@@ -1,13 +1,14 @@
 import Image from "next/image"
 import Link from "next/link"
-import type { Metadata } from "next"
 import Footer from "@/components/Footer"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "About Us | MyCDLClass",
+export const metadata = buildMetadata({
+  title: "About Us",
   description:
-    "MyCDLClass provides bilingual CDL training, interactive practice tests, and prep ebooks in English and Spanish to help drivers pass their CDL exam the first time.",
-}
+    "MyCDLClass provides bilingual online CDL training, free CDL practice tests, and prep ebooks in English and Spanish to help drivers pass the CDL permit test the first time.",
+  path: "/about",
+})
 
 const values = [
   {

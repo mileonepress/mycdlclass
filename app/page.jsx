@@ -1,6 +1,53 @@
 import Image from "next/image"
 import Link from "next/link"
 import Footer from "@/components/Footer"
+import { buildMetadata } from "@/lib/seo"
+
+export const metadata = buildMetadata({
+  title: "CDL Practice Test & Online CDL Training (English & Español)",
+  description:
+    "Take free CDL practice tests and study online CDL training in English and Spanish. Prepare for your CDL permit test with general knowledge, air brakes, combination vehicles, and hazmat practice tests. Pass your Class A CDL exam the first time.",
+  path: "/",
+})
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Are the CDL practice tests free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. You can take our free CDL general knowledge practice test and pre-trip inspection practice test with real exam-style questions, instant scoring, and answer explanations in English and Spanish.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which CDL endorsement tests can I practice for?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "We offer CDL practice tests for general knowledge, air brakes, combination vehicles, doubles/triples, tanker, hazmat, passenger, school bus, and pre-trip inspection.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does this help with the CDL permit test in Georgia?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Our online CDL training mirrors the official CDL knowledge exams, making it ideal preparation for the Georgia CDL practice test and CDL permit test in any state.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does online CDL training cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Each Class A CDL training course is a one-time $9.99 payment with lifetime access in both English and Spanish. There are no subscriptions.",
+      },
+    },
+  ],
+}
 
 const courses = [
   { title: "General Knowledge", spanish: "Conocimientos Generales", slug: "general-knowledge", free: true },
@@ -17,6 +64,10 @@ const courses = [
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <nav className="sticky top-0 z-50 bg-[#061A2E] text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-3">
@@ -45,13 +96,15 @@ export default function HomePage() {
           </p>
 
           <h1 className="text-5xl font-extrabold leading-tight md:text-6xl">
-            Pass Your CDL Test
+            Pass Your CDL Practice Test
             <span className="block text-[#16A34A]">The First Time</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-lg">
-            Study CDL lessons, free practice tests, premium exams, explanations,
-            and progress tracking from your phone, tablet, or computer.
+            Free CDL practice tests and online CDL training in English and Spanish.
+            Study general knowledge, air brakes, combination vehicles, hazmat, and
+            pre-trip inspection lessons from your phone, tablet, or computer and ace
+            your CDL permit test.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
@@ -220,10 +273,55 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="px-6 py-16">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-center text-3xl font-bold md:text-4xl">
+            CDL Practice Test FAQs
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-center text-gray-600">
+            Everything you need to know about our free CDL practice tests and
+            online CDL training before your CDL permit test.
+          </p>
+
+          <div className="mt-10 flex flex-col gap-4">
+            {faqs.map((faq) => (
+              <details
+                key={faq.q}
+                className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+              >
+                <summary className="cursor-pointer list-none text-lg font-bold text-[#0D2B45]">
+                  {faq.q}
+                </summary>
+                <p className="mt-3 leading-relaxed text-gray-600">{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   )
 }
+
+const faqs = [
+  {
+    q: "Are the CDL practice tests free?",
+    a: "Yes. You can take our free CDL general knowledge practice test and pre-trip inspection practice test with real exam-style questions, instant scoring, and answer explanations in English and Spanish.",
+  },
+  {
+    q: "Which CDL endorsement tests can I practice for?",
+    a: "We offer CDL practice tests for general knowledge, air brakes, combination vehicles, doubles/triples, tanker, hazmat, passenger, school bus, and pre-trip inspection.",
+  },
+  {
+    q: "Does this help with the CDL permit test in Georgia?",
+    a: "Yes. Our online CDL training mirrors the official CDL knowledge exams, making it ideal preparation for the Georgia CDL practice test and the CDL permit test in any state.",
+  },
+  {
+    q: "How much does online CDL training cost?",
+    a: "Each Class A CDL training course is a one-time $9.99 payment with lifetime access in both English and Spanish. There are no subscriptions or recurring charges.",
+  },
+]
 
 function Feature({ title, text }) {
   return (
