@@ -32,6 +32,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/ebooks" className="hover:text-[#16A34A]">
+                  Ebooks
+                </Link>
+              </li>
+              <li>
                 <Link href="/dashboard" className="hover:text-[#16A34A]">
                   Dashboard
                 </Link>
@@ -58,6 +63,11 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Support</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
+              <li>
+                <Link href="/about" className="hover:text-[#16A34A]">
+                  About Us
+                </Link>
+              </li>
               <li>
                 <Link href="/contact" className="hover:text-[#16A34A]">
                   Contact Us
