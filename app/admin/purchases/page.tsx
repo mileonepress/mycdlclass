@@ -54,25 +54,15 @@ export default async function AdminPurchasesPage() {
   }
 
   const supabase = createAdminClient()
-  const { data: purchases, error } = await supabase
-    .from("purchases")
-    .select("id, course_slug, payer_email, amount, currency, status, language, stripe_session_id, paypal_order_id, created_at")
-    .order("created_at", { ascending: false })
-    .limit(500)
-
-  const { data: ebookRows } = await supabase
+  const { data: ebookRows, error } = await supabase
     .from("ebook_purchases")
     .select("id, ebook_slug, language, payer_email, amount, currency, status, granted_by, stripe_session_id, created_at")
     .order("created_at", { ascending: false })
     .limit(500)
 
-  const rows = purchases || []
   const ebooks = ebookRows || []
-  const completed = rows.filter((r) => r.status === "completed")
   const completedEbooks = ebooks.filter((r) => r.status === "completed")
-  const totalRevenue =
-    completed.reduce((sum, r) => sum + (Number(r.amount) || 0), 0) +
-    completedEbooks.reduce((sum, r) => sum + (Number(r.amount) || 0), 0)
+  const totalRevenue = completedEbooks.reduce((sum, r) => sum + (Number(r.amount) || 0), 0)
 
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
@@ -82,72 +72,22 @@ export default async function AdminPurchasesPage() {
         <div className="mx-auto max-w-7xl">
           <p className="font-bold text-[#16A34A]">Owner Tools</p>
           <h1 className="mt-2 text-3xl font-extrabold">Purchases</h1>
-          <p className="mt-2 text-white/80">Course sales and ebook sales</p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-4">
-            <StatCard label="Course Sales" value={`${completed.length}`} />
+          <p className="mt-2 text-white/80">Ebook sales</p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
             <StatCard label="Ebook Sales" value={`${completedEbooks.length}`} />
-            <StatCard label="Total Records" value={`${rows.length + ebooks.length}`} />
+            <StatCard label="Total Records" value={`${ebooks.length}`} />
             <StatCard label="Revenue (completed)" value={formatAmount(totalRevenue, "usd")} />
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-10">
-        <h2 className="mb-4 text-xl font-bold">Course purchases</h2>
+        <h2 className="mb-4 text-xl font-bold">Ebook purchases</h2>
         {error ? (
           <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-red-700">
             Failed to load purchases: {error.message}
           </div>
-        ) : rows.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-10 text-center">
-            <p className="text-lg font-bold">No course purchases recorded yet.</p>
-            <p className="mt-2 text-gray-600">
-              Completed Stripe checkouts will appear here once a transaction is processed.
-            </p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto rounded-2xl border bg-white shadow-sm">
-            <table className="w-full text-left text-sm">
-              <thead className="border-b bg-[#F6F9FC] text-xs uppercase tracking-wide text-gray-500">
-                <tr>
-                  <th className="px-4 py-3">Date</th>
-                  <th className="px-4 py-3">Course</th>
-                  <th className="px-4 py-3">Buyer Email</th>
-                  <th className="px-4 py-3">Amount</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Source</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((r) => (
-                  <tr key={r.id} className="border-b last:border-0 hover:bg-[#F6F9FC]">
-                    <td className="whitespace-nowrap px-4 py-3 text-gray-600">{formatDate(r.created_at)}</td>
-                    <td className="px-4 py-3 font-medium">{r.course_slug}</td>
-                    <td className="px-4 py-3">{r.payer_email || "—"}</td>
-                    <td className="whitespace-nowrap px-4 py-3 font-bold">{formatAmount(Number(r.amount), r.currency)}</td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                          r.status === "completed"
-                            ? "bg-[#E7F7ED] text-[#16A34A]"
-                            : "bg-gray-100 text-gray-600"
-                        }`}
-                      >
-                        {r.status || "unknown"}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-500">
-                      {r.stripe_session_id ? "Stripe" : r.paypal_order_id ? "PayPal" : "—"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        <h2 className="mb-4 mt-12 text-xl font-bold">Ebook purchases</h2>
-        {ebooks.length === 0 ? (
+        ) : ebooks.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-10 text-center">
             <p className="text-lg font-bold">No ebook purchases yet.</p>
             <p className="mt-2 text-gray-600">
