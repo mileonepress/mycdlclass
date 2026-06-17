@@ -2,8 +2,8 @@ import './globals.css'
 import type { Metadata, Viewport } from 'next'
 
 export const metadata: Metadata = {
-  title: 'MY CDL Class | Online CDL Courses',
-  description: 'Self-paced bilingual CDL online courses and free practice tests. Study on PC, Mac, Android, and Apple devices.',
+  title: 'My CDL Class | Free CDL Practice Tests & Prep Ebooks',
+  description: 'Free bilingual CDL interactive practice tests and downloadable prep ebooks. Study on PC, Mac, Android, and Apple devices.',
 }
 
 export const viewport: Viewport = {

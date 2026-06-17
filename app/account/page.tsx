@@ -43,14 +43,14 @@ export default async function AccountPage() {
           </Link>
 
           <div className="hidden gap-6 text-sm md:flex">
-            <Link href="/courses">Courses</Link>
-            <Link href="/free-practice-test">Free Test</Link>
+            <Link href="/practice-tests">Practice Tests</Link>
+            <Link href="/ebooks">Ebooks</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href="/courses" className="hidden rounded-lg bg-[#16A34A] px-4 py-2 font-bold sm:inline-block">
-              My Courses
+            <Link href="/dashboard" className="hidden rounded-lg bg-[#16A34A] px-4 py-2 font-bold sm:inline-block">
+              Dashboard
             </Link>
             <LogoutButton variant="nav" />
           </div>
@@ -71,16 +71,25 @@ export default async function AccountPage() {
           <p className="mt-1 text-gray-500">{user.email}</p>
 
           <div className="mt-6 rounded-xl bg-[#E6F0FF] p-6">
-            <p className="font-bold text-[#1E4D8C]">Per-Course Purchases</p>
+            <p className="font-bold text-[#1E4D8C]">Practice Tests &amp; Ebooks</p>
             <p className="mt-1 text-sm text-gray-600">
-              Courses are purchased individually with a one-time secure card payment. Browse the catalog to add more courses.
+              Interactive practice tests are free for everyone. Ebooks are purchased individually
+              with a one-time secure card payment and delivered as instant PDF downloads.
             </p>
-            <Link
-              href="/courses"
-              className="mt-4 inline-block rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white"
-            >
-              Browse Courses
-            </Link>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                href="/practice-tests"
+                className="inline-block rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white"
+              >
+                Take a Practice Test
+              </Link>
+              <Link
+                href="/ebooks"
+                className="inline-block rounded-lg border-2 border-[#16A34A] px-6 py-3 font-bold text-[#16A34A]"
+              >
+                Browse Ebooks
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -98,25 +107,10 @@ export default async function AccountPage() {
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <Link
-              href="/courses"
+              href="/practice-tests"
               className="flex items-center gap-4 rounded-xl border-2 border-[#E5E7EB] p-4 hover:border-[#16A34A] transition-colors"
             >
               <div className="rounded-lg bg-[#16A34A] p-3 text-white">
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              </div>
-              <div>
-                <p className="font-bold text-[#0D2B45]">My Courses</p>
-                <p className="text-sm text-gray-500">Continue learning</p>
-              </div>
-            </Link>
-
-            <Link
-              href="/free-practice-test"
-              className="flex items-center gap-4 rounded-xl border-2 border-[#E5E7EB] p-4 hover:border-[#16A34A] transition-colors"
-            >
-              <div className="rounded-lg bg-[#1E4D8C] p-3 text-white">
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                 </svg>
@@ -124,6 +118,21 @@ export default async function AccountPage() {
               <div>
                 <p className="font-bold text-[#0D2B45]">Practice Tests</p>
                 <p className="text-sm text-gray-500">Take a free test</p>
+              </div>
+            </Link>
+
+            <Link
+              href="/ebooks"
+              className="flex items-center gap-4 rounded-xl border-2 border-[#E5E7EB] p-4 hover:border-[#16A34A] transition-colors"
+            >
+              <div className="rounded-lg bg-[#1E4D8C] p-3 text-white">
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-bold text-[#0D2B45]">Ebooks</p>
+                <p className="text-sm text-gray-500">Shop prep booklets</p>
               </div>
             </Link>
 

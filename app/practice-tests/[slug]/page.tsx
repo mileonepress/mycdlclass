@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCourseBySlug, getQuestions } from "@/lib/supabase/queries";
 import QuizClient from "./QuizClient";
 
-export default async function QuizPage({
+export default async function PracticeTestPage({
   params,
   searchParams,
 }: {
@@ -19,7 +19,7 @@ export default async function QuizPage({
   const { data: { user } } = await supabase.auth.getUser();
 
   const course = await getCourseBySlug(slug);
-  if (!course) redirect("/courses");
+  if (!course) redirect("/practice-tests");
 
   const questions = await getQuestions(course.id);
 
@@ -36,16 +36,15 @@ export default async function QuizPage({
         </nav>
         <div className="max-w-2xl mx-auto px-6 py-20 text-center">
           <h1 className="text-3xl font-bold text-[#0D2B45]">No Questions Yet</h1>
-          <p className="mt-4 text-gray-600">Practice questions for this course are coming soon.</p>
-          <Link href={`/courses/${slug}`} className="mt-8 inline-block bg-[#1E4D8C] text-white px-6 py-3 rounded-lg font-bold">
-            Back to Course
+          <p className="mt-4 text-gray-600">Practice questions for this test are coming soon.</p>
+          <Link href="/practice-tests" className="mt-8 inline-block bg-[#1E4D8C] text-white px-6 py-3 rounded-lg font-bold">
+            Back to Practice Tests
           </Link>
         </div>
       </main>
     );
   }
 
-  // Prepare questions for client (don't send correct answers initially)
   const clientQuestions = questions.map((q) => ({
     id: q.id,
     question_text: q.question_text,

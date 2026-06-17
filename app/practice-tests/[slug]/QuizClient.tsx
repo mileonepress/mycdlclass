@@ -58,7 +58,6 @@ export default function QuizClient({ course, questions, isLoggedIn, initialLangu
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      // Quiz complete
       setQuizComplete(true);
       if (isLoggedIn) {
         setSaving(true);
@@ -66,7 +65,7 @@ export default function QuizClient({ course, questions, isLoggedIn, initialLangu
           const score = Object.entries(answers).filter(
             ([id, ans]) => questions.find((q) => q.id === id)?.correct_answer === ans
           ).length + (isCorrect ? 1 : 0);
-          
+
           await fetch("/api/quiz", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -109,15 +108,15 @@ export default function QuizClient({ course, questions, isLoggedIn, initialLangu
           }`}>
             {percentage}%
           </div>
-          
+
           <h1 className="text-3xl font-bold text-[#0D2B45]">
             {passed ? "Congratulations! You Passed!" : "Keep Practicing!"}
           </h1>
-          
+
           <p className="mt-4 text-lg text-gray-600">
             You scored {score} out of {questions.length} questions correctly.
           </p>
-          
+
           {passed ? (
             <p className="mt-2 text-[#16A34A] font-medium">
               You&apos;re ready for the real CDL exam!
@@ -130,10 +129,10 @@ export default function QuizClient({ course, questions, isLoggedIn, initialLangu
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href={`/courses/${course.slug}`}
+              href="/practice-tests"
               className="bg-[#1E4D8C] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#163d6e] transition"
             >
-              Back to Course
+              All Practice Tests
             </Link>
             <button
               onClick={() => {
@@ -195,7 +194,7 @@ export default function QuizClient({ course, questions, isLoggedIn, initialLangu
       <div className="bg-[#061A2E] px-6 pb-6">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center justify-between text-sm text-gray-400 mb-2">
-            <span>{course.title}</span>
+            <span>{language === "es" ? course.spanish_title : course.title}</span>
             <span>Question {currentIndex + 1} of {questions.length}</span>
           </div>
           <div className="h-2 bg-white/20 rounded-full overflow-hidden">
@@ -216,7 +215,7 @@ export default function QuizClient({ course, questions, isLoggedIn, initialLangu
             {options.map((option) => {
               const isSelected = selectedAnswer === option.letter;
               const isCorrectAnswer = currentQuestion.correct_answer === option.letter;
-              
+
               let bgClass = "bg-white border-gray-200 hover:border-[#1E4D8C]";
               if (showExplanation) {
                 if (isCorrectAnswer) {

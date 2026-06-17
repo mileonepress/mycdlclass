@@ -16,12 +16,12 @@ export default function ContactPage() {
             My<span className="text-[#16A34A]">CDL</span>Class
           </Link>
           <div className="hidden gap-6 text-sm md:flex">
-            <Link href="/courses">Courses</Link>
-            <Link href="/free-practice-test">Free Test</Link>
+            <Link href="/practice-tests">Practice Tests</Link>
+            <Link href="/ebooks">Ebooks</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
-          <Link href="/courses" className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold">
-            Browse Courses
+          <Link href="/practice-tests" className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold">
+            Start Free Test
           </Link>
         </div>
       </nav>
