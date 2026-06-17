@@ -6,13 +6,13 @@ import Footer from "@/components/Footer"
 export const metadata: Metadata = {
   title: "About Us | MyCDLClass",
   description:
-    "MyCDLClass provides bilingual CDL training, interactive practice tests, and prep ebooks in English and Spanish to help drivers pass their CDL exam the first time.",
+    "MyCDLClass provides bilingual CDL interactive practice tests and prep ebooks in English and Spanish to help drivers pass their CDL exam the first time.",
 }
 
 const values = [
   {
     title: "Bilingual by design",
-    body: "Every course, practice test, and ebook is available in both English and Spanish so language is never a barrier to your CDL.",
+    body: "Every practice test and ebook is available in both English and Spanish so language is never a barrier to your CDL.",
   },
   {
     title: "Built for real exams",
@@ -20,14 +20,14 @@ const values = [
   },
   {
     title: "Study anywhere",
-    body: "Learn on your phone, tablet, or computer, and take your prep ebooks offline as downloadable PDFs.",
+    body: "Practice on your phone, tablet, or computer, and take your prep ebooks offline as downloadable PDFs.",
   },
 ]
 
 const stats = [
-  { value: "9", label: "CDL endorsement courses" },
+  { value: "9", label: "CDL endorsement categories" },
   { value: "EN / ES", label: "Available in two languages" },
-  { value: "100%", label: "Interactive practice tests" },
+  { value: "100%", label: "Free interactive practice tests" },
 ]
 
 export default function AboutPage() {
@@ -41,15 +41,14 @@ export default function AboutPage() {
           </Link>
 
           <div className="hidden gap-6 text-sm md:flex">
-            <Link href="/courses">Courses</Link>
-            <Link href="/free-practice-test">Free Test</Link>
+            <Link href="/practice-tests">Practice Tests</Link>
             <Link href="/ebooks">Ebooks</Link>
             <Link href="/about">About</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
 
-          <Link href="/courses" className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold">
-            Browse Courses
+          <Link href="/practice-tests" className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold">
+            Start Free Test
           </Link>
         </div>
       </nav>
@@ -61,10 +60,10 @@ export default function AboutPage() {
             Helping drivers earn their CDL with confidence
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-white/75">
-            MyCDLClass was created to make commercial driver&apos;s license training accessible,
-            affordable, and available in both English and Spanish. We combine clear lessons,
-            realistic interactive practice tests, and downloadable prep ebooks so you can study the
-            way that works best for you.
+            MyCDLClass was created to make commercial driver&apos;s license preparation accessible,
+            affordable, and available in both English and Spanish. We combine realistic interactive
+            practice tests and downloadable prep ebooks so you can study the way that works best for
+            you.
           </p>
         </div>
       </section>
@@ -104,21 +103,14 @@ export default function AboutPage() {
         <div className="mx-auto max-w-4xl rounded-3xl bg-[#1E4D8C] p-10 text-center text-white">
           <h2 className="text-balance text-3xl font-bold">Ready to start studying?</h2>
           <p className="mx-auto mt-3 max-w-xl text-pretty text-white/80">
-            Take a free interactive practice test, browse our bilingual courses, or grab a prep ebook
-            to study offline.
+            Take a free interactive practice test or grab a prep ebook to study offline.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
-              href="/free-practice-test"
+              href="/practice-tests"
               className="rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#15803d]"
             >
               Free Practice Test
-            </Link>
-            <Link
-              href="/courses"
-              className="rounded-lg border-2 border-white px-6 py-3 font-bold text-white transition-colors hover:bg-white hover:text-[#1E4D8C]"
-            >
-              Browse Courses
             </Link>
             <Link
               href="/ebooks"

@@ -22,13 +22,8 @@ export default function Footer() {
             <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Learn</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
               <li>
-                <Link href="/courses" className="hover:text-[#16A34A]">
-                  Courses
-                </Link>
-              </li>
-              <li>
-                <Link href="/free-practice-test" className="hover:text-[#16A34A]">
-                  Free Practice Test
+                <Link href="/practice-tests" className="hover:text-[#16A34A]">
+                  Practice Tests
                 </Link>
               </li>
               <li>

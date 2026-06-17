@@ -5,41 +5,41 @@ const sitemap = [
     title: "Start",
     pages: [
       { name: "Homepage", url: "/", goal: "Introduce brand and main CTA" },
-      { name: "Free Practice Test", url: "/free-practice-test", goal: "Capture free users" },
-      { name: "Courses", url: "/courses", goal: "Show all 9 CDL courses" },
+      { name: "Practice Tests", url: "/practice-tests", goal: "Free interactive CDL tests" },
+      { name: "Ebooks", url: "/ebooks", goal: "Sell downloadable prep PDFs" },
     ],
   },
   {
-    title: "Learning Experience",
+    title: "Practice Tests",
     pages: [
-      { name: "General Knowledge", url: "/courses/general-knowledge", goal: "Buy course via PayPal" },
-      { name: "Air Brakes", url: "/courses/air-brakes", goal: "Buy course via PayPal" },
-      { name: "Combination Vehicles", url: "/courses/combination-vehicles", goal: "Buy course via PayPal" },
-      { name: "Doubles/Triples", url: "/courses/doubles-triples", goal: "Buy course via PayPal" },
-      { name: "Tanker Vehicles", url: "/courses/tanker", goal: "Buy course via PayPal" },
-      { name: "HazMat", url: "/courses/hazmat", goal: "Buy course via PayPal" },
-      { name: "Passenger", url: "/courses/passenger", goal: "Buy course via PayPal" },
-      { name: "School Bus", url: "/courses/school-bus", goal: "Buy course via PayPal" },
-      { name: "Pre-Trip Inspection", url: "/courses/pre-trip-inspection", goal: "Buy course via PayPal" },
+      { name: "General Knowledge", url: "/practice-tests/general-knowledge", goal: "Free interactive test" },
+      { name: "Air Brakes", url: "/practice-tests/air-brakes", goal: "Free interactive test" },
+      { name: "Combination Vehicles", url: "/practice-tests/combination-vehicles", goal: "Free interactive test" },
+      { name: "Doubles/Triples", url: "/practice-tests/doubles-triples", goal: "Free interactive test" },
+      { name: "Tanker Vehicles", url: "/practice-tests/tanker", goal: "Free interactive test" },
+      { name: "HazMat", url: "/practice-tests/hazmat", goal: "Free interactive test" },
+      { name: "Passenger", url: "/practice-tests/passenger", goal: "Free interactive test" },
+      { name: "School Bus", url: "/practice-tests/school-bus", goal: "Free interactive test" },
+      { name: "Pre-Trip Inspection", url: "/practice-tests/pre-trip-inspection", goal: "Free interactive test" },
     ],
   },
   {
     title: "Account & Conversion",
     pages: [
       { name: "Login / Sign Up", url: "/login", goal: "Student account access" },
-      { name: "Dashboard", url: "/dashboard", goal: "Show premium app experience" },
+      { name: "Dashboard", url: "/dashboard", goal: "Scores & ebook purchases" },
       { name: "My Account", url: "/account", goal: "Manage account" },
-      { name: "Admin", url: "/admin", goal: "Manage content and students" },
+      { name: "Admin", url: "/admin/purchases", goal: "Manage ebook sales & access" },
     ],
   },
 ]
 
 const journey = [
   "Homepage",
-  "Free Practice Test",
-  "Courses",
-  "Course Page",
-  "PayPal Checkout",
+  "Practice Tests",
+  "Take a Test",
+  "Browse Ebooks",
+  "Ebook Checkout",
 ]
 
 export default function VisualSitemapPage() {
@@ -48,21 +48,21 @@ export default function VisualSitemapPage() {
       <section className="bg-[#061A2E] px-6 py-16 text-center text-white">
         <h1 className="text-balance text-4xl font-extrabold sm:text-5xl">MyCDLClass Visual Sitemap</h1>
         <p className="mx-auto mt-4 max-w-3xl text-pretty text-lg leading-relaxed text-white/85">
-          UX blueprint for navigation, course discovery, free practice tests, and per-course PayPal checkout.
+          UX blueprint for navigation, free interactive practice tests, and prep ebook sales.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link
-            href="/free-practice-test"
+            href="/practice-tests"
             className="rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#15803D]"
           >
             Start Free Test
           </Link>
           <Link
-            href="/courses"
+            href="/ebooks"
             className="rounded-lg border border-white px-6 py-3 font-bold text-white transition-colors hover:bg-white hover:text-[#061A2E]"
           >
-            Browse Courses
+            Browse Ebooks
           </Link>
         </div>
       </section>
@@ -107,8 +107,8 @@ export default function VisualSitemapPage() {
           </div>
 
           <p className="mx-auto mt-8 max-w-3xl text-pretty text-center leading-relaxed text-gray-600">
-            Primary conversion path: visitors try free questions, browse all 9 CDL courses, then purchase individual
-            courses with a one-time PayPal payment.
+            Primary path: visitors take free interactive practice tests, then purchase prep ebooks
+            with a one-time payment for offline study.
           </p>
         </div>
       </section>
@@ -116,8 +116,8 @@ export default function VisualSitemapPage() {
       <section className="bg-[#061A2E] px-6 py-16 text-center text-white">
         <h2 className="text-3xl font-bold sm:text-4xl">Conversion Goal</h2>
         <p className="mx-auto mt-4 max-w-3xl text-pretty leading-relaxed text-white/85">
-          Every main page should include a clear CTA to either start a free practice test or purchase a course with
-          PayPal.
+          Every main page should include a clear CTA to either start a free practice test or buy a
+          prep ebook.
         </p>
       </section>
     </main>

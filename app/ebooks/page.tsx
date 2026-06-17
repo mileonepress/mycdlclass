@@ -24,14 +24,14 @@ export default function EbooksPage() {
           </Link>
 
           <div className="hidden gap-6 text-sm md:flex">
-            <Link href="/courses">Courses</Link>
-            <Link href="/free-practice-test">Free Test</Link>
+            <Link href="/practice-tests">Practice Tests</Link>
             <Link href="/ebooks">Ebooks</Link>
+            <Link href="/about">About</Link>
             <Link href="/dashboard">Dashboard</Link>
           </div>
 
-          <Link href="/courses" className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold">
-            Browse Courses
+          <Link href="/practice-tests" className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold">
+            Start Free Test
           </Link>
         </div>
       </nav>
@@ -94,9 +94,9 @@ export default function EbooksPage() {
         </div>
 
         <p className="mx-auto mt-12 max-w-2xl text-center text-sm text-gray-500">
-          Looking for full interactive courses with lessons and practice tests instead?{" "}
-          <Link href="/courses" className="font-semibold text-[#1E4D8C] hover:underline">
-            Browse CDL courses
+          Prefer to practice online?{" "}
+          <Link href="/practice-tests" className="font-semibold text-[#1E4D8C] hover:underline">
+            Take a free interactive practice test
           </Link>
           .
         </p>

@@ -38,10 +38,10 @@ export default function LoginPage() {
   }
 
   function nextParam() {
-    if (typeof window === "undefined") return "/courses"
+    if (typeof window === "undefined") return "/dashboard"
     const params = new URLSearchParams(window.location.search)
     const next = params.get("next")
-    return next ? `/${next.replace(/^\//, "")}` : "/courses"
+    return next ? `/${next.replace(/^\//, "")}` : "/dashboard"
   }
 
   async function handleLogin(e: React.FormEvent) {
@@ -140,9 +140,9 @@ export default function LoginPage() {
         </h1>
         <p className="mt-1 text-sm text-gray-600">
           {mode === "login"
-            ? "Log in to continue your CDL training."
+            ? "Log in to track your practice test progress."
             : mode === "signup"
-              ? "Start studying for your CDL test today."
+              ? "Start preparing for your CDL test today."
               : "Enter your email and we'll send you a link to create a new password."}
         </p>
 
