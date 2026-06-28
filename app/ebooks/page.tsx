@@ -1,7 +1,7 @@
 import Image from "next/image"
-import Link from "next/link"
 import type { Metadata } from "next"
 import Footer from "@/components/Footer"
+import SiteHeader from "@/components/SiteHeader"
 import EbookCheckoutButton from "@/components/EbookCheckoutButton"
 import { listEbookProducts, EBOOK_PRICE } from "@/lib/ebookProducts"
 
@@ -16,25 +16,7 @@ export default function EbooksPage() {
 
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
-      <nav className="sticky top-0 z-50 bg-[#061A2E] text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="MyCDLClass" width={58} height={58} />
-            <span className="font-extrabold tracking-wide">MYCDL CLASS</span>
-          </Link>
-
-          <div className="hidden gap-6 text-sm md:flex">
-            <Link href="/practice-tests">Practice Tests</Link>
-            <Link href="/ebooks">Ebooks</Link>
-            <Link href="/about">About</Link>
-            <Link href="/dashboard">Dashboard</Link>
-          </div>
-
-          <Link href="/practice-tests" className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold">
-            Start Free Test
-          </Link>
-        </div>
-      </nav>
+      <SiteHeader />
 
       <section className="bg-[#061A2E] px-6 py-16 text-white">
         <div className="mx-auto max-w-7xl text-center">
@@ -94,11 +76,8 @@ export default function EbooksPage() {
         </div>
 
         <p className="mx-auto mt-12 max-w-2xl text-center text-sm text-gray-500">
-          Prefer to practice online?{" "}
-          <Link href="/practice-tests" className="font-semibold text-[#1E4D8C] hover:underline">
-            Take a free interactive practice test
-          </Link>
-          .
+          Every ebook is delivered instantly to your email as a secure PDF after checkout &mdash; no
+          account or subscription required.
         </p>
       </section>
 

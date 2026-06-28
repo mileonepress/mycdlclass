@@ -1,57 +1,39 @@
-import Image from "next/image"
 import Link from "next/link"
 import type { Metadata } from "next"
 import Footer from "@/components/Footer"
+import SiteHeader from "@/components/SiteHeader"
 
 export const metadata: Metadata = {
-  title: "About Us | MyCDLClass",
+  title: "About Us",
   description:
-    "MyCDLClass provides bilingual CDL interactive practice tests and prep ebooks in English and Spanish to help drivers pass their CDL exam the first time.",
+    "MyCDLClass is the CDL test prep brand of MileOne Press, selling downloadable bilingual CDL prep ebooks in English and Spanish to help drivers pass their CDL exam the first time. Instant PDF delivery, no account required.",
 }
 
 const values = [
   {
     title: "Bilingual by design",
-    body: "Every practice test and ebook is available in both English and Spanish so language is never a barrier to your CDL.",
+    body: "Every ebook is available in both English and Spanish so language is never a barrier to your CDL.",
   },
   {
     title: "Built for real exams",
-    body: "Our questions, explanations, and booklets mirror the format and content of the official CDL knowledge and endorsement tests.",
+    body: "Our booklets mirror the format and content of the official CDL knowledge and endorsement tests.",
   },
   {
     title: "Study anywhere",
-    body: "Practice on your phone, tablet, or computer, and take your prep ebooks offline as downloadable PDFs.",
+    body: "Download your prep ebooks as PDFs and study on your phone, tablet, or computer, even offline.",
   },
 ]
 
 const stats = [
-  { value: "9", label: "CDL endorsement categories" },
+  { value: "9", label: "CDL endorsement topics" },
   { value: "EN / ES", label: "Available in two languages" },
-  { value: "100%", label: "Free interactive practice tests" },
+  { value: "$9.99", label: "One-time price per ebook" },
 ]
 
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
-      <nav className="sticky top-0 z-50 bg-[#061A2E] text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="MyCDLClass" width={58} height={58} />
-            <span className="font-extrabold tracking-wide">MYCDL CLASS</span>
-          </Link>
-
-          <div className="hidden gap-6 text-sm md:flex">
-            <Link href="/practice-tests">Practice Tests</Link>
-            <Link href="/ebooks">Ebooks</Link>
-            <Link href="/about">About</Link>
-            <Link href="/dashboard">Dashboard</Link>
-          </div>
-
-          <Link href="/practice-tests" className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold">
-            Start Free Test
-          </Link>
-        </div>
-      </nav>
+      <SiteHeader />
 
       <section className="bg-[#061A2E] px-6 py-20 text-white">
         <div className="mx-auto max-w-3xl text-center">
@@ -61,9 +43,9 @@ export default function AboutPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-white/75">
             MyCDLClass was created to make commercial driver&apos;s license preparation accessible,
-            affordable, and available in both English and Spanish. We combine realistic interactive
-            practice tests and downloadable prep ebooks so you can study the way that works best for
-            you.
+            affordable, and available in both English and Spanish. Our downloadable prep ebooks give
+            you realistic exam-style content you can study anywhere &mdash; with instant PDF delivery
+            and no account required.
           </p>
         </div>
       </section>
@@ -77,6 +59,24 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-8">
+        <h2 className="text-center text-3xl font-bold">A MileOne Press brand</h2>
+        <p className="mx-auto mt-4 max-w-3xl text-center text-lg leading-relaxed text-gray-600">
+          MyCDLClass is the CDL test prep brand of{" "}
+          <a
+            href="https://www.mileonepress.com"
+            target="_blank"
+            rel="noopener"
+            className="font-semibold text-[#1E4D8C] hover:underline"
+          >
+            MileOne Press
+          </a>
+          . Both brands share the same mission: making commercial driver&apos;s license exam
+          preparation clear, affordable, and accessible to every driver. When you study with
+          MyCDLClass, you&apos;re learning from the same team behind MileOne Press.
+        </p>
       </section>
 
       <section className="mx-auto max-w-5xl px-6 pb-8">
@@ -103,20 +103,20 @@ export default function AboutPage() {
         <div className="mx-auto max-w-4xl rounded-3xl bg-[#1E4D8C] p-10 text-center text-white">
           <h2 className="text-balance text-3xl font-bold">Ready to start studying?</h2>
           <p className="mx-auto mt-3 max-w-xl text-pretty text-white/80">
-            Take a free interactive practice test or grab a prep ebook to study offline.
+            Grab a CDL prep ebook in English or Spanish and get your PDF delivered instantly.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
-              href="/practice-tests"
+              href="/ebooks"
               className="rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#15803d]"
             >
-              Free Practice Test
+              Browse Ebooks
             </Link>
             <Link
-              href="/ebooks"
+              href="/contact"
               className="rounded-lg border-2 border-white px-6 py-3 font-bold text-white transition-colors hover:bg-white hover:text-[#1E4D8C]"
             >
-              Shop Ebooks
+              Contact Us
             </Link>
           </div>
         </div>

@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic"
 export default async function AdminAccessPage() {
   await createClient()
   const admin = await getAdminUser()
-  if (!admin) redirect("/dashboard")
+  if (!admin) redirect("/")
 
   const ebooks = listEbookProducts().map((e: { slug: string; title: string; languageLabel: string }) => ({
     slug: e.slug,

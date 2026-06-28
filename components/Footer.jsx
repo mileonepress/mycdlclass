@@ -6,50 +6,51 @@ export default function Footer() {
     <footer className="bg-[#061A2E] text-white">
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="mb-12">
-          <NewsletterSignup source="footer" />
+          <NewsletterSignup
+            source="footer"
+            heading="Get CDL study tips & ebook updates"
+            subtext="New CDL prep ebooks and exam tips in English and Spanish."
+          />
         </div>
-        <div className="grid gap-8 md:grid-cols-4">
+        <div className="grid gap-8 md:grid-cols-3">
           <div>
             <Link href="/" className="text-xl font-extrabold">
               My<span className="text-[#16A34A]">CDL</span>Class
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
-              Bilingual CDL training and practice tests to help you pass your exam.
+              Downloadable bilingual CDL prep ebooks to help you pass your exam. Instant PDF delivery,
+              no account required.
+            </p>
+            <p className="mt-3 text-sm text-white/70">
+              A{" "}
+              <a
+                href="https://www.mileonepress.com"
+                target="_blank"
+                rel="noopener"
+                className="font-semibold text-[#16A34A] hover:underline"
+              >
+                MileOne Press
+              </a>{" "}
+              brand.
             </p>
           </div>
 
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Learn</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Shop</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
               <li>
-                <Link href="/practice-tests" className="hover:text-[#16A34A]">
-                  Practice Tests
+                <Link href="/ebooks" className="hover:text-[#16A34A]">
+                  CDL Prep Ebooks
                 </Link>
               </li>
               <li>
                 <Link href="/ebooks" className="hover:text-[#16A34A]">
-                  Ebooks
+                  English Editions
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard" className="hover:text-[#16A34A]">
-                  Dashboard
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Account</h3>
-            <ul className="mt-3 space-y-2 text-sm text-white/70">
-              <li>
-                <Link href="/login" className="hover:text-[#16A34A]">
-                  Login / Sign Up
-                </Link>
-              </li>
-              <li>
-                <Link href="/account" className="hover:text-[#16A34A]">
-                  My Account
+                <Link href="/ebooks" className="hover:text-[#16A34A]">
+                  Spanish Editions
                 </Link>
               </li>
             </ul>
@@ -73,7 +74,18 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 border-t border-white/10 pt-6 text-sm text-white/60">
-          <p>&copy; {new Date().getFullYear()} MyCDLClass. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} MyCDLClass, a{" "}
+            <a
+              href="https://www.mileonepress.com"
+              target="_blank"
+              rel="noopener"
+              className="hover:text-[#16A34A]"
+            >
+              MileOne Press
+            </a>{" "}
+            brand. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
