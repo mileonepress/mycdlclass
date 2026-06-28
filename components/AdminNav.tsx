@@ -20,8 +20,8 @@ export default function AdminNav({ email }: { email?: string | null }) {
               {link.label}
             </Link>
           ))}
-          <Link href="/dashboard" className="text-white/80 hover:text-white">
-            Dashboard
+          <Link href="/" className="text-white/80 hover:text-white">
+            View Site
           </Link>
           <LogoutButton variant="nav" />
         </div>

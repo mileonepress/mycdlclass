@@ -17,7 +17,7 @@ export default async function AdminPage() {
   // Gate via the auth'd client (respects the user session).
   await createClient()
   const admin = await getAdminUser()
-  if (!admin) redirect("/dashboard")
+  if (!admin) redirect("/")
 
   // Use the service-role client for aggregate stats across all users.
   const db = createAdminClient()

@@ -48,9 +48,9 @@ export default function ResetPasswordPage() {
       return
     }
 
-    setMessage("Your password has been updated. Redirecting you to your dashboard...")
+    setMessage("Your password has been updated. Redirecting you...")
     setTimeout(() => {
-      window.location.href = "/dashboard"
+      window.location.href = "/admin"
     }, 1500)
   }
 

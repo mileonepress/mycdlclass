@@ -38,10 +38,10 @@ export default function LoginPage() {
   }
 
   function nextParam() {
-    if (typeof window === "undefined") return "/dashboard"
+    if (typeof window === "undefined") return "/admin"
     const params = new URLSearchParams(window.location.search)
     const next = params.get("next")
-    return next ? `/${next.replace(/^\//, "")}` : "/dashboard"
+    return next ? `/${next.replace(/^\//, "")}` : "/admin"
   }
 
   async function handleLogin(e: React.FormEvent) {

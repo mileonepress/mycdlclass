@@ -36,13 +36,9 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protect routes that require authentication.
-  // Course pages are public so guests can browse and purchase via PayPal.
-  if (
-    (request.nextUrl.pathname.startsWith('/account') ||
-     request.nextUrl.pathname.startsWith('/admin')) &&
-    !user
-  ) {
+  // Protect the admin portal. All public pages (ebooks, checkout) stay open
+  // so guests can browse and purchase without an account.
+  if (request.nextUrl.pathname.startsWith('/admin') && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
