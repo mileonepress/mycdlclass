@@ -4,9 +4,9 @@ import Footer from "@/components/Footer"
 import SiteHeader from "@/components/SiteHeader"
 
 export const metadata: Metadata = {
-  title: "About Us | MyCDLClass",
+  title: "About Us",
   description:
-    "MyCDLClass sells downloadable bilingual CDL prep ebooks in English and Spanish to help drivers pass their CDL exam the first time. Instant PDF delivery, no account required.",
+    "MyCDLClass is the CDL test prep brand of MileOne Press, selling downloadable bilingual CDL prep ebooks in English and Spanish to help drivers pass their CDL exam the first time. Instant PDF delivery, no account required.",
 }
 
 const values = [
@@ -59,6 +59,24 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-8">
+        <h2 className="text-center text-3xl font-bold">A MileOne Press brand</h2>
+        <p className="mx-auto mt-4 max-w-3xl text-center text-lg leading-relaxed text-gray-600">
+          MyCDLClass is the CDL test prep brand of{" "}
+          <a
+            href="https://www.mileonepress.com"
+            target="_blank"
+            rel="noopener"
+            className="font-semibold text-[#1E4D8C] hover:underline"
+          >
+            MileOne Press
+          </a>
+          . Both brands share the same mission: making commercial driver&apos;s license exam
+          preparation clear, affordable, and accessible to every driver. When you study with
+          MyCDLClass, you&apos;re learning from the same team behind MileOne Press.
+        </p>
       </section>
 
       <section className="mx-auto max-w-5xl px-6 pb-8">

@@ -21,6 +21,18 @@ export default function Footer() {
               Downloadable bilingual CDL prep ebooks to help you pass your exam. Instant PDF delivery,
               no account required.
             </p>
+            <p className="mt-3 text-sm text-white/70">
+              A{" "}
+              <a
+                href="https://www.mileonepress.com"
+                target="_blank"
+                rel="noopener"
+                className="font-semibold text-[#16A34A] hover:underline"
+              >
+                MileOne Press
+              </a>{" "}
+              brand.
+            </p>
           </div>
 
           <div>
@@ -62,7 +74,18 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 border-t border-white/10 pt-6 text-sm text-white/60">
-          <p>&copy; {new Date().getFullYear()} MyCDLClass. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} MyCDLClass, a{" "}
+            <a
+              href="https://www.mileonepress.com"
+              target="_blank"
+              rel="noopener"
+              className="hover:text-[#16A34A]"
+            >
+              MileOne Press
+            </a>{" "}
+            brand. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
