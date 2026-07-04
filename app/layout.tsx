@@ -1,5 +1,6 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
+import ViewTracker from '@/components/ViewTracker'
 
 const SITE_URL = 'https://www.mycdlclass.com'
 const PARENT_URL = 'https://www.mileonepress.com'
@@ -102,6 +103,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
+        <ViewTracker />
         {children}
       </body>
     </html>

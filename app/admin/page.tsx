@@ -23,7 +23,7 @@ export default async function AdminPage() {
   const db = createAdminClient()
   const today = startOfToday()
 
-  const [ebookCount, ebookToday, recentEbooks] = await Promise.all([
+  const [ebookCount, ebookToday, recentEbooks, viewsToday] = await Promise.all([
     db.from("ebook_purchases").select("id", { count: "exact", head: true }).eq("status", "completed"),
     db.from("ebook_purchases").select("amount").eq("status", "completed").gte("created_at", today),
     db
@@ -31,6 +31,7 @@ export default async function AdminPage() {
       .select("ebook_slug, language, payer_email, amount, status, created_at")
       .order("created_at", { ascending: false })
       .limit(6),
+    db.from("page_views").select("id", { count: "exact", head: true }).gte("created_at", today),
   ])
 
   const revenueToday = (ebookToday.data || []).reduce(
@@ -41,6 +42,7 @@ export default async function AdminPage() {
   const stats = [
     { label: "Ebook sales", value: ebookCount.count ?? 0, href: "/admin/purchases" },
     { label: "Sales today", value: (ebookToday.data || []).length, href: "/admin/purchases" },
+    { label: "Page views today", value: viewsToday.count ?? 0, href: "/admin/analytics" },
   ]
 
   return (
