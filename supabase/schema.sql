@@ -35,9 +35,48 @@ create table if not exists public.lesson_progress (
   unique(user_id, course_id)
 );
 
+create table if not exists public.email_subscribers (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  first_name text,
+  language text,
+  kit_subscriber_id text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists email_subscribers_created_at_idx on public.email_subscribers (created_at desc);
+
+create table if not exists public.page_views (
+  id uuid primary key default gen_random_uuid(),
+  path text not null,
+  referrer text,
+  session_id text,
+  country text,
+  user_agent text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists page_views_created_at_idx on public.page_views (created_at desc);
+create index if not exists page_views_path_idx on public.page_views (path);
+create index if not exists page_views_session_idx on public.page_views (session_id);
+
 alter table public.subscriptions enable row level security;
 alter table public.courses enable row level security;
 alter table public.lesson_progress enable row level security;
+alter table public.page_views enable row level security;
+alter table public.email_subscribers enable row level security;
+
+drop policy if exists "Service role can manage subscribers" on public.email_subscribers;
+create policy "Service role can manage subscribers"
+on public.email_subscribers for all
+using (auth.role() = 'service_role')
+with check (auth.role() = 'service_role');
+
+drop policy if exists "Service role can manage page views" on public.page_views;
+create policy "Service role can manage page views"
+on public.page_views for all
+using (auth.role() = 'service_role')
+with check (auth.role() = 'service_role');
 
 drop policy if exists "Users can read own subscription" on public.subscriptions;
 create policy "Users can read own subscription"

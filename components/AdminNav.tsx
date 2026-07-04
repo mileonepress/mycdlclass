@@ -3,7 +3,9 @@ import LogoutButton from "@/components/LogoutButton"
 
 const LINKS = [
   { href: "/admin", label: "Overview" },
+  { href: "/admin/analytics", label: "Traffic" },
   { href: "/admin/purchases", label: "Purchases" },
+  { href: "/admin/subscribers", label: "Subscribers" },
   { href: "/admin/access", label: "Grant Access" },
 ]
 

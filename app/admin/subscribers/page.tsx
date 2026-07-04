@@ -6,6 +6,15 @@ import AdminNav from "@/components/AdminNav"
 
 export const dynamic = "force-dynamic"
 
+type SubscriberRow = {
+  id: string
+  email: string
+  first_name: string | null
+  language: string | null
+  kit_subscriber_id: string | null
+  created_at: string
+}
+
 function formatDate(value: string | null) {
   if (!value) return "—"
   return new Date(value).toLocaleString("en-US", {
@@ -17,21 +26,10 @@ function formatDate(value: string | null) {
   })
 }
 
-function formatAmount(amount: number | null, currency: string | null) {
-  if (amount == null) return "—"
-  const code = (currency || "usd").toUpperCase()
-  try {
-    return new Intl.NumberFormat("en-US", { style: "currency", currency: code }).format(amount)
-  } catch {
-    return `${amount} ${code}`
-  }
-}
-
-export default async function AdminPurchasesPage() {
+export default async function AdminSubscribersPage() {
   const admin = await getAdminUser()
-
-  // If no admin emails are configured at all, surface a setup hint instead of a silent redirect.
   const adminEmails = getAdminEmails()
+
   if (adminEmails.length === 0) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#F6F9FC] px-6 text-[#0D2B45]">
@@ -50,19 +48,22 @@ export default async function AdminPurchasesPage() {
   }
 
   if (!admin) {
-    redirect(`/login?next=${encodeURIComponent("/admin/purchases")}`)
+    redirect(`/login?next=${encodeURIComponent("/admin/subscribers")}`)
   }
 
   const supabase = createAdminClient()
-  const { data: ebookRows, error } = await supabase
-    .from("ebook_purchases")
-    .select("id, ebook_slug, language, payer_email, amount, currency, status, granted_by, stripe_session_id, created_at")
+  const { data, error } = await supabase
+    .from("email_subscribers")
+    .select("id, email, first_name, language, kit_subscriber_id, created_at")
     .order("created_at", { ascending: false })
-    .limit(500)
+    .limit(5000)
 
-  const ebooks = ebookRows || []
-  const completedEbooks = ebooks.filter((r) => r.status === "completed")
-  const totalRevenue = completedEbooks.reduce((sum, r) => sum + (Number(r.amount) || 0), 0)
+  const subscribers = (data || []) as SubscriberRow[]
+  const startToday = new Date()
+  startToday.setHours(0, 0, 0, 0)
+  const newToday = subscribers.filter((s) => new Date(s.created_at) >= startToday).length
+  const english = subscribers.filter((s) => s.language === "en").length
+  const spanish = subscribers.filter((s) => s.language === "es").length
 
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
@@ -73,36 +74,35 @@ export default async function AdminPurchasesPage() {
           <p className="font-bold text-[#16A34A]">Owner Tools</p>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h1 className="mt-2 text-3xl font-extrabold">Purchases</h1>
-              <p className="mt-2 text-white/80">Ebook sales</p>
+              <h1 className="mt-2 text-3xl font-extrabold">Subscribers</h1>
+              <p className="mt-2 text-white/80">Newsletter &amp; ebook update list</p>
             </div>
             <a
-              href="/api/admin/export?type=purchases"
+              href="/api/admin/export?type=subscribers"
               className="rounded-lg bg-[#16A34A] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#15803D]"
             >
               Export CSV
             </a>
           </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            <StatCard label="Ebook Sales" value={`${completedEbooks.length}`} />
-            <StatCard label="Total Records" value={`${ebooks.length}`} />
-            <StatCard label="Revenue (completed)" value={formatAmount(totalRevenue, "usd")} />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard label="Total subscribers" value={`${subscribers.length}`} />
+            <StatCard label="New today" value={`${newToday}`} />
+            <StatCard label="English" value={`${english}`} />
+            <StatCard label="Spanish" value={`${spanish}`} />
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-10">
-        <h2 className="mb-4 text-xl font-bold">Ebook purchases</h2>
+        <h2 className="mb-4 text-xl font-bold">All subscribers</h2>
         {error ? (
           <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-red-700">
-            Failed to load purchases: {error.message}
+            Failed to load subscribers: {error.message}
           </div>
-        ) : ebooks.length === 0 ? (
+        ) : subscribers.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-10 text-center">
-            <p className="text-lg font-bold">No ebook purchases yet.</p>
-            <p className="mt-2 text-gray-600">
-              Completed ebook checkouts and admin-issued ebooks will appear here.
-            </p>
+            <p className="text-lg font-bold">No subscribers yet.</p>
+            <p className="mt-2 text-gray-600">Newsletter signups from the site will appear here.</p>
           </div>
         ) : (
           <div className="overflow-x-auto rounded-2xl border bg-white shadow-sm">
@@ -110,35 +110,29 @@ export default async function AdminPurchasesPage() {
               <thead className="border-b bg-[#F6F9FC] text-xs uppercase tracking-wide text-gray-500">
                 <tr>
                   <th className="px-4 py-3">Date</th>
-                  <th className="px-4 py-3">Ebook</th>
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">First name</th>
                   <th className="px-4 py-3">Lang</th>
-                  <th className="px-4 py-3">Buyer Email</th>
-                  <th className="px-4 py-3">Amount</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Source</th>
+                  <th className="px-4 py-3">Kit synced</th>
                 </tr>
               </thead>
               <tbody>
-                {ebooks.map((r) => (
-                  <tr key={r.id} className="border-b last:border-0 hover:bg-[#F6F9FC]">
-                    <td className="whitespace-nowrap px-4 py-3 text-gray-600">{formatDate(r.created_at)}</td>
-                    <td className="px-4 py-3 font-medium">{r.ebook_slug}</td>
-                    <td className="px-4 py-3 uppercase">{r.language}</td>
-                    <td className="px-4 py-3">{r.payer_email || "—"}</td>
-                    <td className="whitespace-nowrap px-4 py-3 font-bold">{formatAmount(Number(r.amount), r.currency)}</td>
+                {subscribers.map((s) => (
+                  <tr key={s.id} className="border-b last:border-0 hover:bg-[#F6F9FC]">
+                    <td className="whitespace-nowrap px-4 py-3 text-gray-600">{formatDate(s.created_at)}</td>
+                    <td className="px-4 py-3 font-medium">{s.email}</td>
+                    <td className="px-4 py-3">{s.first_name || "—"}</td>
+                    <td className="px-4 py-3 uppercase">{s.language || "—"}</td>
                     <td className="px-4 py-3">
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                          r.status === "completed"
-                            ? "bg-[#E7F7ED] text-[#16A34A]"
-                            : "bg-gray-100 text-gray-600"
-                        }`}
-                      >
-                        {r.status || "unknown"}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-500">
-                      {r.granted_by ? `Admin (${r.granted_by})` : r.stripe_session_id ? "Stripe" : "—"}
+                      {s.kit_subscriber_id ? (
+                        <span className="rounded-full bg-[#E7F7ED] px-2.5 py-1 text-xs font-bold text-[#16A34A]">
+                          Synced
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-bold text-gray-600">
+                          Local only
+                        </span>
+                      )}
                     </td>
                   </tr>
                 ))}
