@@ -35,6 +35,17 @@ create table if not exists public.lesson_progress (
   unique(user_id, course_id)
 );
 
+create table if not exists public.email_subscribers (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  first_name text,
+  language text,
+  kit_subscriber_id text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists email_subscribers_created_at_idx on public.email_subscribers (created_at desc);
+
 create table if not exists public.page_views (
   id uuid primary key default gen_random_uuid(),
   path text not null,
@@ -53,6 +64,13 @@ alter table public.subscriptions enable row level security;
 alter table public.courses enable row level security;
 alter table public.lesson_progress enable row level security;
 alter table public.page_views enable row level security;
+alter table public.email_subscribers enable row level security;
+
+drop policy if exists "Service role can manage subscribers" on public.email_subscribers;
+create policy "Service role can manage subscribers"
+on public.email_subscribers for all
+using (auth.role() = 'service_role')
+with check (auth.role() = 'service_role');
 
 drop policy if exists "Service role can manage page views" on public.page_views;
 create policy "Service role can manage page views"

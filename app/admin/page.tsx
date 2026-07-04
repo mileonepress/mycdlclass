@@ -23,7 +23,7 @@ export default async function AdminPage() {
   const db = createAdminClient()
   const today = startOfToday()
 
-  const [ebookCount, ebookToday, recentEbooks, viewsToday] = await Promise.all([
+  const [ebookCount, ebookToday, recentEbooks, viewsToday, subscriberCount] = await Promise.all([
     db.from("ebook_purchases").select("id", { count: "exact", head: true }).eq("status", "completed"),
     db.from("ebook_purchases").select("amount").eq("status", "completed").gte("created_at", today),
     db
@@ -32,6 +32,7 @@ export default async function AdminPage() {
       .order("created_at", { ascending: false })
       .limit(6),
     db.from("page_views").select("id", { count: "exact", head: true }).gte("created_at", today),
+    db.from("email_subscribers").select("id", { count: "exact", head: true }),
   ])
 
   const revenueToday = (ebookToday.data || []).reduce(
@@ -43,6 +44,7 @@ export default async function AdminPage() {
     { label: "Ebook sales", value: ebookCount.count ?? 0, href: "/admin/purchases" },
     { label: "Sales today", value: (ebookToday.data || []).length, href: "/admin/purchases" },
     { label: "Page views today", value: viewsToday.count ?? 0, href: "/admin/analytics" },
+    { label: "Subscribers", value: subscriberCount.count ?? 0, href: "/admin/subscribers" },
   ]
 
   return (
@@ -80,6 +82,20 @@ export default async function AdminPage() {
                 >
                   <p className="font-bold text-[#0D2B45]">View ebook purchases</p>
                   <p className="text-sm text-gray-500">Review all completed ebook sales and revenue.</p>
+                </Link>
+                <Link
+                  href="/admin/analytics"
+                  className="rounded-lg border border-gray-200 p-4 transition-colors hover:border-[#1E4D8C]"
+                >
+                  <p className="font-bold text-[#0D2B45]">View traffic &amp; page views</p>
+                  <p className="text-sm text-gray-500">See visitors, top pages, and referrers.</p>
+                </Link>
+                <Link
+                  href="/admin/subscribers"
+                  className="rounded-lg border border-gray-200 p-4 transition-colors hover:border-[#1E4D8C]"
+                >
+                  <p className="font-bold text-[#0D2B45]">Manage subscribers</p>
+                  <p className="text-sm text-gray-500">View newsletter list and export to CSV.</p>
                 </Link>
                 <Link
                   href="/admin/access"

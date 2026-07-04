@@ -69,6 +69,11 @@ export default function Footer() {
                   Contact Us
                 </Link>
               </li>
+              <li>
+                <Link href="/admin" className="hover:text-[#16A34A]">
+                  Admin Panel
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
