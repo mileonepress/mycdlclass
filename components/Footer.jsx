@@ -74,6 +74,11 @@ export default function Footer() {
                   Admin Panel
                 </Link>
               </li>
+              <li>
+                <a href="mailto:info@mycdlclass.com" className="hover:text-[#16A34A]">
+                  info@mycdlclass.com
+                </a>
+              </li>
             </ul>
           </div>
         </div>

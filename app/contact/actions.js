@@ -4,7 +4,10 @@ import { Resend } from "resend"
 import { createClient } from "@/lib/supabase/server"
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin"
 
+// Where contact messages are delivered (info@mycdlclass.com forwards here)
 const SUPPORT_EMAIL = "mileonepress@gmail.com"
+// Professional address shown publicly to customers
+const PUBLIC_CONTACT_EMAIL = "info@mycdlclass.com"
 
 export async function submitContactMessage(prevState, formData) {
   const name = String(formData.get("name") || "").trim()
@@ -93,7 +96,7 @@ export async function submitContactMessage(prevState, formData) {
     ok: false,
     error:
       "We couldn't submit your message automatically right now. Please email us directly at " +
-      SUPPORT_EMAIL +
+      PUBLIC_CONTACT_EMAIL +
       ".",
   }
 }

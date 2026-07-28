@@ -20,6 +20,12 @@ export default function ContactPage() {
             Questions about an ebook order or your PDF download? Send us a message and we&apos;ll get
             back to you by email as soon as we can.
           </p>
+          <p className="mt-6 text-pretty text-base text-white/85">
+            Prefer email? Reach us directly at{" "}
+            <a href="mailto:info@mycdlclass.com" className="font-semibold text-[#16A34A] hover:underline">
+              info@mycdlclass.com
+            </a>
+          </p>
         </div>
       </section>
 
