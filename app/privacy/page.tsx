@@ -176,7 +176,6 @@ const sections = [
 const contactRows = [
   { label: "Business", value: "Mile One Press / MyCDLClass" },
   { label: "Business Email", value: "info@mycdlclass.com", href: "mailto:info@mycdlclass.com" },
-  { label: "Privacy Email", value: "privacy@mycdlclass.com", href: "mailto:privacy@mycdlclass.com" },
   { label: "Website", value: "https://www.mycdlclass.com", href: "https://www.mycdlclass.com" },
   { label: "Mailing Address", value: "2347 Cove Lake Way, Stonecrest, GA 30058" },
 ]
