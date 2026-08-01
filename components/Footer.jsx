@@ -70,6 +70,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/privacy" className="hover:text-[#16A34A]">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
                 <Link href="/admin" className="hover:text-[#16A34A]">
                   Admin Panel
                 </Link>
