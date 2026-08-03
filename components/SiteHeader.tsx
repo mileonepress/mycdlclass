@@ -7,8 +7,6 @@ import Link from "next/link"
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/ebooks", label: "Ebooks" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
 ]
 
 export default function SiteHeader() {
