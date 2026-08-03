@@ -15,11 +15,11 @@ export default function HomePage() {
       {/* Hero */}
       <section className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 lg:grid-cols-2">
         <div>
-          <p className="mb-3 font-bold text-[#16A34A]">English &amp; Español CDL Prep Ebooks</p>
+          <p className="mb-3 font-bold text-[#1E4D8C]">English &amp; Español CDL Prep Ebooks</p>
 
           <h1 className="text-balance text-5xl font-extrabold leading-tight md:text-6xl">
             Pass Your CDL Test
-            <span className="block text-[#16A34A]">The First Time</span>
+            <span className="block text-[#1E4D8C]">The First Time</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-pretty text-lg">
@@ -30,7 +30,7 @@ export default function HomePage() {
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/ebooks"
-              className="rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#15803d]"
+              className="rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
             >
               Browse Ebooks
             </Link>
@@ -42,7 +42,7 @@ export default function HomePage() {
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
             {["Bilingual", "Instant PDF", "Mobile Ready", "No Account"].map((item) => (
               <div key={item} className="rounded-xl bg-white p-4 shadow">
-                <p className="font-bold text-[#16A34A]">✓</p>
+                <p className="font-bold text-[#1E4D8C]">✓</p>
                 <p className="font-bold">{item}</p>
               </div>
             ))}
@@ -64,7 +64,7 @@ export default function HomePage() {
       {/* How it works */}
       <section className="bg-[#061A2E] px-6 py-20 text-white">
         <div className="mx-auto max-w-7xl">
-          <p className="text-center text-sm font-semibold uppercase tracking-wider text-[#16A34A]">
+          <p className="text-center text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">
             Simple &amp; Seamless
           </p>
           <h2 className="mt-2 text-center text-4xl font-bold">How It Works</h2>
@@ -96,7 +96,7 @@ export default function HomePage() {
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-wider text-[#16A34A]">
+            <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">
               Study Offline
             </p>
             <h2 className="mt-2 text-4xl font-bold text-[#0D2B45]">Popular CDL Prep Ebooks</h2>
@@ -123,7 +123,7 @@ export default function HomePage() {
                   />
                   <span
                     className={`absolute right-3 top-3 rounded-full px-3 py-1 text-xs font-bold text-white ${
-                      ebook.language === "es" ? "bg-[#1E4D8C]" : "bg-[#16A34A]"
+                      ebook.language === "es" ? "bg-[#1E4D8C]" : "bg-[#1477DA]"
                     }`}
                   >
                     {ebook.languageLabel}
@@ -144,7 +144,7 @@ export default function HomePage() {
           <div className="mt-12 text-center">
             <Link
               href="/ebooks"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#16A34A] px-8 py-3 font-bold text-white transition-colors hover:bg-[#15803d]"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#1E4D8C] px-8 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
             >
               View All Ebooks
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -173,7 +173,7 @@ export default function HomePage() {
 function Step({ number, title, text }) {
   return (
     <div className="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#16A34A] text-xl font-extrabold text-white">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1E4D8C] text-xl font-extrabold text-white">
         {number}
       </div>
       <h3 className="mt-4 text-xl font-bold">{title}</h3>

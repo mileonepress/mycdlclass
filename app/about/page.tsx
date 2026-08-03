@@ -37,7 +37,7 @@ export default function AboutPage() {
 
       <section className="bg-[#061A2E] px-6 py-20 text-white">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#16A34A]">About Us</p>
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">About Us</p>
           <h1 className="mt-2 text-balance text-4xl font-extrabold md:text-5xl">
             Helping drivers earn their CDL with confidence
           </h1>
@@ -54,7 +54,7 @@ export default function AboutPage() {
         <div className="grid gap-6 sm:grid-cols-3">
           {stats.map((stat) => (
             <div key={stat.label} className="rounded-2xl bg-white p-8 text-center shadow-lg">
-              <p className="text-3xl font-extrabold text-[#16A34A]">{stat.value}</p>
+              <p className="text-3xl font-extrabold text-[#1E4D8C]">{stat.value}</p>
               <p className="mt-2 text-sm font-medium text-gray-600">{stat.label}</p>
             </div>
           ))}
@@ -108,7 +108,7 @@ export default function AboutPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/ebooks"
-              className="rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#15803d]"
+              className="rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
             >
               Browse Ebooks
             </Link>

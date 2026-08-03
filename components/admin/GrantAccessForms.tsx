@@ -45,7 +45,7 @@ export function GrantEbookForm({ ebooks }: { ebooks: Option[] }) {
         {pending ? "Sending..." : "Issue ebook & email link"}
       </button>
       {state.message && (
-        <p className={`text-sm ${state.ok ? "text-[#16A34A]" : "text-red-600"}`}>{state.message}</p>
+        <p className={`text-sm ${state.ok ? "text-[#1E4D8C]" : "text-red-600"}`}>{state.message}</p>
       )}
     </form>
   )

@@ -33,8 +33,8 @@ export default function NewsletterSignup({
 
   if (status === "success") {
     return (
-      <div className="rounded-2xl bg-[#E7F7ED] p-6 text-center">
-        <p className="font-bold text-[#16A34A]">You&apos;re subscribed!</p>
+      <div className="rounded-2xl bg-[#EFF6FF] p-6 text-center">
+        <p className="font-bold text-[#1E4D8C]">You&apos;re subscribed!</p>
         <p className="mt-1 text-sm text-gray-600">Check your inbox for CDL study tips soon.</p>
       </div>
     )
@@ -60,7 +60,7 @@ export default function NewsletterSignup({
         <button
           type="submit"
           disabled={status === "loading"}
-          className="rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#15803d] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {status === "loading" ? "Subscribing..." : "Subscribe"}
         </button>

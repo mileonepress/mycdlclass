@@ -22,7 +22,7 @@ export default async function AdminAccessPage() {
       <AdminNav email={admin.email} />
       <main className="min-h-screen bg-[#F1F5F9] px-6 py-10">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#16A34A]">Admin Portal</p>
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">Admin Portal</p>
           <h1 className="mt-1 text-3xl font-bold text-[#0D2B45]">Issue an Ebook by Email</h1>
           <p className="mt-1 text-gray-600">
             Manually send an ebook download link to a customer.

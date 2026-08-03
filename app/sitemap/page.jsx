@@ -41,7 +41,7 @@ export default function VisualSitemapPage() {
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link
             href="/ebooks"
-            className="rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#15803D]"
+            className="rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
           >
             Browse Ebooks
           </Link>
@@ -65,11 +65,11 @@ export default function VisualSitemapPage() {
                   <Link
                     key={`${group.title}-${page.name}`}
                     href={page.url}
-                    className="block rounded-xl border border-gray-200 p-4 transition-colors hover:border-[#16A34A] hover:bg-green-50"
+                    className="block rounded-xl border border-gray-200 p-4 transition-colors hover:border-[#1E4D8C] hover:bg-[#EFF6FF]"
                   >
                     <p className="font-bold">{page.name}</p>
                     <p className="mt-1 text-sm text-gray-600">{page.url}</p>
-                    <p className="mt-2 text-sm font-medium text-[#16A34A]">{page.goal}</p>
+                    <p className="mt-2 text-sm font-medium text-[#1E4D8C]">{page.goal}</p>
                   </Link>
                 ))}
               </div>
@@ -85,7 +85,7 @@ export default function VisualSitemapPage() {
           <div className="mt-10 grid gap-4 sm:grid-cols-2 md:grid-cols-5">
             {journey.map((step, index) => (
               <div key={step} className="rounded-xl border border-gray-200 p-5 text-center">
-                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#16A34A] font-bold text-white">
+                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#1E4D8C] font-bold text-white">
                   {index + 1}
                 </div>
                 <p className="font-bold">{step}</p>

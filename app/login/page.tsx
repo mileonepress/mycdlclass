@@ -201,12 +201,12 @@ export default function LoginPage() {
           )}
 
           {error && <p className="text-sm text-red-600">{error}</p>}
-          {message && <p className="text-sm text-[#16A34A]">{message}</p>}
+          {message && <p className="text-sm text-[#1E4D8C]">{message}</p>}
 
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#16A34A] py-3 font-bold text-white transition-colors hover:bg-[#15803d] disabled:cursor-not-allowed disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#1E4D8C] py-3 font-bold text-white transition-colors hover:bg-[#173B66] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? (
               <>

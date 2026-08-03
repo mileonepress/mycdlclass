@@ -22,7 +22,7 @@ export default function ContactPage() {
           </p>
           <p className="mt-6 text-pretty text-base text-white/85">
             Prefer email? Reach us directly at{" "}
-            <a href="mailto:info@mycdlclass.com" className="font-semibold text-[#16A34A] hover:underline">
+            <a href="mailto:info@mycdlclass.com" className="font-semibold text-[#1E4D8C] hover:underline">
               info@mycdlclass.com
             </a>
           </p>
