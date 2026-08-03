@@ -15,7 +15,7 @@ export default function Footer() {
         <div className="grid gap-8 md:grid-cols-3">
           <div>
             <Link href="/" className="text-xl font-extrabold">
-              My<span className="text-[#16A34A]">CDL</span>Class
+              My<span className="text-[#1E4D8C]">CDL</span>Class
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
               Downloadable bilingual CDL prep ebooks to help you pass your exam. Instant PDF delivery,
@@ -27,7 +27,7 @@ export default function Footer() {
                 href="https://www.mileonepress.com"
                 target="_blank"
                 rel="noopener"
-                className="font-semibold text-[#16A34A] hover:underline"
+                className="font-semibold text-[#1E4D8C] hover:underline"
               >
                 MileOne Press
               </a>{" "}
@@ -39,17 +39,17 @@ export default function Footer() {
             <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Shop</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
               <li>
-                <Link href="/ebooks" className="hover:text-[#16A34A]">
+                <Link href="/ebooks" className="hover:text-[#1E4D8C]">
                   CDL Prep Ebooks
                 </Link>
               </li>
               <li>
-                <Link href="/ebooks" className="hover:text-[#16A34A]">
+                <Link href="/ebooks" className="hover:text-[#1E4D8C]">
                   English Editions
                 </Link>
               </li>
               <li>
-                <Link href="/ebooks" className="hover:text-[#16A34A]">
+                <Link href="/ebooks" className="hover:text-[#1E4D8C]">
                   Spanish Editions
                 </Link>
               </li>
@@ -60,27 +60,27 @@ export default function Footer() {
             <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Support</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
               <li>
-                <Link href="/about" className="hover:text-[#16A34A]">
+                <Link href="/about" className="hover:text-[#1E4D8C]">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-[#16A34A]">
+                <Link href="/contact" className="hover:text-[#1E4D8C]">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="hover:text-[#16A34A]">
+                <Link href="/privacy" className="hover:text-[#1E4D8C]">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="hover:text-[#16A34A]">
+                <Link href="/admin" className="hover:text-[#1E4D8C]">
                   Admin Panel
                 </Link>
               </li>
               <li>
-                <a href="mailto:info@mycdlclass.com" className="hover:text-[#16A34A]">
+                <a href="mailto:info@mycdlclass.com" className="hover:text-[#1E4D8C]">
                   info@mycdlclass.com
                 </a>
               </li>
@@ -95,7 +95,7 @@ export default function Footer() {
               href="https://www.mileonepress.com"
               target="_blank"
               rel="noopener"
-              className="hover:text-[#16A34A]"
+              className="hover:text-[#1E4D8C]"
             >
               MileOne Press
             </a>{" "}

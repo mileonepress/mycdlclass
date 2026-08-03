@@ -10,7 +10,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#15803D] disabled:cursor-not-allowed disabled:opacity-60"
+      className="w-full rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66] disabled:cursor-not-allowed disabled:opacity-60"
     >
       {pending ? "Sending..." : "Send Message"}
     </button>
@@ -22,7 +22,7 @@ export default function ContactForm() {
 
   if (state?.ok) {
     return (
-      <div className="rounded-2xl border border-[#16A34A]/30 bg-[#16A34A]/10 p-8 text-center">
+      <div className="rounded-2xl border border-[#1E4D8C]/30 bg-[#1E4D8C]/10 p-8 text-center">
         <h2 className="text-2xl font-bold text-[#0D2B45]">Message sent</h2>
         <p className="mt-3 leading-relaxed text-gray-700">
           Thanks for reaching out. We&apos;ve received your message and will reply to your email as soon as possible.
@@ -44,7 +44,7 @@ export default function ContactForm() {
             type="text"
             required
             autoComplete="name"
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-[#0D2B45] outline-none focus:border-[#16A34A] focus:ring-2 focus:ring-[#16A34A]/20"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-[#0D2B45] outline-none focus:border-[#1E4D8C] focus:ring-2 focus:ring-[#1E4D8C]/20"
             placeholder="Your full name"
           />
         </div>
@@ -59,7 +59,7 @@ export default function ContactForm() {
             type="email"
             required
             autoComplete="email"
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-[#0D2B45] outline-none focus:border-[#16A34A] focus:ring-2 focus:ring-[#16A34A]/20"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-[#0D2B45] outline-none focus:border-[#1E4D8C] focus:ring-2 focus:ring-[#1E4D8C]/20"
             placeholder="you@example.com"
           />
         </div>
@@ -74,7 +74,7 @@ export default function ContactForm() {
             required
             rows={6}
             maxLength={5000}
-            className="w-full resize-y rounded-lg border border-gray-300 px-4 py-3 text-[#0D2B45] outline-none focus:border-[#16A34A] focus:ring-2 focus:ring-[#16A34A]/20"
+            className="w-full resize-y rounded-lg border border-gray-300 px-4 py-3 text-[#0D2B45] outline-none focus:border-[#1E4D8C] focus:ring-2 focus:ring-[#1E4D8C]/20"
             placeholder="Tell us about your question or issue..."
           />
         </div>

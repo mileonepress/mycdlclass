@@ -102,10 +102,10 @@ export async function sendEbookEmail(
         <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#0D2B45">
           <h2 style="color:#0D2B45">Thank you for your purchase!</h2>
           <p>Your CDL prep ebook is ready to download:</p>
-          <p style="font-size:18px;font-weight:bold;margin:16px 0">${title} <span style="color:#16A34A">(${languageLabel})</span></p>
+          <p style="font-size:18px;font-weight:bold;margin:16px 0">${title} <span style="color:#1E4D8C">(${languageLabel})</span></p>
           <p>
             <a href="${downloadUrl}"
-               style="display:inline-block;background:#16A34A;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:bold">
+               style="display:inline-block;background:#1E4D8C;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:bold">
               Download your PDF
             </a>
           </p>

@@ -1,6 +1,14 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
 import ViewTracker from '@/components/ViewTracker'
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 const SITE_URL = 'https://www.mycdlclass.com'
 const PARENT_URL = 'https://www.mileonepress.com'
@@ -93,7 +101,7 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="bg-background">
+    <html lang="en" className={`bg-background ${inter.variable}`}>
       <body>
         <script
           type="application/ld+json"

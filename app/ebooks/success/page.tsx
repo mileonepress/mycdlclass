@@ -57,7 +57,7 @@ export default async function EbookSuccessPage({
       </nav>
 
       <section className="flex min-h-[70vh] flex-col items-center justify-center px-6 py-16 text-center">
-        <div className="mb-8 rounded-full bg-[#16A34A] p-6">
+        <div className="mb-8 rounded-full bg-[#1E4D8C] p-6">
           <svg className="h-16 w-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg>
@@ -79,7 +79,7 @@ export default async function EbookSuccessPage({
           {downloadUrl ? (
             <a
               href={downloadUrl}
-              className="rounded-xl bg-[#16A34A] px-8 py-4 font-bold text-white transition-colors hover:bg-[#15803d]"
+              className="rounded-xl bg-[#1E4D8C] px-8 py-4 font-bold text-white transition-colors hover:bg-[#173B66]"
             >
               Download your PDF
             </a>

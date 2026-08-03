@@ -120,7 +120,7 @@ export default async function AdminAnalyticsPage() {
 
       <section className="bg-[#061A2E] px-6 py-12 text-white">
         <div className="mx-auto max-w-7xl">
-          <p className="font-bold text-[#16A34A]">Owner Tools</p>
+          <p className="font-bold text-[#1E4D8C]">Owner Tools</p>
           <h1 className="mt-2 text-3xl font-extrabold">Traffic &amp; Views</h1>
           <p className="mt-2 text-white/80">Page views over the last 30 days</p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -217,7 +217,7 @@ export default async function AdminAnalyticsPage() {
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl bg-white/10 p-6">
-      <p className="text-3xl font-extrabold text-[#16A34A]">{value}</p>
+      <p className="text-3xl font-extrabold text-[#1E4D8C]">{value}</p>
       <p className="mt-1 text-sm text-white/80">{label}</p>
     </div>
   )

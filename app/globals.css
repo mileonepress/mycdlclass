@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-geist-sans), 'Geist Fallback';
+  --font-heading: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-sans: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), 'Geist Mono Fallback';
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -49,19 +49,26 @@
 }
 
 :root {
-  --navy: #061524;
-  --ink: #0a1724;
-  --blue: #0066c9;
-  --deep-blue: #06457f;
-  --sky: #37a8ff;
-  --ice: #f4f9ff;
+  /* MyCDLClass app-aligned brand tokens */
+  --navy: #061A2E;        /* Dark midnight blue — deep backgrounds/contrast */
+  --ink: #0D2B45;         /* Primary font color — headings & body */
+  --ink-strong: #0B2B5E;  /* Deep navy headers / special emphasis */
+  --blue: #3A83E4;        /* Action gradient start / interactive */
+  --deep-blue: #1E4D8C;   /* Primary brand color / gradient end */
+  --sky: #1477DA;         /* Secondary interactive, active states */
+  --highlight: #0062FF;   /* Bright accent for special highlights */
+  --ice: #F6F9FC;         /* Soft light gray section background */
+  --card-soft: #F8FAFC;   /* Card surface fill */
+  --selected: #EFF6FF;    /* Selected items, chips, icon backgrounds */
   --white: #ffffff;
-  --muted-color: #627386;
-  --line: #d8e7f5;
+  --muted-color: #717680; /* Subtitles, captions, descriptions */
+  --hint: #535862;        /* Secondary labels & input hints */
+  --line: #F1F5F9;        /* Light border */
   --green: #14a86b;
   --warning: #f6a21a;
+  --price: #FEB510;       /* Pricing badges & featured prices */
   --danger: #dc3545;
-  --shadow: 0 24px 70px rgba(6, 21, 36, .12);
+  --shadow: 0 24px 70px rgba(6, 26, 46, .12);
   
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -155,8 +162,8 @@ html {
 body {
   margin: 0;
   background: var(--ice);
-  color: var(--navy);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  font-family: var(--font-inter), Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -346,7 +353,7 @@ h3 { margin-top: 0; }
   border: 1px solid var(--line);
   border-radius: 18px;
   padding: 15px;
-  background: #fbfdff;
+  background: var(--card-soft);
 }
 
 .stat strong {
@@ -386,7 +393,7 @@ h3 { margin-top: 0; }
   display: grid;
   place-items: center;
   border-radius: 16px;
-  background: #e8f4ff;
+  background: var(--selected);
   color: var(--deep-blue);
   font-weight: 950;
   margin-bottom: 16px;
@@ -402,6 +409,7 @@ h3 { margin-top: 0; }
   font-weight: 950;
   letter-spacing: -.06em;
   margin: 12px 0;
+  color: var(--ink-strong);
 }
 
 .list {
@@ -500,7 +508,7 @@ h3 { margin-top: 0; }
 .progress-wrap {
   height: 12px;
   border-radius: 99px;
-  background: #e7eef8;
+  background: var(--selected);
   overflow: hidden;
 }
 
@@ -514,7 +522,7 @@ h3 { margin-top: 0; }
   display: inline-flex;
   align-items: center;
   border-radius: 999px;
-  background: #eaf4ff;
+  background: var(--selected);
   color: var(--deep-blue);
   padding: 7px 11px;
   font-size: 12px;

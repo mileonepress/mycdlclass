@@ -25,13 +25,13 @@ export default function SiteHeader() {
         {/* Desktop links */}
         <div className="hidden items-center gap-6 text-sm md:flex">
           {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="transition-colors hover:text-[#16A34A]">
+            <Link key={link.href} href={link.href} className="transition-colors hover:text-[#1E4D8C]">
               {link.label}
             </Link>
           ))}
           <Link
             href="/ebooks"
-            className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold transition-colors hover:bg-[#15803d]"
+            className="rounded-lg bg-[#1E4D8C] px-4 py-2 font-bold transition-colors hover:bg-[#173B66]"
           >
             Browse Ebooks
           </Link>
@@ -75,7 +75,7 @@ export default function SiteHeader() {
             <Link
               href="/ebooks"
               onClick={() => setOpen(false)}
-              className="mt-2 rounded-lg bg-[#16A34A] px-3 py-3 text-center font-bold transition-colors hover:bg-[#15803d]"
+              className="mt-2 rounded-lg bg-[#1E4D8C] px-3 py-3 text-center font-bold transition-colors hover:bg-[#173B66]"
             >
               Browse Ebooks
             </Link>

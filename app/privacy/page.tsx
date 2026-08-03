@@ -187,7 +187,7 @@ export default function PrivacyPolicyPage() {
 
       <section className="bg-[#061A2E] px-6 py-16 text-white">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#16A34A]">Privacy Policy</p>
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">Privacy Policy</p>
           <h1 className="mt-2 text-balance text-4xl font-extrabold md:text-5xl">MyCDLClass Privacy Policy</h1>
           <p className="mt-4 text-pretty text-lg text-white/75">Website, Android App, and Apple iOS App</p>
           <p className="mt-4 text-sm text-white/60">Effective Date: August 1, 2026 &nbsp;|&nbsp; Last Updated: August 1, 2026</p>
@@ -195,7 +195,7 @@ export default function PrivacyPolicyPage() {
       </section>
 
       <article className="mx-auto max-w-3xl px-6 py-14">
-        <div className="rounded-2xl border border-[#16A34A]/20 bg-white p-6 shadow-sm md:p-8">
+        <div className="rounded-2xl border border-[#1E4D8C]/20 bg-white p-6 shadow-sm md:p-8">
           <p className="leading-relaxed text-gray-600">
             This Privacy Policy applies to MyCDLClass.com and the MyCDLClass mobile applications operated by Mile One
             Press. It explains what information we collect, how we use and share it, and the choices available to users.
@@ -217,7 +217,7 @@ export default function PrivacyPolicyPage() {
                 <ul className="mt-4 space-y-3">
                   {section.list.map((item, i) => (
                     <li key={i} className="flex gap-3 leading-relaxed text-gray-600">
-                      <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#16A34A]" />
+                      <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#1E4D8C]" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -236,7 +236,7 @@ export default function PrivacyPolicyPage() {
                     <ul className="mt-3 space-y-3">
                       {sub.list.map((item, i) => (
                         <li key={i} className="flex gap-3 leading-relaxed text-gray-600">
-                          <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#16A34A]" />
+                          <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#1E4D8C]" />
                           <span>{item}</span>
                         </li>
                       ))}

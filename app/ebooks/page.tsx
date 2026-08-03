@@ -20,7 +20,7 @@ export default function EbooksPage() {
 
       <section className="bg-[#061A2E] px-6 py-16 text-white">
         <div className="mx-auto max-w-7xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#16A34A]">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">
             Downloadable PDF Ebooks
           </p>
           <h1 className="mt-2 text-balance text-4xl font-extrabold md:text-5xl">
@@ -51,7 +51,7 @@ export default function EbooksPage() {
                 />
                 <span
                   className={`absolute right-3 top-3 rounded-full px-3 py-1 text-xs font-bold text-white ${
-                    ebook.language === "es" ? "bg-[#1E4D8C]" : "bg-[#16A34A]"
+                    ebook.language === "es" ? "bg-[#1E4D8C]" : "bg-[#1477DA]"
                   }`}
                 >
                   {ebook.languageLabel}

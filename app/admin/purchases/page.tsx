@@ -70,7 +70,7 @@ export default async function AdminPurchasesPage() {
 
       <section className="bg-[#061A2E] px-6 py-12 text-white">
         <div className="mx-auto max-w-7xl">
-          <p className="font-bold text-[#16A34A]">Owner Tools</p>
+          <p className="font-bold text-[#1E4D8C]">Owner Tools</p>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <h1 className="mt-2 text-3xl font-extrabold">Purchases</h1>
@@ -78,7 +78,7 @@ export default async function AdminPurchasesPage() {
             </div>
             <a
               href="/api/admin/export?type=purchases"
-              className="rounded-lg bg-[#16A34A] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#15803D]"
+              className="rounded-lg bg-[#1E4D8C] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#173B66]"
             >
               Export CSV
             </a>
@@ -130,7 +130,7 @@ export default async function AdminPurchasesPage() {
                       <span
                         className={`rounded-full px-2.5 py-1 text-xs font-bold ${
                           r.status === "completed"
-                            ? "bg-[#E7F7ED] text-[#16A34A]"
+                            ? "bg-[#EFF6FF] text-[#1E4D8C]"
                             : "bg-gray-100 text-gray-600"
                         }`}
                       >
@@ -154,7 +154,7 @@ export default async function AdminPurchasesPage() {
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl bg-white/10 p-6">
-      <p className="text-3xl font-extrabold text-[#16A34A]">{value}</p>
+      <p className="text-3xl font-extrabold text-[#1E4D8C]">{value}</p>
       <p className="mt-1 text-sm text-white/80">{label}</p>
     </div>
   )
