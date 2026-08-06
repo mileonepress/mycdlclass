@@ -38,15 +38,27 @@ export async function getCourseCatalog(lang: Lang = "en"): Promise<CourseSummary
   }
 
   // Counts via the admin client (questions table has no public read policy).
+  // NOTE: A single bulk `select("course_id")` is capped at 1000 rows by PostgREST,
+  // which silently undercounts the ~1,086 seeded questions. Exact per-course head
+  // counts sidestep the cap entirely and stay correct as the catalog grows.
   const admin = createAdminClient()
-  const [{ data: qCounts }, { data: examRows }] = await Promise.all([
-    admin.from("questions").select("course_id"),
-    admin.from("practice_tests").select("course_id").eq("status", "published"),
-  ])
-  const qByCourse = tally(qCounts, "course_id")
-  const eByCourse = tally(examRows, "course_id")
+  const rows = courses ?? []
+  const counts = await Promise.all(
+    rows.map(async (c: any) => {
+      const [{ count: qCount }, { count: eCount }] = await Promise.all([
+        admin.from("questions").select("id", { count: "exact", head: true }).eq("course_id", c.id),
+        admin
+          .from("practice_tests")
+          .select("id", { count: "exact", head: true })
+          .eq("course_id", c.id)
+          .eq("status", "published"),
+      ])
+      return { id: c.id, questionCount: qCount ?? 0, examCount: eCount ?? 0 }
+    }),
+  )
+  const countById = Object.fromEntries(counts.map((r) => [r.id, r]))
 
-  return (courses ?? []).map((c: any) => {
+  return rows.map((c: any) => {
     const t = pickTranslation(c.course_translations, lang)
     return {
       id: c.id,
@@ -61,16 +73,10 @@ export async function getCourseCatalog(lang: Lang = "en"): Promise<CourseSummary
       sortOrder: c.sort_order ?? 0,
       title: t?.title ?? c.slug,
       shortDescription: t?.short_description ?? null,
-      questionCount: qByCourse[c.id] ?? 0,
-      examCount: eByCourse[c.id] ?? 0,
+      questionCount: countById[c.id]?.questionCount ?? 0,
+      examCount: countById[c.id]?.examCount ?? 0,
     }
   })
-}
-
-function tally(rows: { [k: string]: any }[] | null | undefined, key: string): Record<string, number> {
-  const out: Record<string, number> = {}
-  for (const r of rows ?? []) out[r[key]] = (out[r[key]] ?? 0) + 1
-  return out
 }
 
 export async function getCourseBySlug(slug: string, lang: Lang = "en"): Promise<CourseDetail | null> {

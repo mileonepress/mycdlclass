@@ -39,6 +39,11 @@ export default function Footer() {
             <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Shop</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
               <li>
+                <Link href="/courses" className="hover:text-[#1E4D8C]">
+                  Interactive Courses
+                </Link>
+              </li>
+              <li>
                 <Link href="/ebooks" className="hover:text-[#1E4D8C]">
                   CDL Prep Ebooks
                 </Link>
