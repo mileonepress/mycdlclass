@@ -33,8 +33,6 @@ export default async function CoursesPage({
   } = await supabase.auth.getUser()
   const owned = await getOwnedCourseIds(user?.id ?? null)
 
-  const totalQuestions = courses.reduce((sum, c) => sum + c.questionCount, 0)
-
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
       <SiteHeader />
@@ -59,7 +57,7 @@ export default async function CoursesPage({
 
           <div className="mt-8 grid max-w-2xl grid-cols-3 gap-3">
             <Stat value={`${courses.length}`} label={t.catalog.statCourses} />
-            <Stat value={`${totalQuestions.toLocaleString()}`} label={t.catalog.statQuestions} />
+            <Stat value="800+" label={t.catalog.statQuestions} />
             <Stat value="EN / ES" label={t.common.bilingual} />
           </div>
         </div>

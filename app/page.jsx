@@ -17,7 +17,6 @@ export default async function HomePage({ searchParams }) {
   const t = getSiteStrings(lang)
   const featured = listEbookProducts().slice(0, 3)
   const courses = await getCourseCatalog(lang)
-  const totalQuestions = courses.reduce((sum, c) => sum + c.questionCount, 0)
 
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
@@ -64,10 +63,7 @@ export default async function HomePage({ searchParams }) {
 
             <div className="mt-10 grid grid-cols-3 gap-4">
               <HeroStat value={`${courses.length}`} label={t.home.statCourses} />
-              <HeroStat
-                value={totalQuestions > 0 ? `${totalQuestions.toLocaleString()}+` : "1,000+"}
-                label={t.home.statQuestions}
-              />
+              <HeroStat value="800+" label={t.home.statQuestions} />
               <HeroStat value="EN / ES" label={t.common.bilingual} />
             </div>
           </div>
