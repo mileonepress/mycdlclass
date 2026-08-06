@@ -61,7 +61,7 @@ export default function CourseCard({ course, owned = false }: { course: CourseSu
         </div>
 
         <div className="mt-5 flex items-center justify-between border-t border-[#F1F5F9] pt-4">
-          <span className="text-sm font-bold text-[#14a86b]">3 free questions</span>
+          <span className="text-sm font-bold text-[#14a86b]">3 free practice questions</span>
           <span className="text-sm font-extrabold text-[#1E4D8C] group-hover:underline">
             {owned ? "Continue" : "View course"} &rarr;
           </span>

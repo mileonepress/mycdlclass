@@ -47,18 +47,8 @@ function parseWorkbook() {
 }
 const d = parseWorkbook()
 
-// Per-course pricing in cents (one-time purchase). Sensible CDL defaults.
-const PRICE_BY_CATEGORY = {
-  general_knowledge: 2999,
-  air_brakes: 1999,
-  combination: 2499,
-  hazmat: 2999,
-  tanker: 1999,
-  doubles_triples: 1999,
-  passenger: 2499,
-  school_bus: 2499,
-  pre_trip: 2999,
-}
+// Flat per-course price in cents (one-time purchase), same as the ebooks.
+const COURSE_PRICE_CENTS = 999
 
 const bool = (v) => v === true || v === 'true' || v === 'TRUE' || v === 1 || v === '1'
 const jsonb = (v) => {
@@ -103,7 +93,7 @@ async function main() {
       sort_order: num(c.sort_order) ?? 0,
       estimated_minutes: num(c.estimated_minutes),
       passing_score: num(c.passing_score) ?? 80,
-      price_cents: PRICE_BY_CATEGORY[c.category] ?? 2999,
+      price_cents: COURSE_PRICE_CENTS,
     })),
   )
 
