@@ -104,6 +104,15 @@ export default async function AdminPage() {
                   <p className="font-bold text-[#0D2B45]">Issue an ebook by email</p>
                   <p className="text-sm text-gray-500">Send a secure download link to a customer.</p>
                 </Link>
+                <a
+                  href="http://206.162.244.25:3001"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg border border-gray-200 p-4 transition-colors hover:border-[#1E4D8C]"
+                >
+                  <p className="font-bold text-[#0D2B45]">Mobile App Admin Panel</p>
+                  <p className="text-sm text-gray-500">Open the mobile app admin panel in a new tab.</p>
+                </a>
               </div>
             </section>
 
