@@ -20,10 +20,17 @@ const PRICE_ENV_BY_SLUG: Record<string, string> = {
   "doubles-triples": "STRIPE_DOUBLES_TRIPLES_PRICE_ID",
 }
 
+// A real Stripe Price ID is `price_` followed by a long alphanumeric token.
+// This deliberately rejects placeholders like `price_xxxxx` and any corrupted
+// values so a bad env var can never break checkout — we fall back to dynamic
+// $9.99 pricing from the database instead.
+const VALID_PRICE_ID = /^price_[A-Za-z0-9]{14,}$/
+
 /** Returns a valid Stripe Price ID for the slug, or null to use dynamic pricing. */
 export function getStripePriceId(slug: string): string | null {
   const envName = PRICE_ENV_BY_SLUG[slug]
   if (!envName) return null
   const priceId = process.env[envName]?.trim()
-  return priceId && priceId.startsWith("price_") ? priceId : null
+  if (!priceId || !VALID_PRICE_ID.test(priceId) || /x{4,}/i.test(priceId)) return null
+  return priceId
 }

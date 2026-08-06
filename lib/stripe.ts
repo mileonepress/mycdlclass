@@ -12,9 +12,9 @@ export function getStripe(): Stripe {
     throw new Error("STRIPE_SECRET_KEY is not set")
   }
   if (!_stripe) {
-    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: "2025-02-24.acacia",
-    })
+    // No explicit apiVersion: use the version the installed SDK ships with so
+    // the pin can't drift out of sync with the @types and break the build.
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
   }
   return _stripe
 }
