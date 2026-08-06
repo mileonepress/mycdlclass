@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { getStripe } from "@/lib/stripe"
 import { createClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { getStripePriceId } from "@/lib/courses/stripePrices"
 
 export const runtime = "nodejs"
 
@@ -56,23 +57,29 @@ export async function POST(request: Request) {
       process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || new URL(request.url).origin
     const siteUrl = /^https?:\/\//.test(rawSiteUrl) ? rawSiteUrl : `https://${rawSiteUrl}`
 
+    // Prefer a fixed per-course Stripe Price ID when one is configured; otherwise
+    // fall back to a dynamic line item built from the DB price so every course
+    // still checks out. Price is always resolved server-side, never from the client.
+    const priceId = getStripePriceId(course.slug)
+    const lineItem = priceId
+      ? { quantity: 1, price: priceId }
+      : {
+          quantity: 1,
+          price_data: {
+            currency: "usd",
+            unit_amount: course.price_cents,
+            product_data: {
+              name: `${title} — Interactive CDL Course`,
+            },
+          },
+        }
+
     const session = await getStripe().checkout.sessions.create(
       {
         mode: "payment",
         customer_email: user.email,
         client_reference_id: user.id,
-        line_items: [
-          {
-            quantity: 1,
-            price_data: {
-              currency: "usd",
-              unit_amount: course.price_cents,
-              product_data: {
-                name: `${title} — Interactive CDL Course`,
-              },
-            },
-          },
-        ],
+        line_items: [lineItem],
         metadata: {
           kind: "course",
           user_id: user.id,

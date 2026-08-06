@@ -5,9 +5,11 @@ import { ArrowLeft, CheckCircle2 } from "lucide-react"
 import SiteHeader from "@/components/SiteHeader"
 import Footer from "@/components/Footer"
 import QuizPlayer from "@/components/courses/QuizPlayer"
+import LanguageToggle from "@/components/courses/LanguageToggle"
 import { getCourseBySlug, getFullQuestions, hasEntitlement } from "@/lib/courses/queries"
 import { verifyAndGrantFromSession } from "@/lib/courseEntitlements"
 import { formatPrice } from "@/lib/courses/presentation"
+import { getQuizStrings, normalizeLang } from "@/lib/courses/quizStrings"
 import { createClient } from "@/lib/supabase/server"
 
 export const dynamic = "force-dynamic"
@@ -22,12 +24,14 @@ export default async function CourseLearnPage({
   searchParams,
 }: {
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ session_id?: string }>
+  searchParams: Promise<{ session_id?: string; lang?: string }>
 }) {
   const { slug } = await params
-  const { session_id } = await searchParams
+  const { session_id, lang: rawLang } = await searchParams
+  const lang = normalizeLang(rawLang)
+  const t = getQuizStrings(lang)
 
-  const course = await getCourseBySlug(slug, "en")
+  const course = await getCourseBySlug(slug, lang)
   if (!course) notFound()
 
   const supabase = await createClient()
@@ -48,7 +52,7 @@ export default async function CourseLearnPage({
     owned = await verifyAndGrantFromSession(session_id, user.id, course.id)
   }
 
-  const questions = owned ? await getFullQuestions(user.id, course.id, "en") : null
+  const questions = owned ? await getFullQuestions(user.id, course.id, lang) : null
 
   // Not entitled — send back to the sales page.
   if (!questions) {
@@ -61,24 +65,28 @@ export default async function CourseLearnPage({
 
       <section className="px-6 py-10">
         <div className="mx-auto max-w-3xl">
-          <Link
-            href={`/courses/${course.slug}`}
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1E4D8C] hover:underline"
-          >
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" /> {course.title}
-          </Link>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <Link
+              href={`/courses/${course.slug}`}
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1E4D8C] hover:underline"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" /> {course.title}
+            </Link>
+            <LanguageToggle
+              basePath={`/courses/${course.slug}/learn`}
+              current={lang}
+              extraQuery={{ session_id }}
+            />
+          </div>
 
           {justPurchased && (
             <div className="mt-5 flex items-center gap-2 rounded-2xl border border-[#B7E4CC] bg-[#E7F7EF] px-4 py-3 text-sm font-bold text-[#0f7a4f]">
-              <CheckCircle2 className="h-5 w-5 shrink-0" aria-hidden="true" /> Purchase complete — you now have full
-              access to this course.
+              <CheckCircle2 className="h-5 w-5 shrink-0" aria-hidden="true" /> {t.purchaseComplete}
             </div>
           )}
 
           <h1 className="mt-5 text-balance text-3xl font-extrabold md:text-4xl">{course.title}</h1>
-          <p className="mt-2 text-[#717680]">
-            {questions.length} questions &middot; Pass at {course.passingScore}% &middot; Instant explanations
-          </p>
+          <p className="mt-2 text-[#717680]">{t.passInfo(questions.length, course.passingScore)}</p>
 
           <div className="mt-8">
             <QuizPlayer
@@ -89,6 +97,7 @@ export default async function CourseLearnPage({
               courseTitle={course.title}
               priceLabel={formatPrice(course.priceCents)}
               passingScore={course.passingScore}
+              lang={lang}
             />
           </div>
         </div>
