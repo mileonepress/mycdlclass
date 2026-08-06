@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic"
 
 export default async function HomePage() {
   const featured = listEbookProducts().slice(0, 3)
-  const courses = (await getCourseCatalog("en")).slice(0, 6)
+  const courses = await getCourseCatalog("en")
   const totalQuestions = courses.reduce((sum, c) => sum + c.questionCount, 0)
 
   return (
