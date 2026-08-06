@@ -1,34 +1,22 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import {
   BookOpen,
-  Gauge,
-  Truck,
-  Flame,
   ClipboardCheck,
-  Users,
-  Bus,
-  Droplets,
-  Layers,
-  GraduationCap,
   CheckCircle2,
   PlayCircle,
   Lock,
   Globe,
   Clock,
-  type LucideIcon,
 } from "lucide-react"
 import SiteHeader from "@/components/SiteHeader"
 import Footer from "@/components/Footer"
 import CourseBuyButton from "@/components/courses/CourseBuyButton"
 import { getCourseBySlug, hasEntitlement } from "@/lib/courses/queries"
-import { getCoursePresentation, formatPrice } from "@/lib/courses/presentation"
+import { getCoursePresentation, getCourseCover, formatPrice } from "@/lib/courses/presentation"
 import { createClient } from "@/lib/supabase/server"
-
-const ICONS: Record<string, LucideIcon> = {
-  BookOpen, Gauge, Truck, Flame, ClipboardCheck, Users, Bus, Droplets, Layers, GraduationCap,
-}
 
 export const dynamic = "force-dynamic"
 
@@ -66,7 +54,7 @@ export default async function CourseDetailPage({
   const owned = await hasEntitlement(user?.id ?? null, course.id)
 
   const pres = getCoursePresentation(course.slug)
-  const Icon = ICONS[pres.icon] ?? GraduationCap
+  const cover = getCourseCover(course.slug)
   const priceLabel = formatPrice(course.priceCents)
   const totalLessons = course.sections.reduce((n, s) => n + s.lessons.length, 0)
 
@@ -87,11 +75,17 @@ export default async function CourseDetailPage({
           <div className="grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-start">
             <div>
               <div className="flex items-center gap-4">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 backdrop-blur">
-                  <Icon className="h-9 w-9 text-white" strokeWidth={1.5} aria-hidden="true" />
+                <div className="relative h-24 w-[72px] shrink-0 overflow-hidden rounded-xl bg-white/10 shadow-lg ring-1 ring-white/20">
+                  <Image
+                    src={cover || "/placeholder.svg"}
+                    alt={`${course.title} interactive CDL course cover`}
+                    fill
+                    sizes="72px"
+                    className="object-contain"
+                  />
                 </div>
                 <div className="flex flex-wrap gap-2 text-xs font-extrabold">
-                  <span className="rounded-full bg-white/15 px-3 py-1 uppercase tracking-wide">CDL</span>
+                  <span className="rounded-full bg-white/15 px-3 py-1 uppercase tracking-wide">Interactive CDL</span>
                   <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1">
                     <Globe className="h-3.5 w-3.5" aria-hidden="true" /> EN / ES
                   </span>

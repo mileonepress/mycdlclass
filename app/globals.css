@@ -172,7 +172,12 @@ body {
 
 img, svg, video { max-width: 100%; height: auto; }
 
-a { color: inherit; text-decoration: none; }
+/* Keep the "inherit color" default in the base layer so explicit Tailwind
+   text-* utilities on links/buttons still win (otherwise anchors render
+   blank white-on-white in dark sections). */
+@layer base {
+  a { color: inherit; text-decoration: none; }
+}
 
 button, input, textarea, select { font: inherit; }
 

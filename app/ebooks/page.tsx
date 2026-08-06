@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import type { Metadata } from "next"
 import Footer from "@/components/Footer"
 import SiteHeader from "@/components/SiteHeader"
@@ -31,10 +32,25 @@ export default function EbooksPage() {
             <span className="font-bold text-white">${EBOOK_PRICE}</span> and is delivered instantly to
             your email as a secure PDF download right after checkout.
           </p>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <a
+              href="#ebook-list"
+              className="rounded-xl bg-white px-6 py-3 font-bold text-[#0B2B5E] transition-transform hover:-translate-y-0.5"
+            >
+              Browse Ebooks
+            </a>
+            <Link
+              href="/courses"
+              className="rounded-xl border border-white/40 px-6 py-3 font-bold text-white transition-colors hover:bg-white/10"
+            >
+              Interactive Courses
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section id="ebook-list" className="mx-auto max-w-7xl px-6 py-16 scroll-mt-24">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {ebooks.map((ebook) => (
             <div

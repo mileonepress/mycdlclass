@@ -67,6 +67,14 @@ export function getCoursePresentation(slug: string): CoursePresentation {
   return MAP[slug] ?? DEFAULT
 }
 
+/**
+ * Course slugs match the ebook base slugs 1:1, so each course reuses its
+ * English ebook cover art for a consistent, branded look across the store.
+ */
+export function getCourseCover(slug: string): string {
+  return `/ebooks/covers/${slug}-en.png`
+}
+
 export function formatPrice(cents: number): string {
   const dollars = cents / 100
   return Number.isInteger(dollars) ? `$${dollars}` : `$${dollars.toFixed(2)}`

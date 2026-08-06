@@ -40,8 +40,8 @@ export default async function CoursesPage() {
           </h1>
           <p className="mt-5 max-w-2xl text-pretty text-lg text-white/80">
             Real exam-style questions with instant explanations, bilingual English &amp; Spanish content, and
-            progress tracking. Try <span className="font-bold text-white">3 questions free</span> in any course,
-            then unlock everything for a single one-time price.
+            progress tracking. Try <span className="font-bold text-white">3 free practice questions</span> in any
+            course, then unlock everything for a single one-time price.
           </p>
 
           <div className="mt-8 grid max-w-2xl grid-cols-3 gap-3">
@@ -67,7 +67,7 @@ export default async function CoursesPage() {
           <div className="flex items-end justify-between">
             <div>
               <h2 className="text-3xl font-extrabold">Choose your course</h2>
-              <p className="mt-2 text-[#717680]">Every course includes a free 3-question preview.</p>
+              <p className="mt-2 text-[#717680]">Every course includes 3 free practice questions.</p>
             </div>
           </div>
 

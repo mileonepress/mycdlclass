@@ -33,8 +33,8 @@ export default async function HomePage() {
 
             <p className="mt-6 max-w-xl text-pretty text-lg text-white/80">
               Interactive practice courses with real exam-style questions, instant explanations, and progress
-              tracking. Try <span className="font-bold text-white">3 questions free</span> in any course &mdash; no
-              account needed to start.
+              tracking. Try <span className="font-bold text-white">3 free practice questions</span>{" "}
+              in any course &mdash; no account needed to start.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -42,7 +42,7 @@ export default async function HomePage() {
                 href="/courses"
                 className="rounded-xl bg-white px-6 py-3 font-bold text-[#0B2B5E] transition-transform hover:-translate-y-0.5"
               >
-                Explore Courses
+                Interactive Courses
               </Link>
               <Link
                 href="/ebooks"
@@ -79,8 +79,8 @@ export default async function HomePage() {
             <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">Learn Interactively</p>
             <h2 className="mt-2 text-4xl font-bold text-[#0D2B45]">Interactive CDL Courses</h2>
             <p className="mx-auto mt-3 max-w-2xl text-gray-600">
-              Practice with exam-style questions and get instant explanations. Every course includes a free
-              3-question preview.
+              Practice with exam-style questions and get instant explanations. Every course includes 3 free
+              practice questions.
             </p>
           </div>
 
