@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
+import { langHref } from "@/lib/courses/siteStrings"
+import type { Lang } from "@/lib/courses/types"
 
 export default function CourseBuyButton({
   slug,
@@ -10,12 +12,16 @@ export default function CourseBuyButton({
   isAuthed,
   className = "",
   label,
+  loadingLabel = "Redirecting...",
+  lang = "en",
 }: {
   slug: string
   priceLabel: string
   isAuthed: boolean
   className?: string
   label?: string
+  loadingLabel?: string
+  lang?: Lang
 }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -24,7 +30,7 @@ export default function CourseBuyButton({
   async function handleClick() {
     // Purchases are tied to an account — send guests to log in first, then back.
     if (!isAuthed) {
-      router.push(`/login?next=/courses/${slug}`)
+      router.push(`/login?next=${encodeURIComponent(langHref(`/courses/${slug}`, lang))}`)
       return
     }
 
@@ -40,12 +46,12 @@ export default function CourseBuyButton({
       const data = await res.json()
 
       if (res.status === 401) {
-        router.push(`/login?next=/courses/${slug}`)
+        router.push(`/login?next=${encodeURIComponent(langHref(`/courses/${slug}`, lang))}`)
         return
       }
       if (res.status === 409) {
         // Already owns it — go straight to the course.
-        router.push(`/courses/${slug}/learn`)
+        router.push(langHref(`/courses/${slug}/learn`, lang))
         return
       }
       if (data.url) {
@@ -74,7 +80,7 @@ export default function CourseBuyButton({
         {loading ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-            Redirecting...
+            {loadingLabel}
           </>
         ) : (
           (label ?? `Unlock Full Course — ${priceLabel}`)

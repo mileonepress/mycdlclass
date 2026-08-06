@@ -4,7 +4,10 @@ import { GraduationCap, Globe, ShieldCheck, Sparkles } from "lucide-react"
 import SiteHeader from "@/components/SiteHeader"
 import Footer from "@/components/Footer"
 import CourseCard from "@/components/courses/CourseCard"
+import LanguageToggle from "@/components/courses/LanguageToggle"
 import { getCourseCatalog, getOwnedCourseIds } from "@/lib/courses/queries"
+import { getSiteStrings } from "@/lib/courses/siteStrings"
+import { normalizeLang } from "@/lib/courses/quizStrings"
 import { createClient } from "@/lib/supabase/server"
 
 export const metadata: Metadata = {
@@ -16,8 +19,15 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic"
 
-export default async function CoursesPage() {
-  const [courses, supabase] = await Promise.all([getCourseCatalog("en"), createClient()])
+export default async function CoursesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>
+}) {
+  const lang = normalizeLang((await searchParams)?.lang)
+  const t = getSiteStrings(lang)
+
+  const [courses, supabase] = await Promise.all([getCourseCatalog(lang), createClient()])
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -32,22 +42,25 @@ export default async function CoursesPage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#061A2E] via-[#0B2B5E] to-[#1E4D8C] px-6 py-16 text-white">
         <div className="mx-auto max-w-7xl">
+          <div className="mb-6 flex justify-end">
+            <LanguageToggle basePath="/courses" current={lang} />
+          </div>
           <p className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-[0.18em] text-[#7Fb2ff]">
-            <Sparkles className="h-4 w-4" aria-hidden="true" /> Interactive Practice
+            <Sparkles className="h-4 w-4" aria-hidden="true" /> {t.catalog.heroEyebrow}
           </p>
           <h1 className="mt-3 max-w-3xl text-balance text-4xl font-extrabold leading-tight md:text-6xl">
-            Pass your CDL exam with interactive practice courses
+            {t.catalog.heroTitle}
           </h1>
           <p className="mt-5 max-w-2xl text-pretty text-lg text-white/80">
-            Real exam-style questions with instant explanations, bilingual English &amp; Spanish content, and
-            progress tracking. Try <span className="font-bold text-white">3 free practice questions</span> in any
-            course, then unlock everything for a single one-time price.
+            {t.catalog.heroLeadPre}
+            <span className="font-bold text-white">{t.catalog.heroLeadBold}</span>
+            {t.catalog.heroLeadPost}
           </p>
 
           <div className="mt-8 grid max-w-2xl grid-cols-3 gap-3">
-            <Stat value={`${courses.length}`} label="CDL courses" />
-            <Stat value={`${totalQuestions.toLocaleString()}`} label="Practice questions" />
-            <Stat value="EN / ES" label="Bilingual" />
+            <Stat value={`${courses.length}`} label={t.catalog.statCourses} />
+            <Stat value={`${totalQuestions.toLocaleString()}`} label={t.catalog.statQuestions} />
+            <Stat value="EN / ES" label={t.common.bilingual} />
           </div>
         </div>
       </section>
@@ -55,9 +68,9 @@ export default async function CoursesPage() {
       {/* Value strip */}
       <section className="border-b border-[#F1F5F9] bg-white px-6 py-6">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm font-bold text-[#0D2B45]">
-          <Perk icon={<GraduationCap className="h-5 w-5 text-[#1E4D8C]" />} text="Exam-style questions" />
-          <Perk icon={<Globe className="h-5 w-5 text-[#1E4D8C]" />} text="English & Spanish" />
-          <Perk icon={<ShieldCheck className="h-5 w-5 text-[#1E4D8C]" />} text="One-time purchase, yours forever" />
+          <Perk icon={<GraduationCap className="h-5 w-5 text-[#1E4D8C]" />} text={t.catalog.perkQuestions} />
+          <Perk icon={<Globe className="h-5 w-5 text-[#1E4D8C]" />} text={t.catalog.perkBilingual} />
+          <Perk icon={<ShieldCheck className="h-5 w-5 text-[#1E4D8C]" />} text={t.catalog.perkOneTime} />
         </div>
       </section>
 
@@ -66,33 +79,31 @@ export default async function CoursesPage() {
         <div className="mx-auto max-w-7xl">
           <div className="flex items-end justify-between">
             <div>
-              <h2 className="text-3xl font-extrabold">Choose your course</h2>
-              <p className="mt-2 text-[#717680]">Every course includes 3 free practice questions.</p>
+              <h2 className="text-3xl font-extrabold">{t.catalog.chooseTitle}</h2>
+              <p className="mt-2 text-[#717680]">{t.catalog.chooseLead}</p>
             </div>
           </div>
 
           {courses.length === 0 ? (
             <p className="mt-10 rounded-2xl border border-[#F1F5F9] bg-white p-8 text-center text-[#717680]">
-              Courses are being prepared. Please check back shortly.
+              {t.catalog.empty}
             </p>
           ) : (
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {courses.map((course) => (
-                <CourseCard key={course.id} course={course} owned={owned.has(course.id)} />
+                <CourseCard key={course.id} course={course} owned={owned.has(course.id)} lang={lang} />
               ))}
             </div>
           )}
 
           <div className="mt-12 rounded-3xl bg-gradient-to-br from-[#0B2B5E] to-[#1477DA] p-8 text-center text-white">
-            <h3 className="text-2xl font-extrabold">Prefer to study offline?</h3>
-            <p className="mx-auto mt-2 max-w-xl text-white/80">
-              Our bilingual CDL prep ebooks give you the same trusted content as a downloadable PDF.
-            </p>
+            <h3 className="text-2xl font-extrabold">{t.catalog.offlineTitle}</h3>
+            <p className="mx-auto mt-2 max-w-xl text-white/80">{t.catalog.offlineLead}</p>
             <Link
               href="/ebooks"
               className="mt-5 inline-flex rounded-xl bg-white px-6 py-3 font-extrabold text-[#0B2B5E] transition-transform hover:-translate-y-0.5"
             >
-              Browse CDL Ebooks
+              {t.catalog.offlineCta}
             </Link>
           </div>
         </div>

@@ -8,6 +8,7 @@ import QuizPlayer from "@/components/courses/QuizPlayer"
 import LanguageToggle from "@/components/courses/LanguageToggle"
 import { getCourseBySlug, getPreviewQuestions } from "@/lib/courses/queries"
 import { formatPrice } from "@/lib/courses/presentation"
+import { langHref } from "@/lib/courses/siteStrings"
 import { getQuizStrings, normalizeLang } from "@/lib/courses/quizStrings"
 
 export const dynamic = "force-dynamic"
@@ -52,7 +53,7 @@ export default async function CoursePreviewPage({
         <div className="mx-auto max-w-3xl">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <Link
-              href={`/courses/${course.slug}`}
+              href={langHref(`/courses/${course.slug}`, lang)}
               className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1E4D8C] hover:underline"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden="true" /> {t.backTo(course.title)}

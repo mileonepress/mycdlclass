@@ -5,6 +5,7 @@ import Link from "next/link"
 import { CheckCircle2, XCircle, ArrowRight, RotateCcw, Trophy, Lock, BookMarked } from "lucide-react"
 import type { QuizQuestion, Lang } from "@/lib/courses/types"
 import { getQuizStrings } from "@/lib/courses/quizStrings"
+import { langHref } from "@/lib/courses/siteStrings"
 
 type Mode = "preview" | "full"
 
@@ -136,7 +137,7 @@ export default function QuizPlayer({
             <h3 className="mt-3 text-xl font-extrabold">{t.justTheStart}</h3>
             <p className="mx-auto mt-2 max-w-md text-sm text-white/85">{t.unlockBlurb(courseTitle)}</p>
             <Link
-              href={`/courses/${courseSlug}`}
+              href={langHref(`/courses/${courseSlug}`, lang)}
               className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 font-extrabold text-[#0B2B5E] transition-transform hover:-translate-y-0.5"
             >
               {t.unlockCta}
@@ -153,7 +154,7 @@ export default function QuizPlayer({
               <RotateCcw className="h-4 w-4" aria-hidden="true" /> {t.retake}
             </button>
             <Link
-              href={`/courses/${courseSlug}`}
+              href={langHref(`/courses/${courseSlug}`, lang)}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
             >
               {t.backToCourse}
