@@ -2,6 +2,7 @@
 // Run: set -a && source /vercel/share/.env.project && set +a && node scripts/seed-courses.mjs
 import fs from 'node:fs'
 import { createClient } from '@supabase/supabase-js'
+import { read, utils } from 'xlsx'
 
 const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -14,7 +15,37 @@ const supabase = createClient(url, serviceKey, {
   auth: { persistSession: false },
 })
 
-const d = JSON.parse(fs.readFileSync('data/courses-parsed.json', 'utf8'))
+// Parse the master workbook directly so the seed is self-contained.
+const XLSX_PATH = 'data/MyCDLClass_Supabase_Interactive_Courses_Master_Repaired-d0b31c.xlsx'
+const SHEETS = [
+  'courses', 'course_translations', 'sections', 'section_translations',
+  'lessons', 'lesson_translations', 'lesson_blocks', 'block_translations',
+  'media_assets', 'practice_tests', 'questions', 'question_translations',
+  'answer_choices', 'choice_translations', 'practice_test_questions',
+]
+function parseWorkbook() {
+  const wb = read(fs.readFileSync(XLSX_PATH), { cellDates: true })
+  const out = {}
+  for (const name of SHEETS) {
+    const sheet = wb.Sheets[name]
+    if (!sheet) { out[name] = []; continue }
+    const rows = utils.sheet_to_json(sheet, { header: 1, defval: null, blankrows: false })
+    let h = rows.findIndex((r) => Array.isArray(r) && r[0] === 'id')
+    if (h === -1) h = 1
+    const header = rows[h]
+    const records = []
+    for (let i = h + 1; i < rows.length; i++) {
+      const r = rows[i]
+      if (!r || r.every((c) => c === null)) continue
+      const obj = {}
+      header.forEach((key, idx) => { if (key) obj[key] = r[idx] ?? null })
+      if (obj.id) records.push(obj)
+    }
+    out[name] = records
+  }
+  return out
+}
+const d = parseWorkbook()
 
 // Per-course pricing in cents (one-time purchase). Sensible CDL defaults.
 const PRICE_BY_CATEGORY = {
