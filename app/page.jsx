@@ -3,91 +3,127 @@ import Link from "next/link"
 import Footer from "@/components/Footer"
 import SiteHeader from "@/components/SiteHeader"
 import EbookCheckoutButton from "@/components/EbookCheckoutButton"
+import CourseCard from "@/components/courses/CourseCard"
 import { listEbookProducts, EBOOK_PRICE } from "@/lib/ebookProducts"
+import { getCourseCatalog } from "@/lib/courses/queries"
 
-export default function HomePage() {
-  const featured = listEbookProducts().slice(0, 6)
+export const dynamic = "force-dynamic"
+
+export default async function HomePage() {
+  const featured = listEbookProducts().slice(0, 3)
+  const courses = (await getCourseCatalog("en")).slice(0, 6)
+  const totalQuestions = courses.reduce((sum, c) => sum + c.questionCount, 0)
 
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
       <SiteHeader />
 
       {/* Hero */}
-      <section className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 lg:grid-cols-2">
-        <div>
-          <p className="mb-3 font-bold text-[#1E4D8C]">English &amp; Español CDL Prep Ebooks</p>
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#061A2E] via-[#0B2B5E] to-[#1E4D8C] text-white">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 lg:grid-cols-2">
+          <div>
+            <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.18em] text-[#7Fb2ff]">
+              Interactive CDL Prep &middot; English &amp; Español
+            </p>
 
-          <h1 className="text-balance text-5xl font-extrabold leading-tight md:text-6xl">
-            Pass Your CDL Test
-            <span className="block text-[#1E4D8C]">The First Time</span>
-          </h1>
+            <h1 className="text-balance text-5xl font-extrabold leading-tight md:text-6xl">
+              Pass Your CDL Test
+              <span className="block text-[#7Fb2ff]">The First Time</span>
+            </h1>
 
-          <p className="mt-6 max-w-xl text-pretty text-lg">
-            Downloadable CDL prep ebooks with real exam-style questions and clear explanations. Buy
-            once, get an instant PDF in your inbox, and study on any device &mdash; no account needed.
-          </p>
+            <p className="mt-6 max-w-xl text-pretty text-lg text-white/80">
+              Interactive practice courses with real exam-style questions, instant explanations, and progress
+              tracking. Try <span className="font-bold text-white">3 questions free</span> in any course &mdash; no
+              account needed to start.
+            </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href="/ebooks"
-              className="rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
-            >
-              Browse Ebooks
-            </Link>
-            <Link href="/about" className="rounded-lg border border-[#0D2B45] px-6 py-3 font-bold">
-              How It Works
-            </Link>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link
+                href="/courses"
+                className="rounded-xl bg-white px-6 py-3 font-bold text-[#0B2B5E] transition-transform hover:-translate-y-0.5"
+              >
+                Explore Courses
+              </Link>
+              <Link
+                href="/ebooks"
+                className="rounded-xl border border-white/40 px-6 py-3 font-bold text-white transition-colors hover:bg-white/10"
+              >
+                Browse Ebooks
+              </Link>
+            </div>
+
+            <div className="mt-10 grid grid-cols-3 gap-4">
+              <HeroStat value={`${courses.length}`} label="Courses" />
+              <HeroStat value={totalQuestions > 0 ? `${totalQuestions.toLocaleString()}+` : "1,000+"} label="Questions" />
+              <HeroStat value="EN / ES" label="Bilingual" />
+            </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {["Bilingual", "Instant PDF", "Mobile Ready", "No Account"].map((item) => (
-              <div key={item} className="rounded-xl bg-white p-4 shadow">
-                <p className="font-bold text-[#1E4D8C]">✓</p>
-                <p className="font-bold">{item}</p>
-              </div>
-            ))}
+          <div className="rounded-3xl bg-white/10 p-6 backdrop-blur ring-1 ring-white/15">
+            <Image
+              src="/logo.png"
+              alt="MyCDLClass logo"
+              width={620}
+              height={620}
+              className="mx-auto"
+              priority
+            />
           </div>
         </div>
+      </section>
 
-        <div className="rounded-3xl bg-white p-6 shadow-2xl">
-          <Image
-            src="/logo.png"
-            alt="MyCDLClass logo"
-            width={620}
-            height={620}
-            className="mx-auto"
-            priority
-          />
+      {/* Featured interactive courses */}
+      <section className="bg-white px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">Learn Interactively</p>
+            <h2 className="mt-2 text-4xl font-bold text-[#0D2B45]">Interactive CDL Courses</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-gray-600">
+              Practice with exam-style questions and get instant explanations. Every course includes a free
+              3-question preview.
+            </p>
+          </div>
+
+          {courses.length > 0 ? (
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {courses.map((course) => (
+                <CourseCard key={course.id} course={course} />
+              ))}
+            </div>
+          ) : (
+            <p className="mt-10 text-center text-gray-500">Courses are being prepared. Check back shortly.</p>
+          )}
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/courses"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#1E4D8C] px-8 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
+            >
+              View All Courses
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* How it works */}
       <section className="bg-[#061A2E] px-6 py-20 text-white">
         <div className="mx-auto max-w-7xl">
-          <p className="text-center text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">
+          <p className="text-center text-sm font-semibold uppercase tracking-wider text-[#7Fb2ff]">
             Simple &amp; Seamless
           </p>
           <h2 className="mt-2 text-center text-4xl font-bold">How It Works</h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-white/70">
-            Buying your CDL prep ebook takes less than a minute &mdash; no sign-up, no subscription.
+            Start practicing in under a minute &mdash; try questions free, then unlock everything with a one-time
+            purchase.
           </p>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            <Step
-              number="1"
-              title="Pick Your Ebook"
-              text="Choose your CDL topic in English or Spanish from our catalog."
-            />
-            <Step
-              number="2"
-              title="Checkout Securely"
-              text="Pay once with a secure card checkout. No account to create."
-            />
-            <Step
-              number="3"
-              title="Download Instantly"
-              text="Your PDF is emailed right away so you can study offline, anywhere."
-            />
+            <Step number="1" title="Try It Free" text="Take 3 free practice questions in any course — no account required." />
+            <Step number="2" title="Unlock the Course" text="One-time purchase unlocks every question, exam, and explanation." />
+            <Step number="3" title="Track Your Progress" text="Take scored practice exams and watch your readiness improve." />
           </div>
         </div>
       </section>
@@ -96,14 +132,12 @@ export default function HomePage() {
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">
-              Study Offline
-            </p>
-            <h2 className="mt-2 text-4xl font-bold text-[#0D2B45]">Popular CDL Prep Ebooks</h2>
+            <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">Study Offline</p>
+            <h2 className="mt-2 text-4xl font-bold text-[#0D2B45]">Prefer a Downloadable Ebook?</h2>
             <p className="mx-auto mt-3 max-w-2xl text-gray-600">
-              Each ebook is just{" "}
-              <span className="font-bold text-[#0D2B45]">${EBOOK_PRICE}</span> &mdash; a one-time
-              payment with instant PDF delivery.
+              Get the same trusted content as a PDF for just{" "}
+              <span className="font-bold text-[#0D2B45]">${EBOOK_PRICE}</span> &mdash; instant delivery, study
+              anywhere.
             </p>
           </div>
 
@@ -144,7 +178,7 @@ export default function HomePage() {
           <div className="mt-12 text-center">
             <Link
               href="/ebooks"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#1E4D8C] px-8 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
+              className="inline-flex items-center gap-2 rounded-lg border border-[#1E4D8C] px-8 py-3 font-bold text-[#1E4D8C] transition-colors hover:bg-[#EFF6FF]"
             >
               View All Ebooks
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -158,15 +192,24 @@ export default function HomePage() {
       {/* Value props */}
       <section className="bg-[#F6F9FC] px-6 py-16">
         <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-4">
-          <Feature title="Bilingual Editions" text="Every booklet in English and Spanish." />
-          <Feature title="Instant Delivery" text="PDF emailed the moment you check out." />
-          <Feature title="Study Anywhere" text="Read on phone, tablet, or computer, offline." />
-          <Feature title="No Account Needed" text="One-time purchase, no sign-up or subscription." />
+          <Feature title="Exam-Style Questions" text="Practice with realistic CDL test questions." />
+          <Feature title="Instant Explanations" text="Understand every answer as you go." />
+          <Feature title="English & Spanish" text="Study in the language you're most comfortable with." />
+          <Feature title="One-Time Purchase" text="No subscriptions — unlock a course and keep it." />
         </div>
       </section>
 
       <Footer />
     </main>
+  )
+}
+
+function HeroStat({ value, label }) {
+  return (
+    <div className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
+      <div className="text-2xl font-extrabold tracking-tight">{value}</div>
+      <div className="text-xs font-bold text-white/70">{label}</div>
+    </div>
   )
 }
 

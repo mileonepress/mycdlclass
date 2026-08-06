@@ -1,16 +1,28 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { createClient } from "@/lib/supabase/client"
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
+  { href: "/courses", label: "Courses" },
   { href: "/ebooks", label: "Ebooks" },
 ]
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false)
+  const [authed, setAuthed] = useState(false)
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => setAuthed(Boolean(data.user)))
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      setAuthed(Boolean(session?.user))
+    })
+    return () => sub.subscription.unsubscribe()
+  }, [])
 
   return (
     <nav className="sticky top-0 z-50 bg-[#061A2E] text-white">
@@ -23,15 +35,24 @@ export default function SiteHeader() {
         {/* Desktop links */}
         <div className="hidden items-center gap-6 text-sm md:flex">
           {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="transition-colors hover:text-[#1E4D8C]">
+            <Link key={link.href} href={link.href} className="font-medium transition-colors hover:text-[#7Fb2ff]">
               {link.label}
             </Link>
           ))}
+          {authed ? (
+            <Link href="/dashboard" className="font-medium transition-colors hover:text-[#7Fb2ff]">
+              My Courses
+            </Link>
+          ) : (
+            <Link href="/login" className="font-medium transition-colors hover:text-[#7Fb2ff]">
+              Log In
+            </Link>
+          )}
           <Link
-            href="/ebooks"
+            href="/courses"
             className="rounded-lg bg-[#1E4D8C] px-4 py-2 font-bold transition-colors hover:bg-[#173B66]"
           >
-            Browse Ebooks
+            Start Free Preview
           </Link>
         </div>
 
@@ -71,11 +92,18 @@ export default function SiteHeader() {
               </Link>
             ))}
             <Link
-              href="/ebooks"
+              href={authed ? "/dashboard" : "/login"}
+              onClick={() => setOpen(false)}
+              className="rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-white/10"
+            >
+              {authed ? "My Courses" : "Log In"}
+            </Link>
+            <Link
+              href="/courses"
               onClick={() => setOpen(false)}
               className="mt-2 rounded-lg bg-[#1E4D8C] px-3 py-3 text-center font-bold transition-colors hover:bg-[#173B66]"
             >
-              Browse Ebooks
+              Start Free Preview
             </Link>
           </div>
         </div>
