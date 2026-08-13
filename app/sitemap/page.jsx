@@ -1,6 +1,14 @@
 import Link from "next/link"
+import { getAllCourses } from "@/lib/seoCourseData"
 
 const sitemap = [
+  {
+    title: "Free Practice Tests (SEO)",
+    pages: [
+      { name: "CDL Practice Tests", url: "/courses", goal: "English catalog, top-of-funnel entry" },
+      { name: "Exámenes en Español", url: "/es/cursos", goal: "Spanish catalog for bilingual reach" },
+    ],
+  },
   {
     title: "Main Pages",
     pages: [
@@ -27,9 +35,11 @@ const sitemap = [
   },
 ]
 
-const journey = ["Homepage", "Browse Ebooks", "Secure Checkout", "Email Delivery", "Download PDF"]
+const journey = ["Free Practice Test", "Browse Ebooks", "Secure Checkout", "Email Delivery", "Download PDF"]
 
 export default function VisualSitemapPage() {
+  const courses = getAllCourses("en")
+
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
       <section className="bg-[#061A2E] px-6 py-16 text-center text-white">
@@ -79,6 +89,36 @@ export default function VisualSitemapPage() {
       </section>
 
       <section className="bg-white px-6 py-16">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="text-center text-3xl font-bold sm:text-4xl">CDL Practice Test Landing Pages</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-pretty text-center leading-relaxed text-gray-600">
+            Each topic has an indexable English and Spanish page with free practice questions that
+            funnel into the matching prep ebook.
+          </p>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {courses.map((course) => (
+              <div key={course.slug} className="rounded-xl border border-gray-200 p-5">
+                <p className="font-bold text-[#0D2B45]">{course.shortTitle}</p>
+                <div className="mt-3 flex flex-wrap gap-3 text-sm font-bold">
+                  <Link href={`/courses/${course.slug}`} className="text-[#1E4D8C] hover:underline">
+                    English →
+                  </Link>
+                  <Link
+                    href={`/es/cursos/${course.slug}`}
+                    hrefLang="es"
+                    className="text-[#1E4D8C] hover:underline"
+                  >
+                    Español →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#F6F9FC] px-6 py-16">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-3xl font-bold sm:text-4xl">Recommended User Journey</h2>
 
