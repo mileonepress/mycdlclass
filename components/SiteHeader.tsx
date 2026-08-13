@@ -7,6 +7,8 @@ import Link from "next/link"
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/ebooks", label: "Ebooks" },
+  { href: "/courses", label: "CDL Practice Tests" },
+  { href: "/es/cursos", label: "Exámenes en Español" },
 ]
 
 export default function SiteHeader() {

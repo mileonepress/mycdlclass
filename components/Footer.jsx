@@ -53,6 +53,16 @@ export default function Footer() {
                   Spanish Editions
                 </Link>
               </li>
+              <li>
+                <Link href="/courses" className="hover:text-[#1E4D8C]">
+                  CDL Practice Tests
+                </Link>
+              </li>
+              <li>
+                <Link href="/es/cursos" className="hover:text-[#1E4D8C]">
+                  Exámenes CDL en Español
+                </Link>
+              </li>
             </ul>
           </div>
 
