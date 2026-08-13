@@ -1,5 +1,6 @@
 import Image from "next/image"
 import type { Metadata } from "next"
+import Link from "next/link"
 import Footer from "@/components/Footer"
 import SiteHeader from "@/components/SiteHeader"
 import EbookCheckoutButton from "@/components/EbookCheckoutButton"
@@ -31,6 +32,32 @@ export default function EbooksPage() {
             <span className="font-bold text-white">${EBOOK_PRICE}</span> and is delivered instantly to
             your email as a secure PDF download right after checkout.
           </p>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pt-10">
+        <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-[#1E4D8C]/20 bg-white p-6 shadow-sm sm:flex-row">
+          <div>
+            <h2 className="text-lg font-bold text-[#0D2B45]">Not sure which ebook you need?</h2>
+            <p className="mt-1 text-sm text-gray-600">
+              Try our free CDL practice tests in English and Spanish before you buy.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-3">
+            <Link
+              href="/courses"
+              className="rounded-lg bg-[#1E4D8C] px-5 py-2.5 font-bold text-white transition-colors hover:bg-[#173B66]"
+            >
+              Free Practice Tests
+            </Link>
+            <Link
+              href="/es/cursos"
+              hrefLang="es"
+              className="rounded-lg border border-[#0D2B45] px-5 py-2.5 font-bold transition-colors hover:bg-[#0D2B45] hover:text-white"
+            >
+              En Español
+            </Link>
+          </div>
         </div>
       </section>
 

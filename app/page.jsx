@@ -92,6 +92,62 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Free practice tests */}
+      <section className="bg-[#F6F9FC] px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-3xl bg-white p-8 shadow-lg md:p-12">
+            <div className="grid items-center gap-8 lg:grid-cols-2">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">
+                  Try Before You Buy
+                </p>
+                <h2 className="mt-2 text-balance text-3xl font-bold text-[#0D2B45] md:text-4xl">
+                  Free CDL Practice Tests
+                </h2>
+                <p className="mt-4 max-w-xl text-pretty text-gray-600">
+                  Take real exam-style practice questions with instant answer explanations for
+                  General Knowledge, Air Brakes, HazMat, Combination Vehicles, and more &mdash;
+                  available in English and Spanish. No account needed.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-4">
+                  <Link
+                    href="/courses"
+                    className="rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
+                  >
+                    Start Free Practice
+                  </Link>
+                  <Link
+                    href="/es/cursos"
+                    hrefLang="es"
+                    className="rounded-lg border border-[#0D2B45] px-6 py-3 font-bold transition-colors hover:bg-[#0D2B45] hover:text-white"
+                  >
+                    Practicar en Español
+                  </Link>
+                </div>
+              </div>
+
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {[
+                  "General Knowledge",
+                  "Air Brakes",
+                  "Combination Vehicles",
+                  "HazMat",
+                  "Tanker",
+                  "Pre-Trip Inspection",
+                ].map((topic) => (
+                  <li
+                    key={topic}
+                    className="rounded-xl border border-gray-200 bg-[#F6F9FC] px-4 py-3 font-bold text-[#0D2B45]"
+                  >
+                    {topic}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Featured ebooks */}
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-7xl">
