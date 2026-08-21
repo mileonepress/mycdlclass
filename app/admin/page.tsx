@@ -105,7 +105,7 @@ export default async function AdminPage() {
                   <p className="text-sm text-gray-500">Send a secure download link to a customer.</p>
                 </Link>
                 <a
-                  href="http://206.162.244.25:3001"
+                  href="https://dashboard.mycdlclass.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-lg border border-gray-200 p-4 transition-colors hover:border-[#1E4D8C]"
