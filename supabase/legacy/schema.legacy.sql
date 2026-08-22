@@ -1,3 +1,31 @@
+-- =====================================================================
+-- LEGACY / OBSOLETE SCHEMA REFERENCE — DO NOT APPLY, DO NOT TRUST
+-- =====================================================================
+-- This file describes an EARLY, FLAT course model that DOES NOT match
+-- the current production database (Supabase project: production).
+--
+-- Why it is retained:
+--   * Historical reference only.
+--   * The current production schema is fully normalized and bilingual.
+--
+-- Authoritative sources of truth going forward:
+--   * lib/supabase/database.types.ts          (generated from live schema)
+--   * supabase/reference/live-schema-snapshot.sql  (schema-only snapshot)
+--   * docs/checkpoint-1/schema-drift-report.md (drift analysis)
+--
+-- Key drift (see drift report for full detail):
+--   * public.courses here has title/description/content/video_url/is_published;
+--     PRODUCTION public.courses is slug/category/course_type/status/... with
+--     all human-readable text in public.course_translations.
+--   * This file knows nothing about sections, lessons, lesson_blocks,
+--     questions, answer_choices, practice_tests, media_assets, or any of
+--     the *_translations tables that hold the real 9-course catalog.
+--   * The RLS policies below grant broad authenticated INSERT/UPDATE and
+--     are NOT how production should be secured.
+--
+-- DO NOT run this against production. Retained for audit trail only.
+-- =====================================================================
+
 create extension if not exists "pgcrypto";
 
 create table if not exists public.subscriptions (

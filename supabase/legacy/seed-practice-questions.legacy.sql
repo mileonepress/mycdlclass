@@ -1,3 +1,16 @@
+-- =====================================================================
+-- LEGACY / OBSOLETE SEED — DO NOT APPLY
+-- =====================================================================
+-- This seed writes to a FLAT public.questions shape
+-- (question_text, option_a..option_d, correct_answer, is_published)
+-- that DOES NOT EXIST in production. Production public.questions uses
+-- question_key/question_type/correct_answer_key with text in
+-- public.question_translations and options in public.answer_choices.
+--
+-- Running this against production will fail (missing columns) and must
+-- not be attempted. Retained for historical/audit reference only.
+-- =====================================================================
+
 -- Seed interactive practice-test questions for the 8 courses that are missing them.
 -- Targets the EXISTING public.questions table (same one General Knowledge already uses),
 -- so every course works identically to General Knowledge with no duplicate tables/routes.
