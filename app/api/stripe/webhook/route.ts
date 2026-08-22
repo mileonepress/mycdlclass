@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import type Stripe from "stripe"
 import { getStripe } from "@/lib/stripe"
 import { recordAndDeliverEbook } from "@/lib/ebookDelivery"
-import { verifyAndGrantSession } from "@/lib/verifySession"
+import { grantCourseEntitlement } from "@/lib/courseEntitlements"
 
 // Stripe requires the raw body to verify the signature.
 export const runtime = "nodejs"
@@ -32,9 +32,9 @@ export async function POST(request: Request) {
       if (session.metadata?.kind === "ebook") {
         await recordAndDeliverEbook(session)
       }
-      // Interactive courses: record the purchase to grant access.
-      else if (session.metadata?.kind === "course" && session.metadata?.course_slug) {
-        await verifyAndGrantSession(session.id, session.metadata.course_slug)
+      // Interactive courses: record the entitlement to grant access.
+      else if (session.metadata?.kind === "course") {
+        await grantCourseEntitlement(session)
       }
     }
   }

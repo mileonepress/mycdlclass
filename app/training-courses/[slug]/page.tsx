@@ -1,299 +1,202 @@
-import Link from "next/link";
-import Image from "next/image";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { getCourseBySlug, getLessons, getQuestions, getUserProgress, getBestQuizScore } from "@/lib/supabase/queries";
-import { getCourseProduct } from "@/lib/courseProducts";
-import { canAccessCourse, isPaidCourse } from "@/lib/access";
-import StripeCheckoutButton from "@/components/StripeCheckoutButton";
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import Footer from "@/components/Footer"
+import SiteHeader from "@/components/SiteHeader"
+import StripeCheckoutButton from "@/components/StripeCheckoutButton"
+import { getCourseDetail, type Lang } from "@/lib/supabase/courseCatalog"
+import { canAccessCourse, getCurrentUser } from "@/lib/access"
 
-export default async function CoursePage({
+export const dynamic = "force-dynamic"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const course = await getCourseDetail(slug, "en")
+  if (!course) return { title: "Course not found" }
+  return {
+    title: `${course.title} — CDL Training Course`,
+    description: course.shortDescription,
+  }
+}
+
+function formatPrice(cents: number | null): string {
+  if (!cents || cents <= 0) return "Free"
+  return `$${(cents / 100).toFixed(2)}`
+}
+
+export default async function CourseDetailPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ lang?: string }>;
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ lang?: string }>
 }) {
-  const { slug } = await params;
-  const { lang: langParam } = await searchParams;
-  const lang = langParam === "es" ? "es" : "en";
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { slug } = await params
+  const { lang: langParam } = await searchParams
+  const lang: Lang = langParam === "es" ? "es" : "en"
+  const es = lang === "es"
 
-  const course = await getCourseBySlug(slug);
+  const course = await getCourseDetail(slug, lang)
+  if (!course) notFound()
 
-  if (!course) {
-    redirect("/training-courses");
-  }
-
-  // Lessons are gated for paid courses; the quiz/practice test stays open.
-  const paid = isPaidCourse(slug);
-  const canAccess = await canAccessCourse(slug, user?.id ?? null);
-  const product = getCourseProduct(slug);
-  const lessons = await getLessons(course.id);
-  const questions = await getQuestions(course.id);
-
-  let progress: { lessonId: string; completed: boolean }[] = [];
-  let bestScore = null;
-
-  if (user) {
-    const lessonIds = lessons.map(l => l.id);
-    if (lessonIds.length > 0) {
-      const userProgress = await getUserProgress(user.id, lessonIds);
-      progress = userProgress.map(p => ({ lessonId: p.lesson_id, completed: p.completed }));
-    }
-    bestScore = await getBestQuizScore(user.id, course.id);
-  }
-
-  const completedCount = progress.filter(p => p.completed).length;
-  const progressPercent = lessons.length > 0 ? Math.round((completedCount / lessons.length) * 100) : 0;
+  const user = await getCurrentUser()
+  const hasAccess = await canAccessCourse(course, user?.id ?? null)
+  const langQuery = es ? "?lang=es" : ""
 
   return (
-    <main className="min-h-screen bg-[#F6F9FC]">
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-[#061A2E] text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="MyCDLClass" width={58} height={58} />
-            <span className="font-extrabold tracking-wide">MYCDL CLASS</span>
-          </Link>
-          <div className="hidden gap-6 text-sm md:flex">
-            <Link href="/training-courses">Courses</Link>
-            <Link href="/courses">Free Tests</Link>
-            <Link href="/ebooks">Ebooks</Link>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link
-              href={`/training-courses/${slug}${lang === "es" ? "" : "?lang=es"}`}
-              className="rounded-lg border border-white/30 px-3 py-2 text-sm font-bold"
-            >
-              {lang === "es" ? "English" : "Español"}
-            </Link>
-          </div>
-        </div>
-      </nav>
+    <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
+      <SiteHeader />
 
       {/* Hero */}
-      <section className="bg-[#061A2E] px-6 py-16 text-white">
-        <div className="max-w-4xl mx-auto">
-          <Link href="/training-courses" className="text-[#16A34A] text-sm hover:underline mb-4 inline-block">
-            {lang === "es" ? "← Volver a Todos los Cursos" : "← Back to All Courses"}
+      <section className="bg-[#061A2E] px-6 py-14 text-white">
+        <div className="mx-auto max-w-4xl">
+          <Link
+            href={`/training-courses${langQuery}`}
+            className="text-sm text-white/60 transition-colors hover:text-white"
+          >
+            ← {es ? "Todos los cursos" : "All courses"}
           </Link>
-          <h1 className="text-4xl font-extrabold">
-            {lang === "es" ? course.spanish_title : course.title}
-          </h1>
-          <p className="text-xl text-[#16A34A] mt-2">
-            {lang === "es" ? course.title : course.spanish_title}
-          </p>
-          <p className="mt-4 text-lg text-gray-300">{course.description}</p>
-
-          <div className="flex flex-wrap gap-4 mt-6">
-            {product && (
-              <span className="px-4 py-2 rounded-full text-sm font-bold bg-[#16A34A]">
-                ${product.price} {lang === "es" ? "· Pago único" : "· One-time"}
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#4C8DE0]">
+              {course.category || (es ? "Curso" : "Course")}
+            </span>
+            {course.isFree ? (
+              <span className="rounded-full bg-green-500/20 px-3 py-1 text-xs font-bold text-green-300">
+                {es ? "Gratis" : "Free"}
+              </span>
+            ) : hasAccess ? (
+              <span className="rounded-full bg-green-500/20 px-3 py-1 text-xs font-bold text-green-300">
+                {es ? "Adquirido" : "Owned"}
+              </span>
+            ) : (
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold">
+                {formatPrice(course.priceCents)}
               </span>
             )}
-            <span className="px-4 py-2 rounded-full text-sm font-bold bg-white/10">
-              {lessons.length} {lang === "es" ? "Lecciones" : "Lessons"}
+          </div>
+          <h1 className="mt-4 text-balance text-4xl font-extrabold md:text-5xl">{course.title}</h1>
+          <p className="mt-4 max-w-2xl text-pretty text-white/75">{course.shortDescription}</p>
+          <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-white/70">
+            <span>
+              {course.lessonCount} {es ? "exámenes de práctica" : "practice exams"}
             </span>
-            <span className="px-4 py-2 rounded-full text-sm font-bold bg-white/10">
-              {questions.length} {lang === "es" ? "Preguntas de Práctica" : "Practice Questions"}
-            </span>
+            {course.estimatedMinutes ? (
+              <span>
+                {course.estimatedMinutes} {es ? "minutos" : "minutes"}
+              </span>
+            ) : null}
+            {course.passingScore ? (
+              <span>
+                {es ? "Aprobación" : "Passing score"}: {course.passingScore}%
+              </span>
+            ) : null}
+          </div>
+
+          {/* Purchase / language actions */}
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            {!course.isFree && !hasAccess ? (
+              user ? (
+                <StripeCheckoutButton slug={course.slug} lang={lang} priceCents={course.priceCents} />
+              ) : (
+                <Link
+                  href={`/login?next=/training-courses/${course.slug}${es ? "%3Flang=es" : ""}`}
+                  className="rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
+                >
+                  {es ? "Inicia sesión para comprar" : "Log in to buy"}
+                </Link>
+              )
+            ) : null}
+            <Link
+              href={es ? `/training-courses/${course.slug}` : `/training-courses/${course.slug}?lang=es`}
+              className="rounded-lg border border-white/40 px-6 py-3 font-bold transition-colors hover:bg-white hover:text-[#061A2E]"
+            >
+              {es ? "View in English" : "Ver en Español"}
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Purchase Card */}
-      {product && paid && !canAccess && (
-        <section className="bg-white border-b border-gray-200 px-6 py-8">
-          <div className="max-w-4xl mx-auto flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="text-2xl font-extrabold text-[#0D2B45]">
-                {lang === "es"
-                  ? `Compra el curso de ${course.spanish_title}`
-                  : `Get the ${course.title} Course`}
-              </p>
-              <p className="mt-1 text-gray-600">
-                {lang === "es"
-                  ? "Acceso completo a lecciones, exámenes de práctica y explicaciones."
-                  : "Full access to lessons, practice tests, and explanations."}
-              </p>
-              <p className="mt-2 text-3xl font-extrabold text-[#16A34A]">${product.price}</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <StripeCheckoutButton slug={slug} lang={lang} price={product.price} />
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Curriculum */}
+      <section className="mx-auto max-w-4xl px-6 py-14">
+        <h2 className="text-2xl font-bold text-[#0D2B45]">
+          {es ? "Contenido del curso" : "Course content"}
+        </h2>
 
-      {/* Owned banner */}
-      {paid && canAccess && (
-        <section className="bg-[#16A34A] px-6 py-4 text-white">
-          <div className="mx-auto flex max-w-4xl items-center gap-3">
-            <svg className="h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <p className="font-bold">
-              {lang === "es"
-                ? "Tienes acceso completo a este curso."
-                : "You have full access to this course."}
-            </p>
-          </div>
-        </section>
-      )}
-
-      <div className="max-w-4xl mx-auto px-6 py-12 grid lg:grid-cols-3 gap-8">
-        {/* Main Content */}
-        <div className="lg:col-span-2 space-y-8">
-          {/* Progress Card */}
-          {user && canAccess && (
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <h2 className="text-lg font-bold text-[#0D2B45] mb-4">Your Progress</h2>
-              <div className="flex items-center gap-4">
-                <div className="flex-1 h-4 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#16A34A] transition-all"
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-                <span className="font-bold text-[#0D2B45]">{progressPercent}%</span>
+        <div className="mt-6 space-y-6">
+          {course.sections.map((section) => (
+            <div key={section.id} className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+              <div className="border-b border-gray-100 bg-[#F6F9FC] px-6 py-4">
+                <h3 className="font-bold text-[#0D2B45]">{section.title}</h3>
               </div>
-              <p className="text-sm text-gray-600 mt-2">
-                {completedCount} of {lessons.length} lessons completed
-              </p>
-            </div>
-          )}
-
-          {/* Lessons List */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-[#0D2B45] mb-6">Course Lessons</h2>
-            {lessons.length === 0 ? (
-              <p className="text-gray-500">Lessons coming soon...</p>
-            ) : (
-              <div className="space-y-3">
-                {lessons.map((lesson, index) => {
-                  const isCompleted = progress.find(p => p.lessonId === lesson.id)?.completed;
-                  const rowClasses = `flex items-center gap-4 p-4 rounded-xl border transition ${
-                    canAccess
-                      ? 'border-gray-200 hover:border-[#1E4D8C] hover:bg-[#F6F9FC]'
-                      : 'border-gray-100 bg-gray-50 cursor-not-allowed'
-                  }`;
-                  const inner = (
-                    <>
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
-                        isCompleted ? 'bg-[#16A34A]' : canAccess ? 'bg-[#1E4D8C]' : 'bg-gray-400'
-                      }`}>
-                        {isCompleted ? (
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        ) : (
-                          index + 1
-                        )}
+              <ul className="divide-y divide-gray-100">
+                {section.lessons.map((lesson) => {
+                  const unlocked = hasAccess || lesson.isPreview
+                  const href = `/training-courses/${course.slug}/quiz/${lesson.lessonKey}${langQuery}`
+                  return (
+                    <li key={lesson.id} className="flex items-center justify-between gap-4 px-6 py-4">
+                      <div className="min-w-0">
+                        <p className="truncate font-semibold text-[#0D2B45]">{lesson.title}</p>
+                        <p className="mt-0.5 text-sm text-gray-500">
+                          {lesson.questionCount} {es ? "preguntas" : "questions"}
+                          {lesson.isPreview ? ` · ${es ? "Vista previa gratis" : "Free preview"}` : ""}
+                        </p>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-bold text-[#0D2B45]">{lesson.title}</h3>
-                        {lesson.spanish_title && (
-                          <p className="text-sm text-[#16A34A]">{lesson.spanish_title}</p>
-                        )}
-                      </div>
-                      {!canAccess && (
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
+                      {unlocked ? (
+                        <Link
+                          href={href}
+                          className="shrink-0 rounded-lg bg-[#1E4D8C] px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#173B66]"
+                        >
+                          {es ? "Comenzar" : "Start"}
+                        </Link>
+                      ) : (
+                        <span
+                          className="shrink-0 rounded-lg bg-gray-100 px-4 py-2 text-sm font-bold text-gray-400"
+                          aria-label={es ? "Bloqueado" : "Locked"}
+                        >
+                          🔒 {es ? "Bloqueado" : "Locked"}
+                        </span>
                       )}
-                    </>
-                  );
-                  return canAccess ? (
-                    <Link
-                      key={lesson.id}
-                      href={`/training-courses/${slug}/lessons/${lesson.slug}`}
-                      className={rowClasses}
-                    >
-                      {inner}
-                    </Link>
-                  ) : (
-                    <div key={lesson.id} className={rowClasses} aria-disabled="true">
-                      {inner}
-                    </div>
-                  );
+                    </li>
+                  )
                 })}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Practice Test Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h3 className="font-bold text-[#0D2B45] mb-2">Practice Test</h3>
-            <p className="text-sm text-gray-600 mb-4">
-              {questions.length} questions to help you prepare for the real exam.
-            </p>
-            {bestScore && (
-              <div className="mb-4 p-3 bg-[#E6F0FF] rounded-lg">
-                <p className="text-sm text-[#1E4D8C]">
-                  Best Score: <span className="font-bold">{bestScore.percentage}%</span>
-                  {bestScore.passed && <span className="ml-2 text-[#16A34A]">Passed!</span>}
-                </p>
-              </div>
-            )}
-            <Link
-              href={`/training-courses/${slug}/quiz`}
-              className="block text-center py-3 rounded-lg font-bold transition bg-[#1E4D8C] text-white hover:bg-[#163d6e]"
-            >
-              Start Practice Test
-            </Link>
-          </div>
-
-          {/* Course Info */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h3 className="font-bold text-[#0D2B45] mb-4">What You&apos;ll Learn</h3>
-            <ul className="space-y-3 text-sm text-gray-600">
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-[#16A34A] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Real CDL exam questions
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-[#16A34A] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Detailed explanations
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-[#16A34A] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Bilingual content (EN/ES)
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-[#16A34A] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Track your progress
-              </li>
-            </ul>
-          </div>
-
-          {/* Need Help */}
-          {!user && (
-            <div className="bg-[#E6F0FF] rounded-2xl p-6">
-              <h3 className="font-bold text-[#0D2B45] mb-2">Create an Account</h3>
-              <p className="text-sm text-gray-600 mb-4">Sign up to track your progress and save your scores.</p>
-              <Link
-                href="/login"
-                className="block text-center bg-[#1E4D8C] text-white py-3 rounded-lg font-bold hover:bg-[#163d6e] transition"
-              >
-                Sign Up Free
-              </Link>
+              </ul>
             </div>
-          )}
+          ))}
         </div>
-      </div>
+
+        {!course.isFree && !hasAccess ? (
+          <div className="mt-10 rounded-2xl border border-[#1E4D8C]/20 bg-[#EAF2FC] p-6 text-center">
+            <p className="text-lg font-bold text-[#0D2B45]">
+              {es
+                ? "Desbloquea todos los exámenes de práctica"
+                : "Unlock all practice exams"}
+            </p>
+            <p className="mt-1 text-sm text-gray-600">
+              {es
+                ? "Compra el curso completo por"
+                : "Get full course access for"}{" "}
+              {formatPrice(course.priceCents)}.
+            </p>
+            <div className="mt-4 flex justify-center">
+              {user ? (
+                <StripeCheckoutButton slug={course.slug} lang={lang} priceCents={course.priceCents} />
+              ) : (
+                <Link
+                  href={`/login?next=/training-courses/${course.slug}`}
+                  className="rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
+                >
+                  {es ? "Inicia sesión para comprar" : "Log in to buy"}
+                </Link>
+              )}
+            </div>
+          </div>
+        ) : null}
+      </section>
+
+      <Footer />
     </main>
-  );
+  )
 }

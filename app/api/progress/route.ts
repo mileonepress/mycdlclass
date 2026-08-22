@@ -1,41 +1,43 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server"
+import { createClient } from "@/lib/supabase/server"
 
-export async function POST(request: NextRequest) {
+/**
+ * Mark a lesson complete (or incomplete) for the current user.
+ * Body: { lessonId: string, completed?: boolean }
+ */
+export async function POST(request: Request) {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const { lessonId } = await request.json();
-
+    const { lessonId, completed = true } = await request.json()
     if (!lessonId) {
-      return NextResponse.json({ error: "Missing lessonId" }, { status: 400 });
+      return NextResponse.json({ error: "missing_lesson" }, { status: 400 })
     }
 
-    const { error } = await supabase
-      .from("user_progress")
-      .upsert(
-        {
-          user_id: user.id,
-          lesson_id: lessonId,
-          completed: true,
-          completed_at: new Date().toISOString(),
-        },
-        { onConflict: "user_id,lesson_id" }
-      );
+    const supabase = await createClient()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (!user) {
+      return NextResponse.json({ error: "auth_required" }, { status: 401 })
+    }
+
+    const { error } = await supabase.from("course_lesson_progress").upsert(
+      {
+        user_id: user.id,
+        lesson_id: lessonId,
+        completed: !!completed,
+        completed_at: completed ? new Date().toISOString() : null,
+      },
+      { onConflict: "user_id,lesson_id" },
+    )
 
     if (error) {
-      console.error("Error saving progress:", error);
-      return NextResponse.json({ error: "Failed to save progress" }, { status: 500 });
+      console.error("[v0] progress upsert error:", error.message)
+      return NextResponse.json({ error: "save_failed" }, { status: 500 })
     }
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Progress API error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ ok: true })
+  } catch (err) {
+    console.error("[v0] progress route error:", err)
+    return NextResponse.json({ error: "bad_request" }, { status: 400 })
   }
 }

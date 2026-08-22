@@ -1,127 +1,123 @@
-import Link from "next/link";
-import Image from "next/image";
-import { getCourses } from "@/lib/supabase/queries";
-import { getCourseProduct } from "@/lib/courseProducts";
-import Footer from "@/components/Footer";
+import Link from "next/link"
+import Footer from "@/components/Footer"
+import SiteHeader from "@/components/SiteHeader"
+import { getPublishedCourses, type Lang } from "@/lib/supabase/courseCatalog"
+import { getCurrentUser, getEntitledCourseIds } from "@/lib/access"
+
+export const dynamic = "force-dynamic"
 
 export const metadata = {
-  title: "CDL Training Courses | MyCDLClass",
+  title: "CDL Training Courses — Interactive Practice Exams",
   description:
-    "Interactive online CDL training courses with lessons, practice tests, and detailed explanations. Bilingual English & Spanish support.",
-};
+    "Interactive, bilingual CDL training courses with full practice exams, instant answer explanations, and progress tracking for every CDL endorsement.",
+}
 
-export default async function TrainingCoursesPage() {
-  const courses = await getCourses();
+function formatPrice(cents: number | null): string {
+  if (!cents || cents <= 0) return "Free"
+  return `$${(cents / 100).toFixed(2)}`
+}
+
+export default async function TrainingCoursesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>
+}) {
+  const { lang: langParam } = await searchParams
+  const lang: Lang = langParam === "es" ? "es" : "en"
+  const es = lang === "es"
+
+  const courses = await getPublishedCourses(lang)
+
+  const user = await getCurrentUser()
+  const entitledIds = user ? new Set(await getEntitledCourseIds(user.id)) : new Set<string>()
 
   return (
-    <main className="min-h-screen bg-[#F6F9FC]">
-      <nav className="sticky top-0 z-50 bg-[#061A2E] text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="MyCDLClass" width={58} height={58} />
-            <span className="font-extrabold tracking-wide">MYCDL CLASS</span>
-          </Link>
+    <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
+      <SiteHeader />
 
-          <div className="hidden gap-6 text-sm md:flex">
-            <Link href="/training-courses">Courses</Link>
-            <Link href="/courses">Free Tests</Link>
-            <Link href="/ebooks">Ebooks</Link>
-          </div>
-
-          <Link href="/courses" className="rounded-lg bg-[#16A34A] px-4 py-2 font-bold">
-            Free Test
-          </Link>
-        </div>
-      </nav>
-
-      <section className="bg-[#061A2E] text-white py-20 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-balance">CDL Training Courses</h1>
-          <p className="mt-6 text-xl max-w-3xl mx-auto text-pretty">
-            Study online with professional CDL lessons, practice tests,
-            detailed explanations, and bilingual support.
+      <section className="bg-[#061A2E] px-6 py-16 text-white">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#4C8DE0]">
+            {es ? "Cursos de Entrenamiento CDL" : "CDL Training Courses"}
           </p>
-          <div className="mt-8 flex justify-center gap-4 flex-wrap">
-            <Link href="/courses" className="bg-[#16A34A] px-6 py-3 rounded-lg font-bold">
-              Start Free Practice Test
-            </Link>
-            <Link href="#courses" className="border border-white px-6 py-3 rounded-lg font-bold">
-              Browse All Courses
-            </Link>
-          </div>
+          <h1 className="mt-2 text-balance text-4xl font-extrabold md:text-5xl">
+            {es
+              ? "Cursos interactivos para aprobar tu examen CDL"
+              : "Interactive courses to pass your CDL exam"}
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-pretty text-white/75">
+            {es
+              ? "Exámenes de práctica completos con explicaciones instantáneas y seguimiento de tu progreso, en inglés y español."
+              : "Full practice exams with instant answer explanations and progress tracking, in English and Spanish."}
+          </p>
+          <Link
+            href={es ? "/training-courses" : "/training-courses?lang=es"}
+            className="mt-6 inline-block rounded-lg border border-white/40 px-6 py-3 font-bold transition-colors hover:bg-white hover:text-[#061A2E]"
+          >
+            {es ? "View in English" : "Ver en Español"}
+          </Link>
         </div>
       </section>
 
-      <section id="courses" className="max-w-7xl mx-auto py-16 px-6">
+      <section className="mx-auto max-w-5xl px-6 py-16">
         {courses.length === 0 ? (
-          <p className="text-center text-gray-500">Courses are coming soon.</p>
+          <p className="text-center text-gray-600">
+            {es ? "No hay cursos disponibles todavía." : "No courses are available yet."}
+          </p>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {courses.map((course) => {
-              const product = getCourseProduct(course.slug);
-              const isPaid = !!product && !course.is_free;
+              const owned = entitledIds.has(course.id)
               return (
-                <div key={course.id} className="bg-white rounded-2xl shadow-lg border p-6 flex flex-col">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h2 className="text-xl font-bold text-[#0D2B45]">{course.title}</h2>
-                      <p className="mt-1 text-sm font-semibold text-[#16A34A]">{course.spanish_title}</p>
-                    </div>
-                    {isPaid ? (
-                      <span className="bg-[#1E4D8C] text-white text-xs px-3 py-1 rounded-full">
-                        ${product!.price}
+                <Link
+                  key={course.id}
+                  href={`/training-courses/${course.slug}${es ? "?lang=es" : ""}`}
+                  className="flex flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-lg"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="rounded-full bg-[#EAF2FC] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#1E4D8C]">
+                      {course.category || (es ? "Curso" : "Course")}
+                    </span>
+                    {owned ? (
+                      <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">
+                        {es ? "Adquirido" : "Owned"}
                       </span>
                     ) : (
-                      <span className="bg-[#16A34A] text-white text-xs px-3 py-1 rounded-full">
-                        Free
+                      <span className="text-sm font-extrabold text-[#0D2B45]">
+                        {course.isFree ? (es ? "Gratis" : "Free") : formatPrice(course.priceCents)}
                       </span>
                     )}
                   </div>
-                  <p className="mt-4 text-gray-600 flex-1">{course.description}</p>
-                  <div className="mt-6">
-                    <Link
-                      href={`/training-courses/${course.slug}`}
-                      className="block text-center bg-[#1E4D8C] text-white py-3 rounded-lg font-bold hover:bg-[#163d6e] transition"
-                    >
-                      View Course
-                    </Link>
+
+                  <h2 className="mt-4 text-lg font-bold text-[#0D2B45]">{course.title}</h2>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-gray-600">
+                    {course.shortDescription}
+                  </p>
+
+                  <div className="mt-4 flex items-center gap-4 text-xs font-semibold text-gray-500">
+                    <span>
+                      {course.lessonCount} {es ? "exámenes" : "practice exams"}
+                    </span>
+                    {course.estimatedMinutes ? <span>{course.estimatedMinutes} min</span> : null}
                   </div>
-                </div>
-              );
+
+                  <span className="mt-4 text-sm font-bold text-[#1E4D8C]">
+                    {owned
+                      ? es
+                        ? "Continuar →"
+                        : "Continue →"
+                      : es
+                        ? "Ver curso →"
+                        : "View course →"}
+                  </span>
+                </Link>
+              )
             })}
           </div>
         )}
       </section>
 
-      <section className="bg-white py-16 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-[#0D2B45] text-balance">Why Students Choose MyCDLClass</h2>
-          <div className="grid md:grid-cols-4 gap-6 mt-10">
-            <Feature title="Bilingual" text="English & Spanish course options." />
-            <Feature title="Practice Tests" text="Real CDL-style exam questions." />
-            <Feature title="Mobile Friendly" text="Study on any device." />
-            <Feature title="Track Progress" text="Save your scores and lessons." />
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#061A2E] text-white py-20 text-center px-6">
-        <h2 className="text-4xl font-bold text-balance">Ready to Pass Your CDL Exam?</h2>
-        <p className="mt-4 text-xl text-pretty">Join thousands of future CDL drivers preparing with MyCDLClass.</p>
-        <Link href="#courses" className="inline-block mt-8 bg-[#16A34A] px-8 py-4 rounded-lg font-bold text-lg">
-          Browse Courses
-        </Link>
-      </section>
       <Footer />
     </main>
-  );
-}
-
-function Feature({ title, text }: { title: string; text: string }) {
-  return (
-    <div className="p-6 border rounded-xl">
-      <h3 className="font-bold text-lg text-[#0D2B45]">{title}</h3>
-      <p className="mt-2 text-gray-600">{text}</p>
-    </div>
-  );
+  )
 }

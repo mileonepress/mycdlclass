@@ -1,62 +1,56 @@
-import Link from "next/link";
-import Image from "next/image";
-import { redirect } from "next/navigation";
-import { getCourseBySlug } from "@/lib/supabase/queries";
-import { verifyAndGrantSession } from "@/lib/verifySession";
+import Link from "next/link"
+import { redirect } from "next/navigation"
+import SiteHeader from "@/components/SiteHeader"
+import { getStripe } from "@/lib/stripe"
+import { getCourseDetail, type Lang } from "@/lib/supabase/courseCatalog"
+import { verifyAndGrantSession } from "@/lib/courseEntitlements"
+
+export const dynamic = "force-dynamic"
 
 export default async function SuccessPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ lang?: string; session_id?: string }>;
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ lang?: string; session_id?: string }>
 }) {
-  const { slug } = await params;
-  const { lang: langParam, session_id } = await searchParams;
-  const lang = langParam === "es" ? "es" : "en";
+  const { slug } = await params
+  const { lang: langParam, session_id } = await searchParams
+  const lang: Lang = langParam === "es" ? "es" : "en"
+  const es = lang === "es"
 
-  const course = await getCourseBySlug(slug);
-  if (!course) {
-    redirect("/training-courses");
-  }
+  const course = await getCourseDetail(slug, lang)
+  if (!course) redirect("/training-courses")
 
   // Verify the Stripe session and grant access (fallback for webhook latency).
   if (session_id) {
-    await verifyAndGrantSession(session_id, slug);
+    await verifyAndGrantSession(session_id, getStripe)
   }
 
-  const title = lang === "es" ? course.spanish_title : course.title;
+  const langSuffix = es ? "?lang=es" : ""
+  const firstLessonKey = course.sections[0]?.lessons[0]?.lessonKey
 
-  const t = lang === "es"
+  const t = es
     ? {
         thanks: "¡Gracias por tu compra!",
-        body: `Ya tienes acceso completo al curso de ${title}. Comienza a estudiar ahora.`,
-        startLessons: "Comenzar Lecciones",
-        practiceTest: "Examen de Práctica",
-        browse: "Ver Todos los Cursos",
+        body: `Ya tienes acceso completo al curso ${course.title}. Comienza a estudiar ahora.`,
+        start: "Comenzar el curso",
+        firstExam: "Ir al primer examen",
+        browse: "Ver todos los cursos",
         receipt: "Recibirás un recibo de Stripe por correo electrónico.",
       }
     : {
         thanks: "Thank you for your purchase!",
-        body: `You now have full access to the ${title} course. Start studying right away.`,
-        startLessons: "Start Lessons",
-        practiceTest: "Practice Test",
-        browse: "Browse All Courses",
+        body: `You now have full access to the ${course.title} course. Start studying right away.`,
+        start: "Go to the course",
+        firstExam: "Start the first exam",
+        browse: "Browse all courses",
         receipt: "You will receive a Stripe receipt by email.",
-      };
-
-  const langSuffix = lang === "es" ? "?lang=es" : "";
+      }
 
   return (
-    <main className="min-h-screen bg-[#F6F9FC]">
-      <nav className="bg-[#061A2E] text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="MyCDLClass" width={58} height={58} />
-            <span className="font-extrabold tracking-wide">MYCDL CLASS</span>
-          </Link>
-        </div>
-      </nav>
+    <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
+      <SiteHeader />
 
       <section className="flex min-h-[70vh] flex-col items-center justify-center px-6 py-16 text-center">
         <div className="mb-8 rounded-full bg-[#16A34A] p-6">
@@ -71,16 +65,18 @@ export default async function SuccessPage({
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <Link
             href={`/training-courses/${slug}${langSuffix}`}
-            className="rounded-xl bg-[#16A34A] px-8 py-4 font-bold text-white transition-colors hover:bg-[#15803d]"
-          >
-            {t.startLessons}
-          </Link>
-          <Link
-            href={`/training-courses/${slug}/quiz${langSuffix}`}
             className="rounded-xl bg-[#1E4D8C] px-8 py-4 font-bold text-white transition-colors hover:bg-[#163d6e]"
           >
-            {t.practiceTest}
+            {t.start}
           </Link>
+          {firstLessonKey ? (
+            <Link
+              href={`/training-courses/${slug}/quiz/${firstLessonKey}${langSuffix}`}
+              className="rounded-xl bg-[#16A34A] px-8 py-4 font-bold text-white transition-colors hover:bg-[#15803d]"
+            >
+              {t.firstExam}
+            </Link>
+          ) : null}
         </div>
 
         <Link href="/training-courses" className="mt-6 text-sm font-medium text-[#1E4D8C] hover:underline">
@@ -90,5 +86,5 @@ export default async function SuccessPage({
         <p className="mt-8 text-xs text-gray-400">{t.receipt}</p>
       </section>
     </main>
-  );
+  )
 }
