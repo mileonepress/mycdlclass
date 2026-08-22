@@ -3,6 +3,7 @@ import { getStripe } from "@/lib/stripe"
 import { createClient } from "@/lib/supabase/server"
 import { getCourseDetail } from "@/lib/supabase/courseCatalog"
 import { hasCourseAccess } from "@/lib/access"
+import { STUDY_GUIDE_STRIPE_PRODUCT_ID, STUDY_GUIDE_PRICE_CENTS } from "@/lib/pricing"
 
 export async function POST(request: Request) {
   try {
@@ -50,10 +51,10 @@ export async function POST(request: Request) {
             quantity: 1,
             price_data: {
               currency: "usd",
-              unit_amount: course.priceCents,
-              product_data: {
-                name: `${course.title} — CDL Training Course`,
-              },
+              unit_amount: STUDY_GUIDE_PRICE_CENTS,
+              // Attach to the single shared Stripe product so all study-guide
+              // sales roll up under one catalog entry.
+              product: STUDY_GUIDE_STRIPE_PRODUCT_ID,
             },
           },
         ],
