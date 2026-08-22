@@ -54,6 +54,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/training-courses" className="hover:text-[#1E4D8C]">
+                  CDL Training Courses
+                </Link>
+              </li>
+              <li>
                 <Link href="/courses" className="hover:text-[#1E4D8C]">
                   CDL Practice Tests
                 </Link>
@@ -82,11 +87,6 @@ export default function Footer() {
               <li>
                 <Link href="/privacy" className="hover:text-[#1E4D8C]">
                   Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin" className="hover:text-[#1E4D8C]">
-                  Admin Panel
                 </Link>
               </li>
               <li>
