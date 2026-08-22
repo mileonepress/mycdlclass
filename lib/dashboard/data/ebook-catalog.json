@@ -1,0 +1,498 @@
+{
+  "generatedFrom": "staging bundle",
+  "note": "Non-sensitive catalog metadata for the preview dashboard. No binaries, secrets, or customer data.",
+  "totals": {
+    "families": 9,
+    "editions": 18,
+    "files": 18,
+    "covers": 9
+  },
+  "families": [
+    {
+      "id": "f6059845-0e9b-5134-abcc-168fc8a84d09",
+      "slug": "general-knowledge",
+      "courseId": "e5c1d491-5448-500f-9313-e1a9f5215ee1",
+      "status": "ready_for_review",
+      "editions": [
+        {
+          "language": "en",
+          "title": "General Knowledge CDL Prep eBook",
+          "subtitle": "Study Guide for Commercial Driver License",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.general_knowledge.en",
+          "googleProductId": "course.general_knowledge.en",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "general-knowledge/general-knowledge-en-v1.pdf",
+            "bytes": 567048,
+            "pageCount": 126,
+            "mime": "application/pdf",
+            "checksum": "02664ee53f6848e79ce57101e32172408fc02c1c7d7f112cb7dd2c17cc496c67",
+            "status": "ready_for_upload"
+          }
+        },
+        {
+          "language": "es",
+          "title": "Libro electrónico CDL: Conocimientos Generales",
+          "subtitle": "Guía de estudio para la licencia de conducir comercial",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.general_knowledge.es",
+          "googleProductId": "course.general_knowledge.es",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "general-knowledge/general-knowledge-es-v1.pdf",
+            "bytes": 616796,
+            "pageCount": 140,
+            "mime": "application/pdf",
+            "checksum": "2a316bb51ac1a1b0deda44ba6cc95de4709058ee6b0b9b97728574a49e6aa557",
+            "status": "ready_for_upload"
+          }
+        }
+      ],
+      "cover": {
+        "bucket": "public-assets",
+        "storagePath": "ebook-covers/general-knowledge.webp",
+        "mime": "image/webp",
+        "altEn": "General Knowledge CDL prep eBook cover",
+        "altEs": "Portada del libro CDL Conocimientos Generales",
+        "status": "ready_for_review"
+      }
+    },
+    {
+      "id": "8e995f72-7a96-5a7b-83f8-53cabc0f6d72",
+      "slug": "air-brakes",
+      "courseId": "764bc613-c87c-57f5-82ce-0ac1f4ed3480",
+      "status": "ready_for_review",
+      "editions": [
+        {
+          "language": "en",
+          "title": "Air Brakes CDL Prep eBook",
+          "subtitle": "Study Guide for Commercial Driver License",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.air_brakes.en",
+          "googleProductId": "course.air_brakes.en",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "air-brakes/air-brakes-en-v1.pdf",
+            "bytes": 217994,
+            "pageCount": 39,
+            "mime": "application/pdf",
+            "checksum": "9e988ab1498fc9eadd68ce679c8962252798149ad61262b6190b1ad6143d4bc0",
+            "status": "ready_for_upload"
+          }
+        },
+        {
+          "language": "es",
+          "title": "Libro electrónico CDL: Frenos de Aire",
+          "subtitle": "Guía de estudio para la licencia de conducir comercial",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.air_brakes.es",
+          "googleProductId": "course.air_brakes.es",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "air-brakes/air-brakes-es-v1.pdf",
+            "bytes": 231562,
+            "pageCount": 44,
+            "mime": "application/pdf",
+            "checksum": "4b5af61bae65b695ac64ac17fd2250330f16b3b0c01c6c3ec3217751399b1162",
+            "status": "ready_for_upload"
+          }
+        }
+      ],
+      "cover": {
+        "bucket": "public-assets",
+        "storagePath": "ebook-covers/air-brakes.webp",
+        "mime": "image/webp",
+        "altEn": "Air Brakes CDL prep eBook cover",
+        "altEs": "Portada del libro CDL Frenos de Aire",
+        "status": "ready_for_review"
+      }
+    },
+    {
+      "id": "f20aae53-e603-5fe9-a64d-630f905509ca",
+      "slug": "combination-vehicles",
+      "courseId": "3287b3e9-31a4-5961-9256-d408e20765f1",
+      "status": "ready_for_review",
+      "editions": [
+        {
+          "language": "en",
+          "title": "Combination Vehicles CDL Prep eBook",
+          "subtitle": "Study Guide for Commercial Driver License",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.combination_vehicles.en",
+          "googleProductId": "course.combination_vehicles.en",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "combination-vehicles/combination-vehicles-en-v1.pdf",
+            "bytes": 224229,
+            "pageCount": 40,
+            "mime": "application/pdf",
+            "checksum": "ba580b696b9df07a7d26ceac2f615fac354dc4c776a031ddf8af364552265527",
+            "status": "ready_for_upload"
+          }
+        },
+        {
+          "language": "es",
+          "title": "Libro electrónico CDL: Vehículos Combinados",
+          "subtitle": "Guía de estudio para la licencia de conducir comercial",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.combination_vehicles.es",
+          "googleProductId": "course.combination_vehicles.es",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "combination-vehicles/combination-vehicles-es-v1.pdf",
+            "bytes": 233812,
+            "pageCount": 42,
+            "mime": "application/pdf",
+            "checksum": "158daa49e62c550757277988c9207b7a133e7c4d7fda3b7d67cce67a099a53ef",
+            "status": "ready_for_upload"
+          }
+        }
+      ],
+      "cover": {
+        "bucket": "public-assets",
+        "storagePath": "ebook-covers/combination-vehicles.webp",
+        "mime": "image/webp",
+        "altEn": "Combination Vehicles CDL prep eBook cover",
+        "altEs": "Portada del libro CDL Vehículos Combinados",
+        "status": "ready_for_review"
+      }
+    },
+    {
+      "id": "d0e5eaf8-9f9a-50ff-b653-a12babcf78c1",
+      "slug": "hazmat",
+      "courseId": "fe69ad18-2877-57c8-a1f5-ce331bc53942",
+      "status": "ready_for_review",
+      "editions": [
+        {
+          "language": "en",
+          "title": "Hazardous Materials CDL Prep eBook",
+          "subtitle": "Study Guide for Commercial Driver License",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.hazmat.en",
+          "googleProductId": "course.hazmat.en",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "hazmat/hazmat-en-v1.pdf",
+            "bytes": 249729,
+            "pageCount": 47,
+            "mime": "application/pdf",
+            "checksum": "8637a22e616735e0e9973975e7324f6ae0a502a3eebaccd06137f6855fe56131",
+            "status": "ready_for_upload"
+          }
+        },
+        {
+          "language": "es",
+          "title": "Libro electrónico CDL: Materiales Peligrosos",
+          "subtitle": "Guía de estudio para la licencia de conducir comercial",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.hazmat.es",
+          "googleProductId": "course.hazmat.es",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "hazmat/hazmat-es-v1.pdf",
+            "bytes": 257495,
+            "pageCount": 48,
+            "mime": "application/pdf",
+            "checksum": "e4e3321b9f121f347a71f0ca34a7f83e5f9e420ecd7fc8a5fce6452f2655d062",
+            "status": "ready_for_upload"
+          }
+        }
+      ],
+      "cover": {
+        "bucket": "public-assets",
+        "storagePath": "ebook-covers/hazmat.webp",
+        "mime": "image/webp",
+        "altEn": "Hazardous Materials CDL prep eBook cover",
+        "altEs": "Portada del libro CDL Materiales Peligrosos",
+        "status": "ready_for_review"
+      }
+    },
+    {
+      "id": "dc9c3d81-6f1a-5c4e-a075-c69d3ff0de6a",
+      "slug": "pre-trip-inspection",
+      "courseId": "2c69a20c-7203-59ae-bbc1-15c06848b423",
+      "status": "ready_for_review",
+      "editions": [
+        {
+          "language": "en",
+          "title": "Pre-Trip Inspection CDL Prep eBook",
+          "subtitle": "Study Guide for Commercial Driver License",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.pre_trip_inspection.en",
+          "googleProductId": "course.pre_trip_inspection.en",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "pre-trip-inspection/pre-trip-inspection-en-v1.pdf",
+            "bytes": 202054,
+            "pageCount": 36,
+            "mime": "application/pdf",
+            "checksum": "70d75fd323ae2fef7bf976e4097de98eca39ecb984c0e46a645b7f78a95b5e7c",
+            "status": "ready_for_upload"
+          }
+        },
+        {
+          "language": "es",
+          "title": "Libro electrónico CDL: Inspección Antes del Viaje",
+          "subtitle": "Guía de estudio para la licencia de conducir comercial",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.pre_trip_inspection.es",
+          "googleProductId": "course.pre_trip_inspection.es",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "pre-trip-inspection/pre-trip-inspection-es-v1.pdf",
+            "bytes": 208251,
+            "pageCount": 38,
+            "mime": "application/pdf",
+            "checksum": "3e4064587fc1c8260284e4076c4474ca009ba56cfde4ea9413d0e17dd85ff324",
+            "status": "ready_for_upload"
+          }
+        }
+      ],
+      "cover": {
+        "bucket": "public-assets",
+        "storagePath": "ebook-covers/pre-trip-inspection.webp",
+        "mime": "image/webp",
+        "altEn": "Pre-Trip Inspection CDL prep eBook cover",
+        "altEs": "Portada del libro CDL Inspección Antes del Viaje",
+        "status": "ready_for_review"
+      }
+    },
+    {
+      "id": "e7d44e2c-1a80-54d5-b19a-4abc238f8401",
+      "slug": "passenger",
+      "courseId": "87600b20-632d-519c-a6c9-4549f532d094",
+      "status": "ready_for_review",
+      "editions": [
+        {
+          "language": "en",
+          "title": "Passenger Endorsement CDL Prep eBook",
+          "subtitle": "Study Guide for Commercial Driver License",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.passenger.en",
+          "googleProductId": "course.passenger.en",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "passenger/passenger-en-v1.pdf",
+            "bytes": 202820,
+            "pageCount": 35,
+            "mime": "application/pdf",
+            "checksum": "b76b32bf98de54b175d346fe9b4371174f81010783c34943eb9e194f9cc03ca0",
+            "status": "ready_for_upload"
+          }
+        },
+        {
+          "language": "es",
+          "title": "Libro electrónico CDL: Endoso de Pasajeros",
+          "subtitle": "Guía de estudio para la licencia de conducir comercial",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.passenger.es",
+          "googleProductId": "course.passenger.es",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "passenger/passenger-es-v1.pdf",
+            "bytes": 214631,
+            "pageCount": 39,
+            "mime": "application/pdf",
+            "checksum": "468ab5b2b7dd531a4b6e5183a3d33bf553f0874d237f7e300b88ee0877fb1d57",
+            "status": "ready_for_upload"
+          }
+        }
+      ],
+      "cover": {
+        "bucket": "public-assets",
+        "storagePath": "ebook-covers/passenger.webp",
+        "mime": "image/webp",
+        "altEn": "Passenger Endorsement CDL prep eBook cover",
+        "altEs": "Portada del libro CDL Endoso de Pasajeros",
+        "status": "ready_for_review"
+      }
+    },
+    {
+      "id": "1db37e4d-b73e-5078-a71a-4c4d18c43701",
+      "slug": "school-bus",
+      "courseId": "a0f0eb65-3ddc-5850-a3c3-271c81051e07",
+      "status": "ready_for_review",
+      "editions": [
+        {
+          "language": "en",
+          "title": "School Bus Endorsement CDL Prep eBook",
+          "subtitle": "Study Guide for Commercial Driver License",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.school_bus.en",
+          "googleProductId": "course.school_bus.en",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "school-bus/school-bus-en-v1.pdf",
+            "bytes": 196873,
+            "pageCount": 33,
+            "mime": "application/pdf",
+            "checksum": "3a3ba3b5cb705ad0252f281984f320bc18c43737adcbf05ba322b07c73a4fbcb",
+            "status": "ready_for_upload"
+          }
+        },
+        {
+          "language": "es",
+          "title": "Libro electrónico CDL: Endoso de Autobús Escolar",
+          "subtitle": "Guía de estudio para la licencia de conducir comercial",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.school_bus.es",
+          "googleProductId": "course.school_bus.es",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "school-bus/school-bus-es-v1.pdf",
+            "bytes": 203077,
+            "pageCount": 35,
+            "mime": "application/pdf",
+            "checksum": "c07f90899578103ac8121cc887f98542fc5cd5efcdd8a64448f834c2ab7b1eba",
+            "status": "ready_for_upload"
+          }
+        }
+      ],
+      "cover": {
+        "bucket": "public-assets",
+        "storagePath": "ebook-covers/school-bus.webp",
+        "mime": "image/webp",
+        "altEn": "School Bus Endorsement CDL prep eBook cover",
+        "altEs": "Portada del libro CDL Endoso de Autobús Escolar",
+        "status": "ready_for_review"
+      }
+    },
+    {
+      "id": "c9735f86-6c04-543c-a674-fdc3dd8f00f3",
+      "slug": "tanker",
+      "courseId": "6a59e768-74cd-5649-90c3-5f09b279479c",
+      "status": "ready_for_review",
+      "editions": [
+        {
+          "language": "en",
+          "title": "Tanker Endorsement CDL Prep eBook",
+          "subtitle": "Study Guide for Commercial Driver License",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.tanker.en",
+          "googleProductId": "course.tanker.en",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "tanker/tanker-en-v1.pdf",
+            "bytes": 174700,
+            "pageCount": 29,
+            "mime": "application/pdf",
+            "checksum": "0c900a80091bee3af8a0371d1ef83c025fde8c8c78e4bcbaea35c047184dc92c",
+            "status": "ready_for_upload"
+          }
+        },
+        {
+          "language": "es",
+          "title": "Libro electrónico CDL: Endoso de Tanques",
+          "subtitle": "Guía de estudio para la licencia de conducir comercial",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.tanker.es",
+          "googleProductId": "course.tanker.es",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "tanker/tanker-es-v1.pdf",
+            "bytes": 173482,
+            "pageCount": 29,
+            "mime": "application/pdf",
+            "checksum": "b2eb0ea02a4450ced811e0f5170f2350f287408a4279bb2b7e0014bbcef7e9f0",
+            "status": "ready_for_upload"
+          }
+        }
+      ],
+      "cover": {
+        "bucket": "public-assets",
+        "storagePath": "ebook-covers/tanker.webp",
+        "mime": "image/webp",
+        "altEn": "Tanker Endorsement CDL prep eBook cover",
+        "altEs": "Portada del libro CDL Endoso de Tanques",
+        "status": "ready_for_review"
+      }
+    },
+    {
+      "id": "273b5641-0f3f-5a16-9f9a-c307c4cf4089",
+      "slug": "doubles-triples",
+      "courseId": "aab9969b-bd5b-5477-a095-98ec78ad1694",
+      "status": "ready_for_review",
+      "editions": [
+        {
+          "language": "en",
+          "title": "Doubles and Triples CDL Prep eBook",
+          "subtitle": "Study Guide for Commercial Driver License",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.doubles_triples.en",
+          "googleProductId": "course.doubles_triples.en",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "doubles-triples/doubles-triples-en-v1.pdf",
+            "bytes": 182104,
+            "pageCount": 30,
+            "mime": "application/pdf",
+            "checksum": "8aba044fdd43870963776cb7b7529849fc890539d54adc8643eac5361f6600ae",
+            "status": "ready_for_upload"
+          }
+        },
+        {
+          "language": "es",
+          "title": "Libro electrónico CDL: Dobles y Triples",
+          "subtitle": "Guía de estudio para la licencia de conducir comercial",
+          "priceUsd": "14.99",
+          "appleProductId": "com.mycdlclass.appname.course.doubles_triples.es",
+          "googleProductId": "course.doubles_triples.es",
+          "doNotReuseId": "com.mycdlclass.appname.tier14.99",
+          "releaseGate": "HOLD_FOR_CONTENT_QA_AND_STORE_ID_CREATION",
+          "file": {
+            "bucket": "ebook-files",
+            "storagePath": "doubles-triples/doubles-triples-es-v1.pdf",
+            "bytes": 185651,
+            "pageCount": 31,
+            "mime": "application/pdf",
+            "checksum": "20e97484fdf0d2ce3640737263aa1e832e2013e8e1d2d3208c03f307232c886e",
+            "status": "ready_for_upload"
+          }
+        }
+      ],
+      "cover": {
+        "bucket": "public-assets",
+        "storagePath": "ebook-covers/doubles-triples.webp",
+        "mime": "image/webp",
+        "altEn": "Doubles and Triples CDL prep eBook cover",
+        "altEs": "Portada del libro CDL Dobles y Triples",
+        "status": "ready_for_review"
+      }
+    }
+  ]
+}

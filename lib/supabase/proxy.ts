@@ -12,8 +12,12 @@ export async function updateSession(request: NextRequest) {
   // If Supabase is not configured yet, don't crash the whole site.
   // Public pages stay available; only the admin area needs auth, so we
   // send those requests to /login until the integration is connected.
+  const isProtected =
+    request.nextUrl.pathname.startsWith('/admin') ||
+    request.nextUrl.pathname.startsWith('/dashboard')
+
   if (!supabaseUrl || !supabaseAnonKey) {
-    if (request.nextUrl.pathname.startsWith('/admin')) {
+    if (isProtected) {
       const url = request.nextUrl.clone()
       url.pathname = '/login'
       return NextResponse.redirect(url)
@@ -51,11 +55,14 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protect the admin portal. All public pages (ebooks, checkout) stay open
-  // so guests can browse and purchase without an account.
-  if (request.nextUrl.pathname.startsWith('/admin') && !user) {
+  // Protect the admin portal and the secured content dashboard. All public
+  // pages (ebooks, checkout) stay open so guests can browse and purchase
+  // without an account. Fine-grained admin allowlisting is enforced in the
+  // server components/route handlers via requireDashboardAdmin().
+  if (isProtected && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
+    url.searchParams.set('next', request.nextUrl.pathname)
     return NextResponse.redirect(url)
   }
 
