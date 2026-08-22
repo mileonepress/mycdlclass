@@ -126,7 +126,7 @@ export default async function AdminPage() {
                     (
                       e: {
                         ebook_slug: string
-                        language: string
+                        language: string | null
                         payer_email: string | null
                         created_at: string
                       },

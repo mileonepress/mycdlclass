@@ -234,8 +234,8 @@ export async function getCourseDetail(slug: string, lang: Lang): Promise<CourseD
     })
     return {
       id: s.id,
-      sectionKey: s.section_key,
-      title: st?.title || s.section_key,
+      sectionKey: s.section_key ?? "",
+      title: st?.title || s.section_key || "",
       lessons: sectionLessons,
     }
   })
@@ -343,7 +343,7 @@ export async function getLessonQuiz(
       order: index + 1,
       text: qt?.question_text || "",
       explanation: qt?.explanation || "",
-      correctKey: q.correct_answer_key,
+      correctKey: q.correct_answer_key ?? "",
       choices: quizChoices,
     }
   })
@@ -361,9 +361,9 @@ export async function getLessonQuiz(
     },
     lesson: {
       id: lesson.id,
-      lessonKey: lesson.lesson_key,
+      lessonKey: lesson.lesson_key ?? "",
       isPreview: !!lesson.is_preview,
-      title: lessonT?.title || lesson.lesson_key,
+      title: lessonT?.title || lesson.lesson_key || "",
       summary: lessonT?.summary || "",
     },
     questions: quizQuestions,
