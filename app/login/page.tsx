@@ -37,11 +37,11 @@ export default function LoginPage() {
     setLoading(false)
   }
 
-  function nextParam() {
-    if (typeof window === "undefined") return "/admin"
+  function explicitNext() {
+    if (typeof window === "undefined") return null
     const params = new URLSearchParams(window.location.search)
     const next = params.get("next")
-    return next ? `/${next.replace(/^\//, "")}` : "/admin"
+    return next ? `/${next.replace(/^\//, "")}` : null
   }
 
   async function handleLogin(e: React.FormEvent) {
@@ -59,7 +59,20 @@ export default function LoginPage() {
       return
     }
 
-    window.location.href = nextParam()
+    // Honor an explicit ?next=; otherwise send admins to the admin portal
+    // and everyone else to their courses.
+    const target = explicitNext()
+    if (target) {
+      window.location.href = target
+      return
+    }
+
+    try {
+      const me = await fetch("/api/me").then((r) => r.json())
+      window.location.href = me?.isAdmin ? "/admin" : "/training-courses"
+    } catch {
+      window.location.href = "/training-courses"
+    }
   }
 
   async function handleSignup(e: React.FormEvent) {
