@@ -9,8 +9,8 @@ export const dynamic = "force-dynamic"
 const NAV = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
   { href: "/dashboard/courses", label: "Courses", icon: BookOpen },
-  { href: "/dashboard/ebooks", label: "eBook Catalog", icon: Library },
-  { href: "/dashboard/import", label: "Import Center", icon: UploadCloud },
+  { href: "/dashboard/e-books", label: "eBook Catalog", icon: Library },
+  { href: "/dashboard/content-import", label: "Import Center", icon: UploadCloud },
 ]
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {

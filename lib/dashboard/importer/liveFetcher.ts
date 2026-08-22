@@ -42,22 +42,25 @@ export const fetchExistingLive: FetchExisting = async (entity, ids) => {
   const out = new Map<string, Record<string, unknown>>()
   if (!LIVE_TABLES.has(entity) || ids.length === 0) return out
 
-  const db = createAdminClient()
+  // The entity name is validated against LIVE_TABLES above, but it is a
+  // runtime string; relax the builder's literal-table typing at this single
+  // boundary. Queries remain SELECT-only.
+  const db = createAdminClient() as unknown as {
+    from: (t: string) => {
+      select: (c: string) => { in: (col: string, vals: string[]) => Promise<{ data: unknown[] | null; error: { message: string } | null }> }
+    }
+  }
   const cols = ["id", EXTRA_COLS[entity]].filter(Boolean).join(",")
 
   for (let i = 0; i < ids.length; i += BATCH) {
     const chunk = ids.slice(i, i + BATCH)
-    const { data, error } = await db
-      .from(entity as string)
-      .select(cols)
-      .in("id", chunk)
+    const { data, error } = await db.from(entity as string).select(cols).in("id", chunk)
     if (error) {
       console.error(`[v0] fetchExistingLive ${entity} error:`, error.message)
       continue
     }
-    for (const row of data ?? []) {
-      const r = row as Record<string, unknown>
-      out.set(String(r.id), r)
+    for (const row of (data ?? []) as Record<string, unknown>[]) {
+      out.set(String(row.id), row)
     }
   }
   return out
