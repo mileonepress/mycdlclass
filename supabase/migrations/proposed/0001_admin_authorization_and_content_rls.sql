@@ -102,55 +102,65 @@ create policy admin_audit_admin_read
   using (public.is_admin());
 
 -- ---------------------------------------------------------------------
--- 3. Content RLS remediation
---    Add least-privilege READ policies to published content. These
---    tables already have RLS enabled; several currently have ZERO
---    policies (questions, answer_choices, practice_test_questions,
---    question_translations, choice_translations).
---    Public/anon + authenticated may READ published content only.
---    No INSERT/UPDATE/DELETE policies are added -> writes remain denied
---    for anon/authenticated (service_role bypasses RLS for the importer).
+-- 3. Content RLS remediation  [RECONCILED WITH LIVE PROD 2026-08-22]
+--    Pre-flight baseline of production revealed that MOST content tables
+--    ALREADY carry correct read policies:
+--      * status-gated published read: courses, sections, lessons,
+--        lesson_blocks, practice_tests, media_assets
+--          -> policy "read <table>", using (status = 'published')
+--      * read-all on translations: course_translations,
+--        section_translations, lesson_translations, block_translations
+--          -> policy "read <table> translations", using (true)
+--    Only FIVE tables are genuinely RLS-enabled-with-ZERO-policies (the
+--    actual advisor `rls_enabled_no_policy` findings):
+--        questions, question_translations, answer_choices,
+--        choice_translations, practice_test_questions
+--
+--    Therefore this step remediates ONLY those five, and does so
+--    defensively: it SKIPS any table that already has a SELECT policy so
+--    it can never create a duplicate/overlapping policy (which would trip
+--    the `multiple_permissive_policies` performance lint). Existing
+--    policies are left exactly as-is.
 -- ---------------------------------------------------------------------
 
--- Tables that carry their own status column -> gate on status='published'.
+-- questions has a status column -> published-only read (only if none exists)
 do $$
-declare t text;
 begin
-  foreach t in array array[
-    'courses','sections','lessons','lesson_blocks',
-    'questions','practice_tests','media_assets'
-  ] loop
-    execute format('alter table public.%I enable row level security;', t);
-    execute format('drop policy if exists %I on public.%I;', t||'_read_published', t);
-    execute format(
-      'create policy %I on public.%I for select using (status = ''published'');',
-      t||'_read_published', t
-    );
-  end loop;
+  execute 'alter table public.questions enable row level security';
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='questions' and cmd='SELECT'
+  ) then
+    execute 'create policy questions_read_published on public.questions
+             for select using (status = ''published'')';
+  end if;
 end $$;
 
--- Child/translation/join tables that have NO status column -> readable
--- when their published parent is readable. Kept simple and least-privilege:
--- allow SELECT (RLS still blocks writes, and grants are revoked in step 4).
+-- Child/translation/join tables with NO status column -> read-all,
+-- created ONLY when the table currently has no SELECT policy.
 do $$
 declare t text;
 begin
   foreach t in array array[
-    'course_translations','section_translations','lesson_translations',
-    'block_translations','question_translations','answer_choices',
+    'question_translations','answer_choices',
     'choice_translations','practice_test_questions'
   ] loop
     execute format('alter table public.%I enable row level security;', t);
-    execute format('drop policy if exists %I on public.%I;', t||'_read_all', t);
-    execute format(
-      'create policy %I on public.%I for select using (true);',
-      t||'_read_all', t
-    );
+    if not exists (
+      select 1 from pg_policies
+      where schemaname='public' and tablename=t and cmd='SELECT'
+    ) then
+      execute format(
+        'create policy %I on public.%I for select using (true);',
+        t||'_read_all', t
+      );
+    end if;
   end loop;
 end $$;
--- NOTE: For answer_choices/*_translations, a stricter policy that joins to
--- the parent's published status is preferable long-term. Deferred to
--- Checkpoint 2 to avoid heavy per-row subqueries before adapter profiling.
+-- NOTE: A stricter policy joining answer_choices/*_translations to the
+-- parent's published status is preferable long-term, but is deferred to
+-- avoid heavy per-row subqueries before adapter profiling. Matches the
+-- read-all posture already live on the sibling translation tables.
 
 -- ---------------------------------------------------------------------
 -- 4. Revoke dangerous write grants from anon/authenticated
