@@ -6,9 +6,9 @@ import Link from "next/link"
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/ebooks", label: "Ebooks" },
-  { href: "/courses", label: "CDL Practice Tests" },
-  { href: "/es/cursos", label: "Exámenes en Español" },
+  { href: "/ebooks", label: "Study Guide Ebooks" },
+  { href: "/training-courses", label: "Interactive Courses" },
+  { href: "/courses", label: "Free Practice Tests" },
 ]
 
 export default function SiteHeader() {

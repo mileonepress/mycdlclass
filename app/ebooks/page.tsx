@@ -36,9 +36,26 @@ export default function EbooksPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 pt-10">
-        <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-[#1E4D8C]/20 bg-white p-6 shadow-sm sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border-2 border-[#1E4D8C] bg-white p-6 shadow-sm sm:flex-row">
           <div>
-            <h2 className="text-lg font-bold text-[#0D2B45]">Not sure which ebook you need?</h2>
+            <h2 className="text-lg font-bold text-[#0D2B45]">Prefer to study interactively?</h2>
+            <p className="mt-1 text-sm text-gray-600">
+              The same CDL prep is also available as an{" "}
+              <span className="font-semibold text-[#0D2B45]">interactive course</span> &mdash; guided
+              practice exams online with instant feedback and saved progress.
+            </p>
+          </div>
+          <Link
+            href="/training-courses"
+            className="shrink-0 rounded-lg bg-[#1E4D8C] px-5 py-2.5 font-bold text-white transition-colors hover:bg-[#173B66]"
+          >
+            Explore Interactive Courses
+          </Link>
+        </div>
+
+        <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-2xl border border-[#1E4D8C]/20 bg-white p-6 shadow-sm sm:flex-row">
+          <div>
+            <h2 className="text-lg font-bold text-[#0D2B45]">Not sure which study guide you need?</h2>
             <p className="mt-1 text-sm text-gray-600">
               Try our free CDL practice tests in English and Spanish before you buy.
             </p>

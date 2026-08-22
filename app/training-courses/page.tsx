@@ -115,6 +115,25 @@ export default async function TrainingCoursesPage({
             })}
           </div>
         )}
+
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl border border-[#1E4D8C]/20 bg-white p-6 shadow-sm sm:flex-row">
+          <div>
+            <h2 className="text-lg font-bold text-[#0D2B45]">
+              {es ? "¿Prefieres estudiar sin conexión?" : "Prefer to study offline?"}
+            </h2>
+            <p className="mt-1 text-sm text-gray-600">
+              {es
+                ? "El mismo material de estudio CDL también está disponible como ebook en PDF descargable, sin necesidad de cuenta."
+                : "The same CDL study guide is also available as a downloadable PDF ebook — no account needed."}
+            </p>
+          </div>
+          <Link
+            href="/ebooks"
+            className="shrink-0 rounded-lg border border-[#1E4D8C] px-5 py-2.5 font-bold text-[#1E4D8C] transition-colors hover:bg-[#1E4D8C] hover:text-white"
+          >
+            {es ? "Ver ebooks de estudio" : "Browse Study Guide Ebooks"}
+          </Link>
+        </div>
       </section>
 
       <Footer />
