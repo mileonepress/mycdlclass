@@ -9,7 +9,7 @@ import { listEbookProducts, EBOOK_PRICE } from "@/lib/ebookProducts"
 export const metadata: Metadata = {
   title: "CDL Prep Ebooks (PDF) | MyCDLClass",
   description:
-    "Downloadable CDL prep exam booklets in English and Spanish. Each PDF ebook is $9.99 and is delivered instantly to your email after purchase.",
+    "Downloadable CDL prep exam booklets in English and Spanish. Each PDF ebook is $14.99 and is delivered instantly to your email after purchase.",
 }
 
 export default function EbooksPage() {
