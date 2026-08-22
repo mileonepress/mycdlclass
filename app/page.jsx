@@ -60,8 +60,16 @@ export default async function HomePage() {
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
             {["Bilingual", "Two Formats", "Mobile Ready", "Real Exam Prep"].map((item) => (
               <div key={item} className="rounded-xl bg-white p-4 shadow">
-                <p className="font-bold text-[#1E4D8C]">✓</p>
-                <p className="font-bold">{item}</p>
+                <svg
+                  className="h-5 w-5 text-[#1E4D8C]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+                <p className="mt-1 font-bold">{item}</p>
               </div>
             ))}
           </div>
@@ -332,10 +340,10 @@ export default async function HomePage() {
       {/* Value props */}
       <section className="bg-[#F6F9FC] px-6 py-16">
         <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-4">
-          <Feature title="Bilingual Editions" text="Every booklet in English and Spanish." />
-          <Feature title="Instant Delivery" text="PDF emailed the moment you check out." />
-          <Feature title="Study Anywhere" text="Read on phone, tablet, or computer, offline." />
-          <Feature title="No Account Needed" text="One-time purchase, no sign-up or subscription." />
+          <Feature title="Bilingual Editions" text="Every study guide in English and Spanish." />
+          <Feature title="Two Study Formats" text="Downloadable ebook or interactive online course." />
+          <Feature title="Real Exam Prep" text="Exam-style questions with clear answer explanations." />
+          <Feature title="Study Anywhere" text="Learn on your phone, tablet, or computer." />
         </div>
       </section>
 

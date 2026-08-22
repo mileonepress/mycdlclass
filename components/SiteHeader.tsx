@@ -62,7 +62,7 @@ export default function SiteHeader() {
 
           {loggedIn ? (
             <>
-              <Link href="/training-courses" className="transition-colors hover:text-[#1E4D8C]">
+              <Link href="/account" className="transition-colors hover:text-[#1E4D8C]">
                 My Courses
               </Link>
               {isAdmin && (
@@ -80,7 +80,7 @@ export default function SiteHeader() {
             </>
           ) : (
             <Link
-              href="/login?next=/training-courses"
+              href="/login?next=/account"
               className="rounded-lg border border-white/30 px-4 py-2 font-bold transition-colors hover:bg-white/10"
             >
               Log In
@@ -134,7 +134,7 @@ export default function SiteHeader() {
             {loggedIn ? (
               <>
                 <Link
-                  href="/training-courses"
+                  href="/account"
                   onClick={() => setOpen(false)}
                   className="rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-white/10"
                 >
@@ -162,7 +162,7 @@ export default function SiteHeader() {
               </>
             ) : (
               <Link
-                href="/login?next=/training-courses"
+                href="/login?next=/account"
                 onClick={() => setOpen(false)}
                 className="rounded-lg border border-white/30 px-3 py-3 text-center text-base font-bold transition-colors hover:bg-white/10"
               >

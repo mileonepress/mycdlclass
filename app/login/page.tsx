@@ -69,9 +69,9 @@ export default function LoginPage() {
 
     try {
       const me = await fetch("/api/me").then((r) => r.json())
-      window.location.href = me?.isAdmin ? "/admin" : "/training-courses"
+      window.location.href = me?.isAdmin ? "/admin" : "/account"
     } catch {
-      window.location.href = "/training-courses"
+      window.location.href = "/account"
     }
   }
 
@@ -153,9 +153,9 @@ export default function LoginPage() {
         </h1>
         <p className="mt-1 text-sm text-gray-600">
           {mode === "login"
-            ? "Log in to track your practice test progress."
+            ? "Log in to access your interactive CDL courses and track your progress."
             : mode === "signup"
-              ? "Start preparing for your CDL test today."
+              ? "Create an account to start your interactive CDL training courses."
               : "Enter your email and we'll send you a link to create a new password."}
         </p>
 
