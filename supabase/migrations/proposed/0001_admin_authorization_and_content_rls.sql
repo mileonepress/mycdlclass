@@ -58,8 +58,12 @@ as $$
   );
 $$;
 
-revoke all on function public.is_admin() from public;
-grant execute on function public.is_admin() to authenticated, service_role;
+-- Least privilege: is_admin() is referenced INSIDE RLS policies (evaluated
+-- as the policy owner), so it does NOT need to be directly callable over
+-- PostgREST RPC by anon/authenticated. Revoke EXECUTE from those roles to
+-- clear advisor lints 0028/0029; service_role retains it for server code.
+revoke all on function public.is_admin() from public, anon, authenticated;
+grant execute on function public.is_admin() to service_role;
 
 drop policy if exists admin_users_admin_read on public.admin_users;
 create policy admin_users_admin_read

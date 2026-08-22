@@ -20,6 +20,27 @@
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
+-- 0. Remediate pre-existing public.ebook_purchases (advisor lint 0013:
+--    RLS disabled in public). This purchase-history table predates the
+--    catalog work. Enable RLS additively: a user reads ONLY their own
+--    purchases; writes remain server-only (service_role, e.g. the payment
+--    webhook). No rows are modified.
+-- ---------------------------------------------------------------------
+alter table public.ebook_purchases enable row level security;
+
+drop policy if exists ebook_purchases_self_read on public.ebook_purchases;
+create policy ebook_purchases_self_read on public.ebook_purchases
+  for select using (auth.uid() = user_id);
+
+drop policy if exists ebook_purchases_service_all on public.ebook_purchases;
+create policy ebook_purchases_service_all on public.ebook_purchases
+  for all using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+
+revoke insert, update, delete, truncate on public.ebook_purchases from anon, authenticated;
+grant select on public.ebook_purchases to authenticated;
+
+-- ---------------------------------------------------------------------
 -- 1. content_release_state — QA/release status decoupled from website
 -- ---------------------------------------------------------------------
 create table if not exists public.content_release_state (
@@ -59,9 +80,14 @@ create policy content_release_state_service_all on public.content_release_state
 --    A trigger prevents setting release_status='approved' when an
 --    unresolved qa_hold blocker is recorded for the same entity.
 -- ---------------------------------------------------------------------
+-- Trigger functions run in the context of the triggering statement, so this
+-- does NOT need SECURITY DEFINER (using it would expose the function as a
+-- callable RPC — advisor lints 0028/0029). We keep only a pinned search_path
+-- to clear lint 0011, and revoke EXECUTE from anon/authenticated below.
 create or replace function public.enforce_qa_hold_before_approve()
 returns trigger
 language plpgsql
+set search_path = public
 as $$
 begin
   if new.release_status = 'approved'
@@ -74,6 +100,9 @@ begin
   new.updated_at := now();
   return new;
 end $$;
+
+-- Not meant to be called directly over the API; only the trigger invokes it.
+revoke all on function public.enforce_qa_hold_before_approve() from public, anon, authenticated;
 
 drop trigger if exists trg_enforce_qa_hold on public.content_release_state;
 create trigger trg_enforce_qa_hold
