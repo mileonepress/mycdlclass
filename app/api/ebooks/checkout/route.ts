@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { getStripe } from "@/lib/stripe"
 import { createClient } from "@/lib/supabase/server"
 import { getEbookProduct } from "@/lib/ebookProducts"
+import { STUDY_GUIDE_STRIPE_PRODUCT_ID, STUDY_GUIDE_PRICE_CENTS } from "@/lib/pricing"
 
 export async function POST(request: Request) {
   try {
@@ -19,8 +20,6 @@ export async function POST(request: Request) {
       data: { user },
     } = await supabase.auth.getUser()
 
-    const priceInCents = Math.round(Number.parseFloat(product.price) * 100)
-
     const rawSiteUrl =
       process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
       new URL(request.url).origin
@@ -37,10 +36,10 @@ export async function POST(request: Request) {
           quantity: 1,
           price_data: {
             currency: "usd",
-            unit_amount: priceInCents,
-            product_data: {
-              name: `${product.title} (${product.languageLabel}) — CDL Ebook (PDF)`,
-            },
+            unit_amount: STUDY_GUIDE_PRICE_CENTS,
+            // Attach to the single shared Stripe product so all study-guide
+            // sales roll up under one catalog entry.
+            product: STUDY_GUIDE_STRIPE_PRODUCT_ID,
           },
         },
       ],

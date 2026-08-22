@@ -1,18 +1,48 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/ebooks", label: "Ebooks" },
-  { href: "/courses", label: "CDL Practice Tests" },
-  { href: "/es/cursos", label: "Exámenes en Español" },
+  { href: "/ebooks", label: "Study Guide Ebooks" },
+  { href: "/training-courses", label: "Interactive Courses" },
+  { href: "/courses", label: "Free Practice Tests" },
 ]
+
+type SessionState = {
+  loggedIn: boolean
+  email: string | null
+  isAdmin: boolean
+}
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false)
+  const [session, setSession] = useState<SessionState | null>(null)
+
+  useEffect(() => {
+    let active = true
+    fetch("/api/me")
+      .then((res) => res.json())
+      .then((data: SessionState) => {
+        if (active) setSession(data)
+      })
+      .catch(() => {
+        if (active) setSession({ loggedIn: false, email: null, isAdmin: false })
+      })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  async function handleLogout() {
+    await fetch("/api/logout", { method: "POST" }).catch(() => {})
+    window.location.href = "/"
+  }
+
+  const loggedIn = session?.loggedIn ?? false
+  const isAdmin = session?.isAdmin ?? false
 
   return (
     <nav className="sticky top-0 z-50 bg-[#061A2E] text-white">
@@ -29,6 +59,34 @@ export default function SiteHeader() {
               {link.label}
             </Link>
           ))}
+
+          {loggedIn ? (
+            <>
+              <Link href="/account" className="transition-colors hover:text-[#1E4D8C]">
+                My Courses
+              </Link>
+              {isAdmin && (
+                <Link href="/admin" className="transition-colors hover:text-[#1E4D8C]">
+                  Admin
+                </Link>
+              )}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="rounded-lg border border-white/30 px-4 py-2 font-bold transition-colors hover:bg-white/10"
+              >
+                Log Out
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/login?next=/account"
+              className="rounded-lg border border-white/30 px-4 py-2 font-bold transition-colors hover:bg-white/10"
+            >
+              Log In
+            </Link>
+          )}
+
           <Link
             href="/ebooks"
             className="rounded-lg bg-[#1E4D8C] px-4 py-2 font-bold transition-colors hover:bg-[#173B66]"
@@ -72,6 +130,46 @@ export default function SiteHeader() {
                 {link.label}
               </Link>
             ))}
+
+            {loggedIn ? (
+              <>
+                <Link
+                  href="/account"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-white/10"
+                >
+                  My Courses
+                </Link>
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-white/10"
+                  >
+                    Admin
+                  </Link>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false)
+                    handleLogout()
+                  }}
+                  className="rounded-lg border border-white/30 px-3 py-3 text-center text-base font-bold transition-colors hover:bg-white/10"
+                >
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login?next=/account"
+                onClick={() => setOpen(false)}
+                className="rounded-lg border border-white/30 px-3 py-3 text-center text-base font-bold transition-colors hover:bg-white/10"
+              >
+                Log In
+              </Link>
+            )}
+
             <Link
               href="/ebooks"
               onClick={() => setOpen(false)}

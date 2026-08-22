@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import type Stripe from "stripe"
 import { getStripe } from "@/lib/stripe"
 import { recordAndDeliverEbook } from "@/lib/ebookDelivery"
+import { grantCourseEntitlement } from "@/lib/courseEntitlements"
 
 // Stripe requires the raw body to verify the signature.
 export const runtime = "nodejs"
@@ -27,9 +28,13 @@ export async function POST(request: Request) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session
     if (session.payment_status === "paid") {
-      // Only ebooks are sold; deliver the secure download by email.
+      // Ebooks: deliver the secure download by email.
       if (session.metadata?.kind === "ebook") {
         await recordAndDeliverEbook(session)
+      }
+      // Interactive courses: record the entitlement to grant access.
+      else if (session.metadata?.kind === "course") {
+        await grantCourseEntitlement(session)
       }
     }
   }

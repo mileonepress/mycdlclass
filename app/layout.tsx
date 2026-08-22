@@ -19,23 +19,25 @@ const PARENT_URL = 'https://www.mileonepress.com'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'My CDL Class by MileOne Press | Bilingual CDL Prep Ebooks (PDF)',
+    default: 'MyCDLClass | Bilingual CDL Test Prep — Study Guides & Interactive Courses',
     template: '%s | MyCDLClass by MileOne Press',
   },
   description:
-    'MyCDLClass, a MileOne Press brand, sells downloadable bilingual CDL test prep ebooks in English and Spanish. Instant PDF delivery after a simple one-time purchase — no account required. Study on PC, Mac, Android, and Apple devices.',
+    'MyCDLClass, a MileOne Press brand, helps you pass your CDL exam the first time with bilingual English and Spanish test prep in two formats: downloadable study guide ebooks and interactive online courses with instant answer explanations and progress tracking. Just $14.99 per study guide.',
   applicationName: 'MyCDLClass',
   keywords: [
     'CDL test prep',
-    'CDL practice',
-    'CDL prep ebooks',
+    'CDL practice test',
     'CDL study guide',
+    'CDL training course',
+    'interactive CDL course',
+    'CDL prep ebook',
     'bilingual CDL prep',
     'Spanish CDL prep',
     'commercial driver license',
+    'CDL exam questions',
     'MyCDLClass',
     'MileOne Press',
-    'mileonepress',
   ],
   authors: [{ name: 'MileOne Press', url: PARENT_URL }],
   creator: 'MileOne Press',
@@ -47,15 +49,15 @@ export const metadata: Metadata = {
     type: 'website',
     url: SITE_URL,
     siteName: 'MyCDLClass by MileOne Press',
-    title: 'MyCDLClass by MileOne Press | Bilingual CDL Prep Ebooks',
+    title: 'MyCDLClass | Bilingual CDL Test Prep — Study Guides & Interactive Courses',
     description:
-      'CDL test prep ebooks in English and Spanish from MileOne Press. Instant PDF delivery, no account required.',
+      'Pass your CDL exam with bilingual English and Spanish test prep from MileOne Press — downloadable study guide ebooks and interactive online courses.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MyCDLClass by MileOne Press | Bilingual CDL Prep Ebooks',
+    title: 'MyCDLClass | Bilingual CDL Test Prep — Study Guides & Interactive Courses',
     description:
-      'CDL test prep ebooks in English and Spanish from MileOne Press. Instant PDF delivery, no account required.',
+      'Pass your CDL exam with bilingual English and Spanish test prep from MileOne Press — study guide ebooks and interactive online courses.',
   },
 }
 
@@ -69,7 +71,7 @@ const organizationJsonLd = {
   alternateName: ['My CDL Class', 'MileOne Press', 'MileOne Press CDL'],
   url: SITE_URL,
   description:
-    'MyCDLClass is the CDL test prep brand of MileOne Press, offering bilingual CDL prep ebooks in English and Spanish.',
+    'MyCDLClass is the CDL test prep brand of MileOne Press, offering bilingual CDL study guides in English and Spanish as downloadable ebooks and interactive online courses.',
   brand: {
     '@type': 'Brand',
     name: 'MileOne Press',
@@ -90,7 +92,8 @@ const websiteJsonLd = {
   '@id': `${SITE_URL}/#website`,
   url: SITE_URL,
   name: 'MyCDLClass by MileOne Press',
-  description: 'Bilingual CDL test prep ebooks in English and Spanish from MileOne Press.',
+  description:
+    'Bilingual CDL test prep in English and Spanish from MileOne Press — study guide ebooks and interactive online courses.',
   publisher: { '@id': `${SITE_URL}/#organization` },
   inLanguage: ['en', 'es'],
 }

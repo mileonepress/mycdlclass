@@ -8,8 +8,8 @@ export default function Footer() {
         <div className="mb-12">
           <NewsletterSignup
             source="footer"
-            heading="Get CDL study tips & ebook updates"
-            subtext="New CDL prep ebooks and exam tips in English and Spanish."
+            heading="Get CDL study tips & exam updates"
+            subtext="Free CDL exam tips and new study guide releases in English and Spanish."
           />
         </div>
         <div className="grid gap-8 md:grid-cols-3">
@@ -18,8 +18,8 @@ export default function Footer() {
               My<span className="text-[#1E4D8C]">CDL</span>Class
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
-              Downloadable bilingual CDL prep ebooks to help you pass your exam. Instant PDF delivery,
-              no account required.
+              Bilingual CDL test prep to help you pass the first time &mdash; downloadable study guide
+              ebooks and interactive online courses in English and Spanish.
             </p>
             <p className="mt-3 text-sm text-white/70">
               A{" "}
@@ -36,26 +36,21 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Shop</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wide text-white/80">Study & Shop</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
               <li>
-                <Link href="/ebooks" className="hover:text-[#1E4D8C]">
-                  CDL Prep Ebooks
+                <Link href="/training-courses" className="hover:text-[#1E4D8C]">
+                  Interactive CDL Courses
                 </Link>
               </li>
               <li>
                 <Link href="/ebooks" className="hover:text-[#1E4D8C]">
-                  English Editions
-                </Link>
-              </li>
-              <li>
-                <Link href="/ebooks" className="hover:text-[#1E4D8C]">
-                  Spanish Editions
+                  CDL Study Guide Ebooks
                 </Link>
               </li>
               <li>
                 <Link href="/courses" className="hover:text-[#1E4D8C]">
-                  CDL Practice Tests
+                  Free CDL Practice Tests
                 </Link>
               </li>
               <li>
@@ -82,11 +77,6 @@ export default function Footer() {
               <li>
                 <Link href="/privacy" className="hover:text-[#1E4D8C]">
                   Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin" className="hover:text-[#1E4D8C]">
-                  Admin Panel
                 </Link>
               </li>
               <li>

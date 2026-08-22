@@ -4,9 +4,22 @@ import Footer from "@/components/Footer"
 import SiteHeader from "@/components/SiteHeader"
 import EbookCheckoutButton from "@/components/EbookCheckoutButton"
 import { listEbookProducts, EBOOK_PRICE } from "@/lib/ebookProducts"
+import { getPublishedCourses } from "@/lib/supabase/courseCatalog"
 
-export default function HomePage() {
+export default async function HomePage() {
   const featured = listEbookProducts().slice(0, 6)
+
+  // Live interactive-course catalog (for the lowest price shown in the format comparison).
+  let courseFromPrice = null
+  try {
+    const courses = await getPublishedCourses("en")
+    const paidPrices = courses
+      .filter((c) => !c.isFree && typeof c.priceCents === "number" && c.priceCents > 0)
+      .map((c) => c.priceCents)
+    if (paidPrices.length) courseFromPrice = (Math.min(...paidPrices) / 100).toFixed(2)
+  } catch {
+    courseFromPrice = null
+  }
 
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
@@ -15,7 +28,7 @@ export default function HomePage() {
       {/* Hero */}
       <section className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 lg:grid-cols-2">
         <div>
-          <p className="mb-3 font-bold text-[#1E4D8C]">English &amp; Español CDL Prep Ebooks</p>
+          <p className="mb-3 font-bold text-[#1E4D8C]">Bilingual CDL Study Guides &mdash; English &amp; Español</p>
 
           <h1 className="text-balance text-5xl font-extrabold leading-tight md:text-6xl">
             Pass Your CDL Test
@@ -23,8 +36,10 @@ export default function HomePage() {
           </h1>
 
           <p className="mt-6 max-w-xl text-pretty text-lg">
-            Downloadable CDL prep ebooks with real exam-style questions and clear explanations. Buy
-            once, get an instant PDF in your inbox, and study on any device &mdash; no account needed.
+            The same trusted CDL prep, your way: grab a downloadable{" "}
+            <span className="font-bold">ebook</span> to study offline, or take the{" "}
+            <span className="font-bold">interactive course</span> online with instant feedback and
+            progress tracking. Choose the format that fits how you learn.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
@@ -34,16 +49,27 @@ export default function HomePage() {
             >
               Browse Ebooks
             </Link>
-            <Link href="/about" className="rounded-lg border border-[#0D2B45] px-6 py-3 font-bold">
-              How It Works
+            <Link
+              href="/training-courses"
+              className="rounded-lg border border-[#1E4D8C] px-6 py-3 font-bold text-[#1E4D8C] transition-colors hover:bg-[#1E4D8C] hover:text-white"
+            >
+              Explore Interactive Courses
             </Link>
           </div>
 
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {["Bilingual", "Instant PDF", "Mobile Ready", "No Account"].map((item) => (
+            {["Bilingual", "Two Formats", "Mobile Ready", "Real Exam Prep"].map((item) => (
               <div key={item} className="rounded-xl bg-white p-4 shadow">
-                <p className="font-bold text-[#1E4D8C]">✓</p>
-                <p className="font-bold">{item}</p>
+                <svg
+                  className="h-5 w-5 text-[#1E4D8C]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+                <p className="mt-1 font-bold">{item}</p>
               </div>
             ))}
           </div>
@@ -61,6 +87,106 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Two ways to study */}
+      <section className="bg-white px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-wider text-[#1E4D8C]">
+              Two Ways to Study
+            </p>
+            <h2 className="mt-2 text-balance text-4xl font-bold text-[#0D2B45]">
+              Pick the Study Guide Format That Fits You
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-pretty text-gray-600">
+              Every MyCDLClass study guide covers the same real exam-style questions and clear
+              explanations. The only difference is how you want to study.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-2">
+            {/* Ebook */}
+            <div className="flex flex-col rounded-3xl border border-gray-200 bg-[#F6F9FC] p-8 shadow-sm">
+              <span className="w-fit rounded-full bg-[#1477DA] px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                Downloadable Ebook
+              </span>
+              <h3 className="mt-4 text-2xl font-bold text-[#0D2B45]">CDL Study Guide (PDF)</h3>
+              <p className="mt-2 text-pretty text-gray-600">
+                Buy once and get an instant PDF in your inbox. Study offline on any device &mdash; no
+                account or subscription required.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {[
+                  "One-time payment, instant email delivery",
+                  "Study offline, anywhere, on any device",
+                  "No account or login needed",
+                  "English or Spanish edition",
+                ].map((point) => (
+                  <li key={point} className="flex items-start gap-3">
+                    <span className="mt-0.5 font-bold text-[#1477DA]">✓</span>
+                    <span className="text-[#0D2B45]">{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 text-3xl font-extrabold text-[#0D2B45]">
+                ${EBOOK_PRICE}
+                <span className="ml-1 text-base font-medium text-gray-500">per ebook</span>
+              </p>
+              <div className="mt-auto pt-6">
+                <Link
+                  href="/ebooks"
+                  className="inline-flex w-full items-center justify-center rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
+                >
+                  Browse Study Guide Ebooks
+                </Link>
+              </div>
+            </div>
+
+            {/* Interactive course */}
+            <div className="flex flex-col rounded-3xl border-2 border-[#1E4D8C] bg-white p-8 shadow-lg">
+              <span className="w-fit rounded-full bg-[#1E4D8C] px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                Interactive Course
+              </span>
+              <h3 className="mt-4 text-2xl font-bold text-[#0D2B45]">Online Interactive Study Guide</h3>
+              <p className="mt-2 text-pretty text-gray-600">
+                Work through guided practice exams online with instant right/wrong feedback,
+                explanations, and saved progress so you always know what to review next.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {[
+                  "Interactive practice exams with instant feedback",
+                  "Progress tracking and quiz scores saved to your account",
+                  "Free preview lessons before you buy",
+                  "English or Spanish, study on any device",
+                ].map((point) => (
+                  <li key={point} className="flex items-start gap-3">
+                    <span className="mt-0.5 font-bold text-[#1E4D8C]">✓</span>
+                    <span className="text-[#0D2B45]">{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 text-3xl font-extrabold text-[#0D2B45]">
+                {courseFromPrice ? (
+                  <>
+                    ${courseFromPrice}
+                    <span className="ml-1 text-base font-medium text-gray-500">per course</span>
+                  </>
+                ) : (
+                  <span className="text-2xl">Free previews available</span>
+                )}
+              </p>
+              <div className="mt-auto pt-6">
+                <Link
+                  href="/training-courses"
+                  className="inline-flex w-full items-center justify-center rounded-lg bg-[#1E4D8C] px-6 py-3 font-bold text-white transition-colors hover:bg-[#173B66]"
+                >
+                  Explore Interactive Courses
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How it works */}
       <section className="bg-[#061A2E] px-6 py-20 text-white">
         <div className="mx-auto max-w-7xl">
@@ -69,24 +195,24 @@ export default function HomePage() {
           </p>
           <h2 className="mt-2 text-center text-4xl font-bold">How It Works</h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-white/70">
-            Buying your CDL prep ebook takes less than a minute &mdash; no sign-up, no subscription.
+            Getting started takes less than a minute &mdash; whichever study guide format you choose.
           </p>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             <Step
               number="1"
-              title="Pick Your Ebook"
-              text="Choose your CDL topic in English or Spanish from our catalog."
+              title="Pick Your Format"
+              text="Choose a downloadable ebook or an interactive course, in English or Spanish."
             />
             <Step
               number="2"
               title="Checkout Securely"
-              text="Pay once with a secure card checkout. No account to create."
+              text="Pay once with a secure card checkout. Ebooks need no account; courses unlock on login."
             />
             <Step
               number="3"
-              title="Download Instantly"
-              text="Your PDF is emailed right away so you can study offline, anywhere."
+              title="Start Studying"
+              text="Ebooks arrive by email instantly; interactive courses open right in your browser."
             />
           </div>
         </div>
@@ -214,10 +340,10 @@ export default function HomePage() {
       {/* Value props */}
       <section className="bg-[#F6F9FC] px-6 py-16">
         <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-4">
-          <Feature title="Bilingual Editions" text="Every booklet in English and Spanish." />
-          <Feature title="Instant Delivery" text="PDF emailed the moment you check out." />
-          <Feature title="Study Anywhere" text="Read on phone, tablet, or computer, offline." />
-          <Feature title="No Account Needed" text="One-time purchase, no sign-up or subscription." />
+          <Feature title="Bilingual Editions" text="Every study guide in English and Spanish." />
+          <Feature title="Two Study Formats" text="Downloadable ebook or interactive online course." />
+          <Feature title="Real Exam Prep" text="Exam-style questions with clear answer explanations." />
+          <Feature title="Study Anywhere" text="Learn on your phone, tablet, or computer." />
         </div>
       </section>
 

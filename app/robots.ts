@@ -9,7 +9,16 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         // Keep private, transactional, and post-purchase pages out of the index.
-        disallow: ["/admin", "/api/", "/login", "/reset-password", "/ebooks/success", "/auth/"],
+        disallow: [
+          "/admin",
+          "/account",
+          "/api/",
+          "/login",
+          "/reset-password",
+          "/ebooks/success",
+          "/training-courses/*/success",
+          "/auth/",
+        ],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

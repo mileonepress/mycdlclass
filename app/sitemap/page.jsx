@@ -13,29 +13,36 @@ const sitemap = [
     title: "Main Pages",
     pages: [
       { name: "Homepage", url: "/", goal: "Introduce brand and main CTA" },
-      { name: "Ebooks", url: "/ebooks", goal: "Sell downloadable prep PDFs" },
+      { name: "Interactive Courses", url: "/training-courses", goal: "Sell online interactive study guides" },
+      { name: "Study Guide Ebooks", url: "/ebooks", goal: "Sell downloadable PDF study guides" },
       { name: "About", url: "/about", goal: "Build trust and explain mission" },
-      { name: "Contact", url: "/contact", goal: "Order and download support" },
+      { name: "Contact", url: "/contact", goal: "Order, download, and account support" },
     ],
   },
   {
-    title: "Purchase Flow",
+    title: "Customer Account",
     pages: [
-      { name: "Browse Ebooks", url: "/ebooks", goal: "Pick a CDL prep ebook" },
-      { name: "Secure Checkout", url: "/ebooks", goal: "One-time Stripe payment" },
+      { name: "Log In", url: "/login", goal: "Customer & admin sign-in" },
+      { name: "My Courses", url: "/account", goal: "Access purchased interactive courses" },
       { name: "Order Success", url: "/ebooks/success", goal: "Instant PDF delivery by email" },
     ],
   },
   {
     title: "Owner",
     pages: [
-      { name: "Login", url: "/login", goal: "Owner sign-in" },
-      { name: "Admin", url: "/admin/purchases", goal: "Manage ebook sales & access" },
+      { name: "Admin Dashboard", url: "/admin", goal: "Overview of sales & access" },
+      { name: "Purchases", url: "/admin/purchases", goal: "Manage orders & entitlements" },
     ],
   },
 ]
 
-const journey = ["Free Practice Test", "Browse Ebooks", "Secure Checkout", "Email Delivery", "Download PDF"]
+const journey = [
+  "Free Practice Test",
+  "Choose a Format",
+  "Secure Checkout",
+  "Instant Access",
+  "Study & Pass",
+]
 
 export default function VisualSitemapPage() {
   const courses = getAllCourses("en")
@@ -45,7 +52,8 @@ export default function VisualSitemapPage() {
       <section className="bg-[#061A2E] px-6 py-16 text-center text-white">
         <h1 className="text-balance text-4xl font-extrabold sm:text-5xl">MyCDLClass Visual Sitemap</h1>
         <p className="mx-auto mt-4 max-w-3xl text-pretty text-lg leading-relaxed text-white/85">
-          UX blueprint for navigation and bilingual CDL prep ebook sales.
+          Navigation blueprint for our bilingual CDL test prep &mdash; interactive online courses and
+          downloadable study guide ebooks in English and Spanish.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -134,8 +142,9 @@ export default function VisualSitemapPage() {
           </div>
 
           <p className="mx-auto mt-8 max-w-3xl text-pretty text-center leading-relaxed text-gray-600">
-            Primary path: visitors browse prep ebooks, purchase with a one-time payment, and receive
-            a secure PDF download by email for offline study.
+            Primary path: visitors try a free practice test, choose an interactive course or a
+            downloadable ebook, complete a secure one-time checkout, and get instant access to study
+            and pass their CDL exam.
           </p>
         </div>
       </section>
@@ -143,7 +152,8 @@ export default function VisualSitemapPage() {
       <section className="bg-[#061A2E] px-6 py-16 text-center text-white">
         <h2 className="text-3xl font-bold sm:text-4xl">Conversion Goal</h2>
         <p className="mx-auto mt-4 max-w-3xl text-pretty leading-relaxed text-white/85">
-          Every main page should include a clear CTA to browse and buy a prep ebook.
+          Every main page should include a clear CTA to start an interactive course or download a
+          study guide ebook.
         </p>
       </section>
     </main>

@@ -37,11 +37,11 @@ export default function LoginPage() {
     setLoading(false)
   }
 
-  function nextParam() {
-    if (typeof window === "undefined") return "/admin"
+  function explicitNext() {
+    if (typeof window === "undefined") return null
     const params = new URLSearchParams(window.location.search)
     const next = params.get("next")
-    return next ? `/${next.replace(/^\//, "")}` : "/admin"
+    return next ? `/${next.replace(/^\//, "")}` : null
   }
 
   async function handleLogin(e: React.FormEvent) {
@@ -59,7 +59,20 @@ export default function LoginPage() {
       return
     }
 
-    window.location.href = nextParam()
+    // Honor an explicit ?next=; otherwise send admins to the admin portal
+    // and everyone else to their courses.
+    const target = explicitNext()
+    if (target) {
+      window.location.href = target
+      return
+    }
+
+    try {
+      const me = await fetch("/api/me").then((r) => r.json())
+      window.location.href = me?.isAdmin ? "/admin" : "/account"
+    } catch {
+      window.location.href = "/account"
+    }
   }
 
   async function handleSignup(e: React.FormEvent) {
@@ -140,9 +153,9 @@ export default function LoginPage() {
         </h1>
         <p className="mt-1 text-sm text-gray-600">
           {mode === "login"
-            ? "Log in to track your practice test progress."
+            ? "Log in to access your interactive CDL courses and track your progress."
             : mode === "signup"
-              ? "Start preparing for your CDL test today."
+              ? "Create an account to start your interactive CDL training courses."
               : "Enter your email and we'll send you a link to create a new password."}
         </p>
 
