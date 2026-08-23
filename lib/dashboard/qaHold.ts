@@ -46,20 +46,39 @@ export async function getQaHoldSummary(): Promise<QaHoldSummary> {
     return { rows: [], conflicts: 0, websitePublished: 0, mobileReleaseBlocked: 0 }
   }
 
+  // Authoritative release state is now persisted in content_release_state
+  // (migration 0003, populated at the repair checkpoint). Read it and use the
+  // stored release_status; fall back to read-time derivation if a row is
+  // missing. This helper still NEVER writes and NEVER changes course status.
+  const persisted = new Map<string, ReleaseStatus>()
+  const { data: releaseRows } = await (db as unknown as {
+    from: (t: string) => {
+      select: (c: string) => {
+        eq: (k: string, v: string) => Promise<{ data: { entity_id: string; release_status: string }[] | null }>
+      }
+    }
+  })
+    .from("content_release_state")
+    .select("entity_id,release_status")
+    .eq("entity_type", "course")
+  for (const r of releaseRows ?? []) {
+    persisted.set(r.entity_id, r.release_status as ReleaseStatus)
+  }
+
   const rows: QaHoldRow[] = courses.map((c) => {
     const liveStatus = String(c.status)
     const conflict = liveStatus === "published"
+    // Prefer the persisted release_status; derive only when no row exists.
+    const releaseStatus: ReleaseStatus =
+      persisted.get(c.id) ?? (conflict ? "qa_hold" : "ready_for_review")
     return {
       courseId: c.id,
       slug: c.slug,
       liveStatus,
       bundleIntent: "ready_for_review",
-      // Everything from the bundle is held for QA; a live-published family is
-      // explicitly a qa_hold because its store release cannot proceed until
-      // semantic QA clears the ready_for_review content.
-      releaseStatus: conflict ? "qa_hold" : "ready_for_review",
+      releaseStatus,
       conflict,
-      blocksMobileRelease: true, // no family may reach a store until QA clears
+      blocksMobileRelease: releaseStatus !== "approved", // held until QA clears/approved
     }
   })
 
