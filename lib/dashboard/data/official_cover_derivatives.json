@@ -1,0 +1,254 @@
+[
+  {
+    "file": "product-covers/official-v1/air-brakes-en.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 407675,
+    "sha256": "dbbeca286248358550209203ca72e6510c7cb100f6a81bffe8375822280adfdf"
+  },
+  {
+    "file": "product-covers/official-v1/air-brakes-en.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 330718,
+    "sha256": "99d11c4f217448f790d77803479e5155fc2a98ff7bab0fd24eccbc2cbdba05a9"
+  },
+  {
+    "file": "product-covers/official-v1/air-brakes-es.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 388681,
+    "sha256": "e27136887b3df639445ffc59505320074c800f7b79e3d9bf96e7e4f4fdb383af"
+  },
+  {
+    "file": "product-covers/official-v1/air-brakes-es.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 298344,
+    "sha256": "fa532349d48f4e5fdf0615033b2a03da748622b73618bd48f8b368354cb20e94"
+  },
+  {
+    "file": "product-covers/official-v1/combination-vehicles-en.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 358080,
+    "sha256": "475cbbbe44bef9ece95c58458600a6386730b7eeb567fa9029e5c1f25857dd67"
+  },
+  {
+    "file": "product-covers/official-v1/combination-vehicles-en.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 284080,
+    "sha256": "1db138cbf04538450943a709cca9e4cbc20d756515c2049e54a92fd78359fd9b"
+  },
+  {
+    "file": "product-covers/official-v1/combination-vehicles-es.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 344427,
+    "sha256": "87ff7f8cf64024a49f8b8bae14c667dd4e3626a88183cc0356a5ffebd63efeb5"
+  },
+  {
+    "file": "product-covers/official-v1/combination-vehicles-es.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 256618,
+    "sha256": "d12c960234f11579064a7dc91e14286a9a49af28013250757409002785a00ed4"
+  },
+  {
+    "file": "product-covers/official-v1/doubles-triples-en.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 293395,
+    "sha256": "c1743ba881bbfbb4db440918dfba8084818c3601d9ca370c4fa749de40419df3"
+  },
+  {
+    "file": "product-covers/official-v1/doubles-triples-en.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 199900,
+    "sha256": "f4eecf8e59b44d5ebe1756b713cc8c456d9b5c609a075136c30f755b424756db"
+  },
+  {
+    "file": "product-covers/official-v1/doubles-triples-es.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 289480,
+    "sha256": "bf9cf6bd3d506bf44144bae30fa6d8fa314496eab0fce1f62c038c0ecbd7a6dc"
+  },
+  {
+    "file": "product-covers/official-v1/doubles-triples-es.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 196318,
+    "sha256": "52a6bc6cd97f5125fce466c4a473ec62f89048c40d1e18bd47f7eeda4b5c45ff"
+  },
+  {
+    "file": "product-covers/official-v1/general-knowledge-en.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 383918,
+    "sha256": "3a9a98e0e8baeb7fb5da3615c9eeea820b7c47386f3a3cab14725b1d4595440e"
+  },
+  {
+    "file": "product-covers/official-v1/general-knowledge-en.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 346272,
+    "sha256": "e058359da677308d9957a4e50fed2a2e574957fcc57175615f265c319f958d7f"
+  },
+  {
+    "file": "product-covers/official-v1/general-knowledge-es.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 362218,
+    "sha256": "d25e3c3b95eb90c6f03ce3730c0cafce2c054b4037067b577c7c9a3a9843f6c1"
+  },
+  {
+    "file": "product-covers/official-v1/general-knowledge-es.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 303960,
+    "sha256": "2be6e6ef00be12bcc3956a14f0b4101f5b834ca446b2b90084567def561c801e"
+  },
+  {
+    "file": "product-covers/official-v1/hazmat-en.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 368654,
+    "sha256": "dd474b6c704504bba6c7c7b933d4836ccc4901272355c604c39f3563b89f87e5"
+  },
+  {
+    "file": "product-covers/official-v1/hazmat-en.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 293354,
+    "sha256": "fa9e1a46a12df945882be6cf1c97de986c15d0521d7e5e8e4da1537b8de42f41"
+  },
+  {
+    "file": "product-covers/official-v1/hazmat-es.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 366408,
+    "sha256": "1984a05b300c16ae4a8e0f697468d0188f2e5b77711f15cc9f60abaf36a0a248"
+  },
+  {
+    "file": "product-covers/official-v1/hazmat-es.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 281904,
+    "sha256": "546c8f82fff01d8bf5b2300d43820a133dd082b629d3d807457f70cfdd650501"
+  },
+  {
+    "file": "product-covers/official-v1/passenger-en.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 340461,
+    "sha256": "52ff5170242f78e8177a5252f903d850591c81302399e3c26c3cf597b4827f19"
+  },
+  {
+    "file": "product-covers/official-v1/passenger-en.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 260598,
+    "sha256": "7f1b0ef1844664df2c63e4d23994beba1b6d1aa0303f844ddce17b73e74c443c"
+  },
+  {
+    "file": "product-covers/official-v1/passenger-es.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 341947,
+    "sha256": "88077c4212d3424eb35cb269fa616bc54ddcc19ec53263f903a207182eda1959"
+  },
+  {
+    "file": "product-covers/official-v1/passenger-es.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 259056,
+    "sha256": "a14aa23a9a96eb156a70ea09820a3f336e493e390e99555fc34e4a09bb91cb45"
+  },
+  {
+    "file": "product-covers/official-v1/pre-trip-inspection-en.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 277580,
+    "sha256": "d58a7517f65bc645bfbeea4ca59481cf2bbd42f546f265c6e977d6233e17cf84"
+  },
+  {
+    "file": "product-covers/official-v1/pre-trip-inspection-en.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 204846,
+    "sha256": "071ddc545e9829193fe6ebfe90acc6021e43bc40754d481fe922757dff072d82"
+  },
+  {
+    "file": "product-covers/official-v1/pre-trip-inspection-es.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 279439,
+    "sha256": "442ebc52bef4b7936435bfdbe2b1562892797f9b142641fb498283b577d3bff2"
+  },
+  {
+    "file": "product-covers/official-v1/pre-trip-inspection-es.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 199048,
+    "sha256": "0714a215568b17fc371880cdcfcbffab76858e493ef53f2ef983a282d1c0de5b"
+  },
+  {
+    "file": "product-covers/official-v1/school-bus-en.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 363696,
+    "sha256": "3098e82efaf741555194d27f62fd81fb7f48c905c34a564a3bccd35bab2f7a62"
+  },
+  {
+    "file": "product-covers/official-v1/school-bus-en.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 274058,
+    "sha256": "107549cde9b74751493a3c3588809079d5b91d5f709846187009f4106094ba18"
+  },
+  {
+    "file": "product-covers/official-v1/school-bus-es.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 323502,
+    "sha256": "1fbc2e3c5a5939651a9c08be52d21c7d5e047a10ed12a9f64257d30ab5f985fe"
+  },
+  {
+    "file": "product-covers/official-v1/school-bus-es.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 228182,
+    "sha256": "49319edfad18bc1bc7384fc90b01d19da77fac0720c82447aaf8e8327df22e9b"
+  },
+  {
+    "file": "product-covers/official-v1/tanker-en.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 378663,
+    "sha256": "1210ccc1f6567e19f11a90cfda7229b944d6f27a2b6dc28cda1e23fa6cbc59b4"
+  },
+  {
+    "file": "product-covers/official-v1/tanker-en.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 318576,
+    "sha256": "004c63f24ee20ada61d665049e2a28f79108302e46e5e0c999a9b7beed95a4e1"
+  },
+  {
+    "file": "product-covers/official-v1/tanker-es.jpg",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 374342,
+    "sha256": "2edb66eb8f11d30bfa70fa41e72df36f896e9d9348b3a2d85d118f8d390fab09"
+  },
+  {
+    "file": "product-covers/official-v1/tanker-es.webp",
+    "width": 1200,
+    "height": 1800,
+    "bytes": 298398,
+    "sha256": "8777ff93b86a5a7135226a7dbd13994f16e77159474f916db1eb22cadfc86b1a"
+  }
+]

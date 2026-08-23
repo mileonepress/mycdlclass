@@ -3,6 +3,7 @@ import type { SupabaseClient } from "@supabase/supabase-js"
 import { AlertTriangle, CheckCircle2, Lock } from "lucide-react"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { SectionCard, StatCard, StatusBadge } from "@/components/dashboard/ui"
+import { OfficialCoversSection } from "@/components/dashboard/OfficialCoversSection"
 
 export const dynamic = "force-dynamic"
 
@@ -220,6 +221,8 @@ export default async function EbooksPage() {
           <p>One or more editions are not priced at $14.99 — review store product pricing.</p>
         </div>
       ) : null}
+
+      <OfficialCoversSection />
     </div>
   )
 }

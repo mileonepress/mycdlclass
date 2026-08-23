@@ -3,6 +3,7 @@ import { ChevronRight, AlertTriangle } from "lucide-react"
 import { listCourseFamilies } from "@/lib/dashboard/courseAdapter"
 import { getQaHoldSummary } from "@/lib/dashboard/qaHold"
 import { SectionCard, StatusBadge, LangBadge } from "@/components/dashboard/ui"
+import { OfficialCoversSection } from "@/components/dashboard/OfficialCoversSection"
 
 export const dynamic = "force-dynamic"
 
@@ -91,6 +92,8 @@ export default async function CoursesPage() {
           </table>
         </div>
       </SectionCard>
+
+      <OfficialCoversSection />
     </div>
   )
 }
