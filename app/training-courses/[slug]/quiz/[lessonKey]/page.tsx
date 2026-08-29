@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import SiteHeader from "@/components/SiteHeader"
-import { getLessonQuiz, type Lang } from "@/lib/supabase/courseCatalog"
+import { getLessonQuiz, FREE_PREVIEW_QUESTION_LIMIT, type Lang } from "@/lib/supabase/courseCatalog"
 import { canAccessCourse, getCurrentUser } from "@/lib/access"
 import QuizClient from "./QuizClient"
 
@@ -25,6 +25,14 @@ export default async function QuizPage({
   const user = await getCurrentUser()
   const hasCourseAccess = await canAccessCourse(quiz.course, user?.id ?? null)
   const canView = hasCourseAccess || quiz.lesson.isPreview
+
+  // Non-owners only ever get the free 3-question sample, even on a preview
+  // lesson that technically contains the full exam.
+  const previewMode = !hasCourseAccess && quiz.lesson.isPreview
+  const totalQuestions = quiz.questions.length
+  const questions = previewMode
+    ? quiz.questions.slice(0, FREE_PREVIEW_QUESTION_LIMIT)
+    : quiz.questions
 
   if (!canView) {
     return (
@@ -51,7 +59,7 @@ export default async function QuizPage({
     )
   }
 
-  if (quiz.questions.length === 0) {
+  if (questions.length === 0) {
     return (
       <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
         <SiteHeader />
@@ -83,7 +91,10 @@ export default async function QuizPage({
         lessonTitle={quiz.lesson.title}
         passingScore={quiz.course.passingScore ?? 80}
         isLoggedIn={!!user}
-        questions={quiz.questions}
+        questions={questions}
+        previewMode={previewMode}
+        totalCourseQuestions={totalQuestions}
+        priceCents={quiz.course.priceCents}
       />
     </main>
   )

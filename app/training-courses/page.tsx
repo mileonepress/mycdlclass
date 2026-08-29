@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Footer from "@/components/Footer"
 import SiteHeader from "@/components/SiteHeader"
-import { getPublishedCourses, type Lang } from "@/lib/supabase/courseCatalog"
+import { getPublishedCourses, FREE_PREVIEW_QUESTION_LIMIT, type Lang } from "@/lib/supabase/courseCatalog"
 import { getCurrentUser, getEntitledCourseIds } from "@/lib/access"
 
 export const dynamic = "force-dynamic"
@@ -47,8 +47,8 @@ export default async function TrainingCoursesPage({
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-pretty text-white/75">
             {es
-              ? "Exámenes de práctica completos con explicaciones instantáneas y seguimiento de tu progreso, en inglés y español."
-              : "Full practice exams with instant answer explanations and progress tracking, in English and Spanish."}
+              ? `Exámenes de práctica completos con explicaciones instantáneas y seguimiento de tu progreso, en inglés y español. Prueba ${FREE_PREVIEW_QUESTION_LIMIT} preguntas gratis de cualquier curso, sin registrarte.`
+              : `Full practice exams with instant answer explanations and progress tracking, in English and Spanish. Try ${FREE_PREVIEW_QUESTION_LIMIT} free questions from any course — no sign-up needed.`}
           </p>
           <Link
             href={es ? "/training-courses" : "/training-courses?lang=es"}
@@ -101,14 +101,22 @@ export default async function TrainingCoursesPage({
                     {course.estimatedMinutes ? <span>{course.estimatedMinutes} min</span> : null}
                   </div>
 
+                  {!owned && !course.isFree ? (
+                    <span className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 text-xs font-bold text-green-700">
+                      {es
+                        ? `${FREE_PREVIEW_QUESTION_LIMIT} preguntas gratis para probar`
+                        : `${FREE_PREVIEW_QUESTION_LIMIT} free questions to try`}
+                    </span>
+                  ) : null}
+
                   <span className="mt-4 text-sm font-bold text-[#1E4D8C]">
                     {owned
                       ? es
                         ? "Continuar →"
                         : "Continue →"
                       : es
-                        ? "Ver curso →"
-                        : "View course →"}
+                        ? "Probar gratis →"
+                        : "Try free →"}
                   </span>
                 </Link>
               )

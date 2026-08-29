@@ -3,6 +3,13 @@ import { createAdminClient } from "@/lib/supabase/admin"
 
 export type Lang = "en" | "es"
 
+/**
+ * The only free content in a paid course: a 3-question sample from the
+ * preview lesson. Everyone (logged in or not) can try these before buying;
+ * the rest of the exam stays locked until the course is purchased.
+ */
+export const FREE_PREVIEW_QUESTION_LIMIT = 3
+
 export type CourseSummary = {
   id: string
   slug: string
@@ -53,6 +60,7 @@ export type LessonQuiz = {
     id: string
     slug: string
     isFree: boolean
+    priceCents: number | null
     passingScore: number | null
     title: string
   }
@@ -267,7 +275,7 @@ export async function getLessonQuiz(
 
   const { data: course } = await db
     .from("courses")
-    .select("id,slug,is_free,passing_score")
+    .select("id,slug,is_free,price_cents,passing_score")
     .eq("slug", slug)
     .eq("status", "published")
     .maybeSingle()
@@ -356,6 +364,7 @@ export async function getLessonQuiz(
       id: course.id,
       slug: course.slug,
       isFree: !!course.is_free,
+      priceCents: course.price_cents,
       passingScore: course.passing_score,
       title: courseT?.title || course.slug,
     },
