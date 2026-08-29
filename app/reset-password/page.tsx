@@ -49,8 +49,19 @@ export default function ResetPasswordPage() {
     }
 
     setMessage("Your password has been updated. Redirecting you...")
+
+    // Send admins back to the admin portal and everyone else to their courses,
+    // rather than dropping every user on /admin.
+    let target = "/account"
+    try {
+      const me = await fetch("/api/me").then((r) => r.json())
+      if (me?.isAdmin) target = "/admin"
+    } catch {
+      // Fall back to the student account area.
+    }
+
     setTimeout(() => {
-      window.location.href = "/admin"
+      window.location.href = target
     }, 1500)
   }
 

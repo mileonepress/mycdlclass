@@ -82,13 +82,20 @@ export default function LoginPage() {
     setMessage("")
 
     const supabase = createClient()
+
+    // Preserve an explicit ?next= (e.g. a shopper who clicked "Log in to buy"
+    // on a course) so that after confirming their email they land right back
+    // where they intended, instead of a generic page. Default to /account.
+    const nextPath = explicitNext() ?? "/account"
+    const nextParam = `next=${encodeURIComponent(nextPath)}`
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo:
-          process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ??
-          `${window.location.origin}/auth/callback`,
+        emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL
+          ? `${process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL}?${nextParam}`
+          : `${window.location.origin}/auth/callback?${nextParam}`,
       },
     })
 

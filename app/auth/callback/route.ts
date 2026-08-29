@@ -4,7 +4,10 @@ import { createClient } from '@/lib/supabase/server'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/admin'
+  // Default confirmed sign-ins to the student account area. Admins are routed
+  // to /admin by the login form (via /api/me), and password recovery passes an
+  // explicit ?next=/reset-password, so /account is the correct general default.
+  const next = searchParams.get('next') ?? '/account'
 
   if (code) {
     const supabase = await createClient()
