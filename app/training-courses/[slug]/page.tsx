@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import Footer from "@/components/Footer"
 import SiteHeader from "@/components/SiteHeader"
 import StripeCheckoutButton from "@/components/StripeCheckoutButton"
-import { getCourseDetail, type Lang } from "@/lib/supabase/courseCatalog"
+import { getCourseDetail, FREE_PREVIEW_QUESTION_LIMIT, type Lang } from "@/lib/supabase/courseCatalog"
 import { canAccessCourse, getCurrentUser } from "@/lib/access"
 
 export const dynamic = "force-dynamic"
@@ -45,6 +45,12 @@ export default async function CourseDetailPage({
   const user = await getCurrentUser()
   const hasAccess = await canAccessCourse(course, user?.id ?? null)
   const langQuery = es ? "?lang=es" : ""
+
+  // The single free-sample lesson (first preview lesson in the course).
+  const previewLesson = course.sections
+    .flatMap((section) => section.lessons)
+    .find((lesson) => lesson.isPreview)
+  const showFreeSampleCta = !course.isFree && !hasAccess && !!previewLesson
 
   return (
     <main className="min-h-screen bg-[#F6F9FC] text-[#0D2B45]">
@@ -97,6 +103,16 @@ export default async function CourseDetailPage({
 
           {/* Purchase / language actions */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
+            {showFreeSampleCta ? (
+              <Link
+                href={`/training-courses/${course.slug}/quiz/${previewLesson!.lessonKey}${langQuery}`}
+                className="rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#128a3e]"
+              >
+                {es
+                  ? `Prueba ${FREE_PREVIEW_QUESTION_LIMIT} preguntas gratis`
+                  : `Try ${FREE_PREVIEW_QUESTION_LIMIT} free questions`}
+              </Link>
+            ) : null}
             {!course.isFree && !hasAccess ? (
               user ? (
                 <StripeCheckoutButton slug={course.slug} lang={lang} priceCents={course.priceCents} />
@@ -134,17 +150,29 @@ export default async function CourseDetailPage({
               <ul className="divide-y divide-gray-100">
                 {section.lessons.map((lesson) => {
                   const unlocked = hasAccess || lesson.isPreview
+                  // Non-owners on a preview lesson only get the free 3-question sample.
+                  const freeSample = lesson.isPreview && !hasAccess
                   const href = `/training-courses/${course.slug}/quiz/${lesson.lessonKey}${langQuery}`
                   return (
                     <li key={lesson.id} className="flex items-center justify-between gap-4 px-6 py-4">
                       <div className="min-w-0">
                         <p className="truncate font-semibold text-[#0D2B45]">{lesson.title}</p>
                         <p className="mt-0.5 text-sm text-gray-500">
-                          {lesson.questionCount} {es ? "preguntas" : "questions"}
-                          {lesson.isPreview ? ` · ${es ? "Vista previa gratis" : "Free preview"}` : ""}
+                          {freeSample
+                            ? es
+                              ? `${FREE_PREVIEW_QUESTION_LIMIT} preguntas gratis · sin registrarse`
+                              : `${FREE_PREVIEW_QUESTION_LIMIT} free questions · no sign-up`
+                            : `${lesson.questionCount} ${es ? "preguntas" : "questions"}`}
                         </p>
                       </div>
-                      {unlocked ? (
+                      {freeSample ? (
+                        <Link
+                          href={href}
+                          className="shrink-0 rounded-lg bg-[#16A34A] px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#128a3e]"
+                        >
+                          {es ? "Probar gratis" : "Try free"}
+                        </Link>
+                      ) : unlocked ? (
                         <Link
                           href={href}
                           className="shrink-0 rounded-lg bg-[#1E4D8C] px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#173B66]"
@@ -180,7 +208,7 @@ export default async function CourseDetailPage({
                 : "Get full course access for"}{" "}
               {formatPrice(course.priceCents)}.
             </p>
-            <div className="mt-4 flex justify-center">
+            <div className="mt-4 flex flex-col items-center justify-center gap-3">
               {user ? (
                 <StripeCheckoutButton slug={course.slug} lang={lang} priceCents={course.priceCents} />
               ) : (
@@ -191,6 +219,16 @@ export default async function CourseDetailPage({
                   {es ? "Inicia sesión para comprar" : "Log in to buy"}
                 </Link>
               )}
+              {showFreeSampleCta ? (
+                <Link
+                  href={`/training-courses/${course.slug}/quiz/${previewLesson!.lessonKey}${langQuery}`}
+                  className="text-sm font-bold text-[#16A34A] underline-offset-2 hover:underline"
+                >
+                  {es
+                    ? `O prueba ${FREE_PREVIEW_QUESTION_LIMIT} preguntas gratis primero`
+                    : `Or try ${FREE_PREVIEW_QUESTION_LIMIT} free questions first`}
+                </Link>
+              ) : null}
             </div>
           </div>
         ) : null}

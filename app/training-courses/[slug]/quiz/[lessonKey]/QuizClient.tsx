@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import Link from "next/link"
 import type { QuizQuestion } from "@/lib/supabase/courseCatalog"
+import StripeCheckoutButton from "@/components/StripeCheckoutButton"
 
 type Props = {
   slug: string
@@ -14,6 +15,14 @@ type Props = {
   passingScore: number
   isLoggedIn: boolean
   questions: QuizQuestion[]
+  previewMode?: boolean
+  totalCourseQuestions?: number
+  priceCents?: number | null
+}
+
+function formatPrice(cents: number | null | undefined): string {
+  if (!cents || cents <= 0) return ""
+  return `$${(cents / 100).toFixed(2)}`
 }
 
 export default function QuizClient({
@@ -26,6 +35,9 @@ export default function QuizClient({
   passingScore,
   isLoggedIn,
   questions,
+  previewMode = false,
+  totalCourseQuestions = 0,
+  priceCents = null,
 }: Props) {
   const es = lang === "es"
   const [current, setCurrent] = useState(0)
@@ -51,6 +63,13 @@ export default function QuizClient({
         retry: "Intentar de nuevo",
         backToCourse: "Volver al curso",
         answered: "respondidas",
+        freeSample: "Muestra gratis",
+        sampleDone: "Completaste tu muestra gratis",
+        sampleIntro: "Esto es una vista previa gratuita de 3 preguntas.",
+        unlockTitle: "Desbloquea el examen completo",
+        unlockBody: (n: number) =>
+          `Este curso incluye ${n} preguntas con explicaciones detalladas, en inglés y español.`,
+        buyPrompt: "Compra una vez, estudia sin límites.",
       }
     : {
         question: "Question",
@@ -68,6 +87,13 @@ export default function QuizClient({
         retry: "Try again",
         backToCourse: "Back to course",
         answered: "answered",
+        freeSample: "Free sample",
+        sampleDone: "You finished your free sample",
+        sampleIntro: "This is a free 3-question preview.",
+        unlockTitle: "Unlock the full exam",
+        unlockBody: (n: number) =>
+          `This course includes ${n} questions with detailed explanations, in English and Spanish.`,
+        buyPrompt: "Buy once, study as much as you want.",
       }
 
   const q = questions[current]
@@ -102,7 +128,8 @@ export default function QuizClient({
 
   function finish() {
     setFinished(true)
-    if (isLoggedIn) {
+    // Free-sample attempts by non-owners are never recorded as course progress.
+    if (isLoggedIn && !previewMode) {
       // Record the attempt and mark the lesson complete (fire-and-forget).
       fetch("/api/quiz-attempt", {
         method: "POST",
@@ -123,6 +150,60 @@ export default function QuizClient({
     setRevealed(false)
     setAnswers({})
     setFinished(false)
+  }
+
+  if (finished && previewMode) {
+    const price = formatPrice(priceCents)
+    return (
+      <section className="mx-auto max-w-2xl px-6 py-16 text-center">
+        <div className="rounded-2xl border border-gray-200 bg-white p-10 shadow-sm">
+          <span className="inline-block rounded-full bg-[#EAF2FC] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#1E4D8C]">
+            {t.freeSample}
+          </span>
+          <h1 className="mt-4 text-2xl font-bold text-[#0D2B45]">{t.sampleDone}</h1>
+          <p className="mt-2 text-gray-600">
+            {t.youScored} {score}/{total}
+          </p>
+
+          <div className="mt-8 rounded-2xl border border-[#1E4D8C]/20 bg-[#EAF2FC] p-6">
+            <p className="text-lg font-bold text-[#0D2B45]">{t.unlockTitle}</p>
+            <p className="mx-auto mt-1 max-w-md text-pretty text-sm text-gray-600">
+              {t.unlockBody(totalCourseQuestions)}
+            </p>
+            <p className="mt-1 text-sm font-semibold text-[#1E4D8C]">{t.buyPrompt}</p>
+            <div className="mt-5 flex justify-center">
+              {isLoggedIn ? (
+                <StripeCheckoutButton slug={slug} lang={lang} priceCents={priceCents ?? null} />
+              ) : (
+                <Link
+                  href={`/login?next=/training-courses/${slug}${es ? "%3Flang=es" : ""}`}
+                  className="rounded-lg bg-[#16A34A] px-6 py-3 font-bold text-white transition-colors hover:bg-[#128a3e]"
+                >
+                  {es ? "Inicia sesión para comprar" : "Log in to buy"}
+                  {price ? ` — ${price}` : ""}
+                </Link>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              onClick={restart}
+              className="rounded-lg border border-gray-300 px-6 py-3 font-bold text-[#0D2B45] transition-colors hover:bg-gray-50"
+            >
+              {t.retry}
+            </button>
+            <Link
+              href={`/training-courses/${slug}${es ? "?lang=es" : ""}`}
+              className="rounded-lg border border-gray-300 px-6 py-3 font-bold text-[#0D2B45] transition-colors hover:bg-gray-50"
+            >
+              {t.backToCourse}
+            </Link>
+          </div>
+        </div>
+      </section>
+    )
   }
 
   if (finished) {
@@ -172,10 +253,20 @@ export default function QuizClient({
         <Link href={`/training-courses/${slug}${es ? "?lang=es" : ""}`} className="hover:text-[#1E4D8C]">
           ← {courseTitle}
         </Link>
-        <span>
-          {t.question} {current + 1} {t.of} {total}
+        <span className="flex items-center gap-2">
+          {previewMode ? (
+            <span className="rounded-full bg-[#EAF2FC] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-[#1E4D8C]">
+              {t.freeSample}
+            </span>
+          ) : null}
+          <span>
+            {t.question} {current + 1} {t.of} {total}
+          </span>
         </span>
       </div>
+      {previewMode ? (
+        <p className="mb-4 text-center text-xs font-medium text-gray-500">{t.sampleIntro}</p>
+      ) : null}
 
       {/* Progress bar */}
       <div className="mb-6 h-2 w-full overflow-hidden rounded-full bg-gray-200">
