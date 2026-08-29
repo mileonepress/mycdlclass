@@ -51,7 +51,12 @@ export async function POST(request: Request) {
             quantity: 1,
             price_data: {
               currency: "usd",
-              unit_amount: STUDY_GUIDE_PRICE_CENTS,
+              // Charge exactly the price the customer saw on the course page.
+              // course.priceCents is read server-side from the DB (never from
+              // the client), and is validated above to be present and > 0, so
+              // the displayed price and the amount charged can never diverge.
+              // Fall back to the shared study-guide price only if somehow unset.
+              unit_amount: course.priceCents ?? STUDY_GUIDE_PRICE_CENTS,
               // Attach to the single shared Stripe product so all study-guide
               // sales roll up under one catalog entry.
               product: STUDY_GUIDE_STRIPE_PRODUCT_ID,
