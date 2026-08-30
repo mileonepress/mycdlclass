@@ -42,21 +42,30 @@ export default function LoginPage() {
     setError("")
     setMessage("")
 
-    const supabase = createClient()
-    const redirectTo =
-      process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL
-        ? `${process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL}?next=/reset-password`
-        : `${window.location.origin}/auth/callback?next=/reset-password`
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo })
-
-    if (error) {
-      setError(error.message)
-    } else {
-      setMessage(
-        "If an account exists for that email, we've sent a password reset link. Check your inbox.",
-      )
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        setError(
+          data?.error === "invalid_email"
+            ? "Please enter a valid email address."
+            : "Something went wrong sending your reset link. Please try again in a moment.",
+        )
+      } else {
+        // Always generic — the endpoint never reveals whether the account exists.
+        setMessage(
+          "If an account exists for that email, we've sent a password reset link. Please check your inbox (and spam folder).",
+        )
+      }
+    } catch {
+      setError("We couldn't reach the server. Please check your connection and try again.")
     }
+
     setLoading(false)
   }
 
@@ -104,35 +113,51 @@ export default function LoginPage() {
     setError("")
     setMessage("")
 
-    const supabase = createClient()
-
     // Preserve an explicit ?next= (e.g. a shopper who clicked "Log in to buy"
     // on a course) so that after confirming their email they land right back
     // where they intended, instead of a generic page. Default to /account.
     const nextPath = explicitNext() ?? "/account"
-    const nextParam = `next=${encodeURIComponent(nextPath)}`
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL
-          ? `${process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL}?${nextParam}`
-          : `${window.location.origin}/auth/callback?${nextParam}`,
-      },
-    })
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, next: nextPath }),
+      })
+      const data = await res.json().catch(() => ({}))
 
-    if (error) {
-      setError(error.message)
-    } else {
+      if (!res.ok) {
+        setError(
+          data?.error === "invalid_email"
+            ? "Please enter a valid email address."
+            : data?.error === "weak_password"
+              ? "Your password must be at least 6 characters."
+              : "We couldn't create your account right now. Please try again in a moment.",
+        )
+        setLoading(false)
+        return
+      }
+
+      if (data?.alreadyRegistered) {
+        setError("An account with this email already exists. Try logging in, or reset your password.")
+        setMode("login")
+        setLoading(false)
+        return
+      }
+
       // Capture the new signup as a Kit lead (fire-and-forget).
       fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, source: "signup" }),
       }).catch(() => {})
-      setMessage("Check your email to confirm your account, then log in.")
+
+      setMessage(
+        "Almost there! We've sent a confirmation link to your email. Click it to activate your account and you'll be taken straight to your courses.",
+      )
       setMode("login")
+    } catch {
+      setError("We couldn't reach the server. Please check your connection and try again.")
     }
 
     setLoading(false)
