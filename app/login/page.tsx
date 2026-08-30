@@ -1,9 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { createClient } from "@/lib/supabase/client"
+
+// Maps the ?error= codes emitted by /auth/confirm to friendly, branded copy.
+const ERROR_MESSAGES: Record<string, string> = {
+  invalid_or_expired_link:
+    "That confirmation link is invalid or has expired. Please request a new one below.",
+  missing_confirmation_token:
+    "That confirmation link was incomplete. Please use the most recent link from your email, or request a new one.",
+  auth: "We couldn't confirm your link. Please try again or request a new one.",
+}
 
 export default function LoginPage() {
   const [mode, setMode] = useState<"login" | "signup" | "forgot">("login")
@@ -12,6 +21,20 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
+
+  // Open the correct tab and surface any branded error message when the user
+  // arrives from a confirmation/recovery link (e.g. /login?mode=forgot&error=...).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const urlMode = params.get("mode")
+    if (urlMode === "signup" || urlMode === "forgot" || urlMode === "login") {
+      setMode(urlMode)
+    }
+    const errCode = params.get("error")
+    if (errCode) {
+      setError(ERROR_MESSAGES[errCode] ?? ERROR_MESSAGES.auth)
+    }
+  }, [])
 
   async function handleForgot(e: React.FormEvent) {
     e.preventDefault()
