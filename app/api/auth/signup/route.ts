@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   if (!email || !isValidEmail(email)) {
     return NextResponse.json({ error: "invalid_email" }, { status: 400 })
   }
-  if (password.length < 6) {
+  if (password.length < 8) {
     return NextResponse.json({ error: "weak_password" }, { status: 400 })
   }
 
