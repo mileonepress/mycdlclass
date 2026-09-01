@@ -209,7 +209,16 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen bg-[#061A2E] flex flex-col items-center justify-center px-6 py-12">
       <Link href="/" className="mb-8 flex flex-col items-center">
-        <Image src="/logo.png" alt="MyCDLClass" width={110} height={110} className="h-auto w-auto" />
+        <span className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white p-3 shadow-lg">
+          <Image
+            src="/logo.png"
+            alt="MyCDLClass"
+            width={64}
+            height={64}
+            className="h-14 w-14 object-contain"
+            priority
+          />
+        </span>
       </Link>
 
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
