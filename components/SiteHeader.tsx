@@ -79,12 +79,20 @@ export default function SiteHeader() {
               </button>
             </>
           ) : (
-            <Link
-              href="/login?next=/account"
-              className="rounded-lg border border-white/30 px-4 py-2 font-bold transition-colors hover:bg-white/10"
-            >
-              Log In
-            </Link>
+            <>
+              <Link
+                href="/login?next=/account"
+                className="rounded-lg border border-white/30 px-4 py-2 font-bold transition-colors hover:bg-white/10"
+              >
+                Log In
+              </Link>
+              <Link
+                href="/login?mode=signup&next=/account"
+                className="rounded-lg border border-white/30 px-4 py-2 font-bold transition-colors hover:bg-white/10"
+              >
+                Sign Up
+              </Link>
+            </>
           )}
 
           <Link
@@ -161,13 +169,22 @@ export default function SiteHeader() {
                 </button>
               </>
             ) : (
-              <Link
-                href="/login?next=/account"
-                onClick={() => setOpen(false)}
-                className="rounded-lg border border-white/30 px-3 py-3 text-center text-base font-bold transition-colors hover:bg-white/10"
-              >
-                Log In
-              </Link>
+              <>
+                <Link
+                  href="/login?next=/account"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg border border-white/30 px-3 py-3 text-center text-base font-bold transition-colors hover:bg-white/10"
+                >
+                  Log In
+                </Link>
+                <Link
+                  href="/login?mode=signup&next=/account"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg border border-white/30 px-3 py-3 text-center text-base font-bold transition-colors hover:bg-white/10"
+                >
+                  Sign Up
+                </Link>
+              </>
             )}
 
             <Link
